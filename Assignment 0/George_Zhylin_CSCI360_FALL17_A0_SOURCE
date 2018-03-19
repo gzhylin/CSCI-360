@@ -1,0 +1,26 @@
+//KC03N08Z JOB ,'George Zhylin' ,MSGCLASS=H                             00010000
+//STEP1 EXEC PGM=ASSIST                                                 00020000
+//STEPLIB DD DSN=KC02293.ASSIST.LOADLIB,DISP=SHR                        00030000
+//SYSPRINT DD SYSOUT=*                                                  00040000
+//SYSIN DD *                                                            00050000
+*********************************************                           00060000
+*  EXAMPLE PROGRAM                                                      00070000
+*                                                                       00080000
+*  NAME: George Zhylin                                                  00090000
+*                                                                       00100000
+*  Register Usage                                                       00110000
+*                                                                       00120000
+*  2   Total                                                            00130000
+*  5   Counter                                                          00140000
+* 15   Base register                                                    00150000
+*                                                                       00160000
+*********************************************                           00170000
+MAIN      CSECT                                                         00180000
+          USING MAIN,15                                                 00190000
+          SR    2,2      ZERO FOR TOTAL                                 00200000
+          SR    5,5      ZERO FOR TOTAL                                 00210000
+          XDUMP                                                         00220000
+          BR    14                                                      00230000
+          END   MAIN                                                    00240000
+/*                                                                      00250000
+//                                                                      00260000

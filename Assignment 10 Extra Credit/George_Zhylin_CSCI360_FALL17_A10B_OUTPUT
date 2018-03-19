@@ -1,0 +1,224 @@
+1                    J E S 2  J O B  L O G  --  S Y S T E M  S 0 W 1  --  N O D E  Z O S K C T R         
+0 
+ 22.23.32 JOB00020 ---- WEDNESDAY, 06 DEC 2017 ----
+ 22.23.32 JOB00020  IRR010I  USERID KC03N08  IS ASSIGNED TO THIS JOB.
+ 22.23.32 JOB00020  ICH70001I KC03N08  LAST ACCESS AT 22:23:23 ON WEDNESDAY, DECEMBER 6, 2017
+ 22.23.32 JOB00020  $HASP373 KC03N08Z STARTED - INIT 2    - CLASS A        - SYS S0W1
+ 22.23.33 JOB00020  -                                         --TIMINGS (MINS.)--            ----PAGING COUNTS---
+ 22.23.33 JOB00020  -JOBNAME  STEPNAME PROCSTEP    RC   EXCP    TCB    SRB  CLOCK   SERV  PG   PAGE   SWAP    VIO SWAPS
+ 22.23.33 JOB00020  -KC03N08Z                      00     51 ******    .00     .0    133   0      0      0      0     0
+ 22.23.33 JOB00020  -KC03N08Z ENDED.  NAME-George Zhylin        TOTAL TCB CPU TIME=   .00  TOTAL ELAPSED TIME=    .0
+ 22.23.33 JOB00020  $HASP395 KC03N08Z ENDED
+0------ JES2 JOB STATISTICS ------
+-  06 DEC 2017 JOB EXECUTION DATE
+-          175 CARDS READ
+-          224 SYSOUT PRINT RECORDS
+-            0 SYSOUT PUNCH RECORDS
+-           21 SYSOUT SPOOL KBYTES
+-         0.00 MINUTES EXECUTION TIME
+         1 //KC03N08Z JOB ,'George Zhylin' ,MSGCLASS=H                             JOB00020
+         2 //STEP1   EXEC PGM=ASSIST                                               0       
+         3 //STEPLIB   DD DSN=KC02293.ASSIST.LOADLIB,DISP=SHR                      0       
+         4 //SYSPRINT  DD SYSOUT=*                                                 0       
+         5 //SYSIN     DD *                                                        0       
+         6 //FT05F001   DD  *                                                      0       
+         7 //FT06F001   DD SYSOUT=*                                                        
+ ICH70001I KC03N08  LAST ACCESS AT 22:23:23 ON WEDNESDAY, DECEMBER 6, 2017
+ IEF236I ALLOC. FOR KC03N08Z STEP1
+ IGD103I SMS ALLOCATED TO DDNAME STEPLIB
+ IEF237I JES2 ALLOCATED TO SYSPRINT
+ IEF237I JES2 ALLOCATED TO SYSIN
+ IEF237I JES2 ALLOCATED TO FT05F001
+ IEF237I JES2 ALLOCATED TO FT06F001
+ IEF142I KC03N08Z STEP1 - STEP WAS EXECUTED - COND CODE 0000
+ IGD104I KC02293.ASSIST.LOADLIB                       RETAINED,  DDNAME=STEPLIB 
+ IEF285I   KC03N08.KC03N08Z.JOB00020.D0000103.?         SYSOUT        
+ IEF285I   KC03N08.KC03N08Z.JOB00020.D0000101.?         SYSIN         
+ IEF285I   KC03N08.KC03N08Z.JOB00020.D0000102.?         SYSIN         
+ IEF285I   KC03N08.KC03N08Z.JOB00020.D0000104.?         SYSOUT        
+ IEF373I STEP/STEP1   /START 2017340.2223
+ IEF032I STEP/STEP1   /STOP  2017340.2223 
+         CPU:     0 HR  00 MIN  00.00 SEC    SRB:     0 HR  00 MIN  00.00 SEC    
+         VIRT:   584K  SYS:   268K  EXT:        0K  SYS:    11616K
+         ATB- REAL:                     0K  SLOTS:                     0K
+              VIRT- ALLOC:       0M SHRD:       0M
+ IEF375I  JOB/KC03N08Z/START 2017340.2223
+ IEF033I  JOB/KC03N08Z/STOP  2017340.2223 
+         CPU:     0 HR  00 MIN  00.00 SEC    SRB:     0 HR  00 MIN  00.00 SEC    
+1*** ASSIST 4.0/A2-05/15/82  470/V7A/0:OS/VS2  INS=SDFP7/X=BGHO, CHECK/TRC/=1180, OPTS=CDKMPR FROM PENN ST*NIU COMPSCI*LT         
+0                                                                                                                                 
+0                                                                                                               PAGE    1         
+0  LOC  OBJECT CODE    ADDR1 ADDR2  STMT   SOURCE STATEMENT                                                                       
+                                       1 *********************************************************************** 0                
+                                       2 *  PROGRAM ASSIGNMENT7 10 EXTRA CREDIT / PART B                       * 0                
+                                       3 *                                                                     * 0                
+                                       4 *  NAME:     GEORGE ZHYLIN Z1810327                                   * 0                
+                                       5 *                                                                     * 0                
+                                       6 *  FUNCTION: ROUND AN INT TO THE NEAREST MULTIPE OF ANOTHER INT       * 0                
+                                       7 *                                                                     * 0                
+                                       8 *  INPUT:    25 LINES WITH 2 ROWS OF INTEGERS                         * 0                
+                                       9 *                                                                     * 0                
+                                      10 *  OUTPUT:  PROCESSED DATA USING ALGORITHM                            * 0                
+                                      11 *                                                                     * 0                
+                                      12 *               C = the quotient of A divided by B                    * 0                
+                                      13 *               D = the remainder of A divided by B                   * 0                
+                                      14 *               Result = C times B                                    * 0                
+                                      15 *               D = absolute value of D                               * 0                
+                                      16 *               E = absolute value of B                               * 0                
+                                      17 *               D = 2 times D                                         * 0                
+                                      18 *               If D is greater than or equal to E                    * 0                
+                                      19 *                 If A is greater than 0                              * 0                
+                                      20 *                   Result = Result + E                               * 0                
+                                      21 *                 Else                                                * 0                
+                                      22 *                   Result = Result - E                               * 0                
+                                      23 *                 End-If                                              * 0                
+                                      24 *               End-If                                                * 0                
+                                      25 *                                                                     * 0                
+                                      26 *  REGISTER USAGE:                                                    * 0                
+                                      27 *  R1  = USED TO LOAD ARGUMENTS                                       * 0                
+                                      28 *  R2  = INPUT DSECT                                                  * 0                
+                                      29 *  R3  =                                                              * 0                
+                                      30 *  R4  =                                                              * 0                
+                                      31 *  R5  =                                                              * 0                
+                                      32 *  R6  =                                                              * 0                
+                                      33 *  R7  =                                                              * 0                
+                                      34 *  R8  =                                                              * 0                
+                                      35 *  R9  =                                                              * 0                
+                                      36 *  R10 =                                                              * 0                
+                                      37 *  R11 =                                                              * 0                
+                                      38 *  R12 =                                                              * 0                
+                                      39 *  R13 =                                                              * 0                
+                                      40 *  R14 = EXIT                                                         * 0                
+                                      41 *  R15 = USED TO CALL ROUTINE                                         * 0                
+                                      42 *********************************************************************** 0                
+                                      43 ***<DSECT FOR INPUT FILE>***                                            0                
+ 000000                               44 INPUT     DSECT                    INPUT DSECT                          0                
+ 000000                               45 INNUM1    DS    CL6                FIRST NUM                            0                
+ 000006                               46           DS    CL2                SPACE                                0                
+ 000008                               47 INNUM2    DS    CL6                SECOND NUM                           0                
+ 00000E                               48           DS    CL66               SPACE                                0                
+                                      49 ***<MAIN ROUTINE>***                                                    0                
+ 000000                               50 MAIN      CSECT                    MAIN ROUTINE                         0                
+ 000000                               51           USING MAIN,15                                                 0                
+                                      52 ***<MAIN ROUTINE BODY>***                                               0                
+1                                                                                                               PAGE    2         
+0  LOC  OBJECT CODE    ADDR1 ADDR2  STMT   SOURCE STATEMENT                                                                       
+ 000000 E020 F1DF 002D 001DF          53           XPRNT HEADER,45          PRINT HEADER                         0                
+ 000006 4120 F120            00120    54           LA    2,RECORD           LOAD ADDRESS OF THE BUFFER IN R2     0                
+ 000000                               55           USING INPUT,2            USE INPUT DSECT IN R2                0                
+ 00000A E000 2000 0050 00000          56 MLOOP     XREAD INPUT,80           READ FIRST RECORD                    0                
+ 000010 4740 F0F8            000F8    57           BC    B'0100',MEND       IF EOF GO TO END LABEL               0                
+ 000014 9240 F1BE      001BE          58           MVI   PNUM1S,C' '        CLEAR THE FIELD                      0                
+ 000018 9240 F1CE      001CE          59           MVI   PNUM2S,C' '        CLEAR THE FIELD                      0                
+ 00001C 9240 F1DE      001DE          60           MVI   PNUM3S,C' '        CLEAR THE FIELD                      0                
+ 000020 F820 F174 F112 00174 00112    61           ZAP   NUM1TEMP,=P'0'     RESET                                0                
+ 000026 F820 F17C F112 0017C 00112    62           ZAP   NUM2TEMP,=P'0'     RESET                                0                
+ 00002C F225 F174 2000 00174 00000    63           PACK  NUM1TEMP,INNUM1    GET NUM1                             0                
+ 000032 F920 F174 F112 00174 00112    64           CP    NUM1TEMP,=P'0'     COMPARE TO SEE IF NEGATIVE           0                
+ 000038 4740 F0E0            000E0    65           BC    B'0100',INSIGN1    IF NEGATIVE INSERT SIGN              0                
+ 00003C F225 F17C 2008 0017C 00008    66 CONT1     PACK  NUM2TEMP,INNUM2    GET NUM2                             0                
+ 000042 F920 F17C F112 0017C 00112    67           CP    NUM2TEMP,=P'0'     COMPARE TO SEE IF NEGATIVE           0                
+ 000048 4740 F0E8            000E8    68           BC    B'0100',INSIGN2    IF NEGATIVE INSERT SIGN              0                
+ 00004C D205 F1B8 F113 001B8 00113    69 CONT2     MVC   PNUM1,=X'40202020212020'                                0                
+ 000052 DE05 F1B8 F174 001B8 00174    70           ED    PNUM1,NUM1TEMP                                          0                
+ 000058 D205 F1C8 F113 001C8 00113    71           MVC   PNUM2,=X'40202020212020'                                0                
+ 00005E DE05 F1C8 F17C 001C8 0017C    72           ED    PNUM2,NUM2TEMP                                          0                
+                                      73 ***<ALGORITHM>***                                                       0                
+ 000064 F852 F188 F174 00188 00174    74           ZAP   NUM1DIV,NUM1TEMP MOVE TO PL6 SIZE VAR                   0                
+ 00006A FD52 F188 F17C 00188 0017C    75           DP    NUM1DIV,NUM2TEMP DIVIDE A BY B                          0                
+ 000070 D202 F194 F188 00194 00188    76           MVC   QUOT,NUM1DIV     MOVE QUOTION                           0                
+ 000076 D202 F19C F18B 0019C 0018B    77           MVC   REM,NUM1DIV+3    MOVE REMINDER                          0                
+ 00007C F852 F1A4 F194 001A4 00194    78           ZAP   RES,QUOT         MOVE QUOT TO RESULT                    0                
+ 000082 FC52 F1A4 F17C 001A4 0017C    79           MP    RES,NUM2TEMP     M QUOT IN RESULT TO NUM2               0                
+                                      80 ***PASE 2***                                                            0                
+ 000088 F855 F1B0 F10C 001B0 0010C    81           ZAP   D,=PL6'2'        PUT NUMBER 2 IN VAR D                  0                
+ 00008E FC52 F1B0 F19C 001B0 0019C    82           MP    D,REM            M REMINDER TO D                        0                
+ 000094 F952 F1B0 F17C 001B0 0017C    83 GO2       CP    D,NUM2TEMP       COMPARE NEW D TO NUM 2                 0                
+ 00009A 47A0 F0B8            000B8    84           BC    B'1010',DOSTUFF  IF D >= #2                             0                
+ 00009E F950 F1A4 F112 001A4 00112    85 GO        CP    RES,=P'0'        COMPARE TO SEE IF NEGATIVE             0                
+ 0000A4 4740 F0F0            000F0    86           BC    B'0100',INSIGN3  IF NEGATIVE INSERT SIGN                0                
+ 0000A8 D20B F1D2 F100 001D2 00100    87 CONT3     MVC   PNUM3,=X'402020202020202020202120'                      0                
+ 0000AE DE0B F1D2 F1A4 001D2 001A4    88           ED    PNUM3,RES        CONVERT AND INSERT                     0                
+ 0000B4 47F0 F0D6            000D6    89           B     DONE                                                    0                
+ 0000B8 F920 F174 F112 00174 00112    90 DOSTUFF   CP    NUM1TEMP,=P'0'   IF #1 IS > 0                           0                
+ 0000BE 4720 F0CC            000CC    91           BC    B'0010',DO2      UPDATE RESULT                          0                
+ 0000C2 FB52 F1A4 F17C 001A4 0017C    92           SP    RES,NUM2TEMP     RESULT = RESULT - #2                   0                
+ 0000C8 47F0 F09E            0009E    93           B     GO               RETURN                                 0                
+ 0000CC FA52 F1A4 F17C 001A4 0017C    94 DO2       AP    RES,NUM2TEMP     RESULT = RESULT + #2                   0                
+ 0000D2 47F0 F09E            0009E    95           B     GO               RETURN                                 0                
+                                      96 ***<ALGORITHM END>***                                                   0                
+ 0000D6 E020 F1B6 0029 001B6          97 DONE      XPRNT RESULT,41        PRINT RESULTS                          0                
+ 0000DC 47F0 F00A            0000A    98           B     MLOOP            GO BACK TO THE MAIN LOOP               0                
+ 0000E0 9260 F1BE      001BE          99 INSIGN1   MVI   PNUM1S,C'-'      INSERT MINUS                           0                
+ 0000E4 47F0 F03C            0003C   100           B     CONT1            CONTINUE                               0                
+ 0000E8 9260 F1CE      001CE         101 INSIGN2   MVI   PNUM2S,C'-'      INSERT MINUS                           0                
+ 0000EC 47F0 F04C            0004C   102           B     CONT2            CONTINUE                               0                
+ 0000F0 9260 F1DE      001DE         103 INSIGN3   MVI   PNUM3S,C'-'      INSERT MINUS                           0                
+ 0000F4 47F0 F0A8            000A8   104           B     CONT3            CONTINUE                               0                
+                                     105 ***<END PROGRAM>                                                        0                
+ 0000F8                              106 MEND      DS    0H                                                      0                
+ 0000F8 07FE                         107           BR    14                 END PROGRAM                          0                
+                                     108           LTORG                                                         0                
+ 000100 4020202020202020             109                =X'402020202020202020202120'                                              
+1                                                                                                               PAGE    3         
+0  LOC  OBJECT CODE    ADDR1 ADDR2  STMT   SOURCE STATEMENT                                                                       
+ 00010C 00000000002C                 110                =PL6'2'                                                                   
+ 000112 0C                           111                =P'0'                                                                     
+ 000113 40202020212020               112                =X'40202020212020'                                                        
+                                     113 ***<STORAGE FOR MAIN ROUTINE>***                                        0                
+ 000120                              114           DS    0D                 ALIGNMENT                            0                
+ 000120                              115 RECORD    DS    80C                BUFFER                               0                
+ 000170                              116           DS    F                                                       0                
+ 000174                              117 NUM1TEMP  DS    PL3                TEMP VAR'S                           0                
+ 000178                              118           DS    F                                                       0                
+ 00017C                              119 NUM2TEMP  DS    PL3                                                     0                
+ 000180                              120           DS    D                                                       0                
+ 000188                              121 NUM1DIV   DS    PL6                                                     0                
+ 000190                              122           DS    F                                                       0                
+ 000194                              123 QUOT      DS    PL3                                                     0                
+ 000198                              124           DS    F                                                       0                
+ 00019C                              125 REM       DS    PL3                                                     0                
+ 0001A0                              126           DS    F                                                       0                
+ 0001A4                              127 RES       DS    PL6                                                     0                
+ 0001AC                              128           DS    F                                                       0                
+ 0001B0                              129 D         DS    PL6                                                     0                
+ 0001B6                              130 RESULT    DS    C'0'               CCC                  41C             0                
+ 0001B7 40                           131           DC    C' '               SPACE                                0                
+ 0001B8                              132 PNUM1     DS    CL6                NUM1                                 0                
+ 0001BE 40                           133 PNUM1S    DC    C' '               SIGN                                 0                
+ 0001BF 4040404040404040             134           DC    C'         '       SPACE                                0                
+ 0001C8                              135 PNUM2     DS    CL6                NUM2                                 0                
+ 0001CE 40                           136 PNUM2S    DC    C' '               SIGN                                 0                
+ 0001CF 404040                       137           DC    C'   '             SPACE                                0                
+ 0001D2                              138 PNUM3     DS    CL12               NUM3                                 0                
+ 0001DE 40                           139 PNUM3S    DC    C' '               SIGN                                 0                
+ 0001DF F1C68999A2A340D5             140 HEADER    DC    C'1First Number   Second Number   Rounded Value'        0                
+                                     141           END   MAIN                                                    0                
+0***  NO   STATEMENTS FLAGGED -  NO   WARNINGS,  NO   ERRORS                                                                      
+0*** DYNAMIC CORE AREA USED:  LOW:    6348 HIGH:    1068 LEAVING:  486152 FREE BYTES. AVERAGE:       52 BYTES/STMT ***            
+0*** ASSEMBLY TIME =    0.000 SECS,   142000 STATEMENTS/SEC ***                                                                   
+0*** PROGRAM EXECUTION BEGINNING - ANY OUTPUT BEFORE EXECUTION TIME MESSAGE IS PRODUCED BY USER PROGRAM ***                       
+1First Number   Second Number   Rounded Value                                                                                     
+       0             100               0                                                                                          
+       0             100-            100                                                                                          
+       3               4               4                                                                                          
+       3-              4-              0                                                                                          
+       3-              4               0                                                                                          
+       3               4-              4-                                                                                         
+      17               5              15                                                                                          
+      22-              5              20-                                                                                         
+      25-             15              15-                                                                                         
+      25              15-              0                                                                                          
+      39              11              44                                                                                          
+      42               1              42                                                                                          
+       1               1               1                                                                                          
+       1-              1               1-                                                                                         
+       1               1-              0                                                                                          
+      42               1-             41                                                                                          
+      68              10-             50                                                                                          
+      68-             10              60-                                                                                         
+      68-             11-             55-                                                                                         
+    2001             670            2010                                                                                          
+    4003              17            3995                                                                                          
+0*** EXECUTION TIME =    0.000 SECS.       801 INSTRUCTIONS EXECUTED -   801000 INSTRUCTIONS/SEC ***                              
+0*** AM004 - NORMAL USER TERMINATION BY RETURN ***                                                                                

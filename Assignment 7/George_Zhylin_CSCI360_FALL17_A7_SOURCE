@@ -1,0 +1,592 @@
+//KC03N08Z JOB ,'George Zhylin' ,MSGCLASS=H                             0
+//STEP1   EXEC PGM=ASSIST                                               0
+//STEPLIB   DD DSN=KC02293.ASSIST.LOADLIB,DISP=SHR                      0
+//SYSPRINT  DD SYSOUT=*                                                 0
+//SYSIN     DD *                                                        0
+*********************************************************************** 0
+*  PROGRAM ASSIGNMENT7                                                * 0
+*                                                                     * 0
+*  NAME:     GEORGE ZHYLIN Z1810327                                   * 0
+*                                                                     * 0
+*  FUNCTION: PROGRAM READS CHEMICAL DATA THE RECORD, PROCESS THE DATA * 0
+*            AND STORE IT IN THE TABLE. THEN PROGRAM DISPLAYS THE DATA* 0
+*            AFTER DISPLAYING THE DATA FROM THE TABLE, SORT FUNCTION  * 0
+*            EXECUTED, AND DATA IS SORTED AND PRINTED                 * 0
+*                                                                     * 0
+*                                                                     * 0
+*                                                                     * 0
+*  SUBROUTINES:  MAIN, BUILD, PRINT, SORT                             * 0
+*                                                                     * 0
+*                                                                     * 0
+*                                                                     * 0
+*                                                                     * 0
+*  INPUT:    118 LINES WITH 4 ROWS OF CUSTOMER DATA,                  * 0
+*                                                                     * 0
+*                                                                     * 0
+*  OUTPUT:  PROCESSED DATA FROM THE TABLE, SORTED DATA FROM THE TABLE * 0
+*                                                                     * 0
+*                                                                     * 0
+*                                                                     * 0
+*                                                                     * 0
+*  REGISTER USAGE:                                                    * 0
+*  R1  = USED TO LOAD ARGUMENTS                                       * 0
+*  R2  =                                                              * 0
+*  R3  =                                                              * 0
+*  R4  =                                                              * 0
+*  R5  =                                                              * 0
+*  R6  =                                                              * 0
+*  R7  =                                                              * 0
+*  R8  =                                                              * 0
+*  R9  =                                                              * 0
+*  R10 =                                                              * 0
+*  R11 =                                                              * 0
+*  R12 =                                                              * 0
+*  R13 =                                                              * 0
+*  R14 = EXIT                                                         * 0
+*  R15 = USED TO CALL ROUTINE                                         * 0
+*********************************************************************** 0
+***<DSECT FOR TABLE>***                                                 0
+TABLEM    DSECT                    TABLE DSECT                          0
+TDATE     DS    CL7                DATE                                 0
+TNAME     DS    CL13               NAME                                 0
+TSYMB     DS    CL3                SYMBOL                               0
+TNUMB     DS    PL2                NUMBER                               0
+***<MAIN ROUTINE>***                                                    0
+MAIN      CSECT                    MAIN ROUTINE                         0
+***<STANDARD ENTRY LINKAGE>***                                          0
+          STM   14,12,12(13)       SAVE ALL THE REGISTERS EXCEPT R13    0
+          LR    12,15              PUT ADDRESS OF ROUTINE IN R12        0
+          USING MAIN,12            SET R12 AS A BASE REGISTER FOR ROUT  0
+          LA    14,SAVEMAIN        SET POINTER TO ROUTINE SAVE AREA     0
+          ST    13,4(14)           BACKWARD POINTER                     0
+          ST    14,8(13)           FORWARD POINTER                      0
+          LR    13,14              SET POINTER IN R13 TO ROUTINE        0
+***<MAIN ROUTINE BODY>***                                               0
+          LA    1,BLIST            LOAD BUILD ARGUMENTS IN R1           0
+          L     15,=V(BUILD)       GET ADDRESS OF BUILD ROUTINE         0
+          BALR  14,15              CALL BUILD ROUTINE                   0
+          LA    1,PLIST1           LOAD PRINT ARGUMENTS IN R1           0
+          L     15,=V(PRINT)       GET ADDRESS OF PRINT ROUTINE         0
+          BALR  14,15              CALL PRINT ROUTINE                   0
+          LA    1,SLIST            LOAD SORT  ARGUMENTS IN R1           0
+          L     15,=V(SORT)        GET ADDRESS OF SORT  ROUTINE         0
+          BALR  14,15              CALL SORT  ROUTINE                   0
+          LA    1,PLIST2           LOAD PRINT ARGUMENTS IN R1           0
+          L     15,=V(PRINT)       GET ADDRESS OF PRINT ROUTINE         0
+          BALR  14,15              CALL PRINT ROUTINE                   0
+***<STANDARD EXIT LINKAGE>***                                           0
+          L     13,4(13)           SET R13 TO CALLERS SAVE AREA         0
+          LM    14,12,12(13)       LOAD BACK ALL REGISTERS EXEPT R13    0
+          BR    14                 EXIT                                 0
+          LTORG                                                         0
+***<STORAGE FOR MAIN ROUTINE>***                                        0
+          DS    0D                 ALIGNMENT                            0
+TABLE     DS    118CL25            TABLE                                0
+EOT       DS    F                  ADDRESS OF END OF TABLE              0
+RECORD    DC    81C' '             BUFFER                               0
+TABLEINF  DC    C'-Name of Element   Chemical Symbol'         69C       0
+          DC    C'   Atomic Number    Date Discovered'                  0
+PAGENUM   DC    PL2'0'             PAGE NUMBER                          0
+SAVEMAIN  DS    18F                MAIN ROUTINE SAVE AREA               0
+BLIST     DC    A(TABLE)           ARGUMENTS FOR BUILD ROUTINE          0
+          DC    A(EOT)                                                  0
+          DC    A(RECORD)                                               0
+PLIST1    DC    A(TABLE)           ARGUMENTS FOR PRINT1 ROUTINE         0
+          DC    A(EOT)                                                  0
+          DC    A(HEADER1)                                              0
+          DC    A(PAGENUM)                                              0
+PLIST2    DC    A(TABLE)           ARGUMENTS FOR PRINT2 ROUTINE         0
+          DC    A(EOT)                                                  0
+          DC    A(HEADER2)                                              0
+          DC    A(PAGENUM)                                              0
+SLIST     DC    A(TABLE)           ARGUMENTS FOR SORT ROUTINE           0
+          DC    A(EOT)                                                  0
+HEADER1   DC    C'1                    Chronological List of'           0
+          DC    C' Elements           Page'        66                   0
+HEADER2   DC    C'1                        Elements Sorted by Name '    0
+          DC    C'             Page'                66                  0
+*********************************************************************** 0
+*                          BUILD ROUTINE                              * 0
+*  NAME:     GEORGE ZHYLIN Z1810327                                   * 0
+*                                                                     * 0
+*  FUNCTION: ROUTINE GETS TABLE,EOT,RECORD POINTERS AS ARGUMENTS, NEXT* 0
+*            ROUTINE GOES THRU STANDARD ENTRY LINKAGE. TRY'S TO READ  * 0
+*            FIRST RECORD, AND UNTIL EOF REACHED PROGRAM READS DATA   * 0
+*            THEN PROCESS IT, ALIGN IT AND STORE THE DATA IN THE TABLE* 0
+*            ROUTINE STORES THE POINTERS AND GOES THRU STANDARD EXIT  * 0
+*            LINKAGE                                                  * 0
+*                                                                     * 0
+*  REGISTER USAGE:                                                    * 0
+*  R1  = ARGUMENTS                                                    * 0
+*  R2  =                                                              * 0
+*  R3  = POINTER TO THE TABLE                                         * 0
+*  R4  = POINTER TO THE EOT                                           * 0
+*  R5  = POINTER TO THE RECORD(BUFFER)                                * 0
+*  R6  = POINTER TO THE END OF THE TABLE                              * 0
+*  R7  = COPY OF THE TABLE POINTER                                    * 0
+*  R8  = RECORD VARIABLE                                              * 0
+*  R9  = ADDRESS OF FIRST CHAR                                        * 0
+*  R10 = ADDRESS OF FIRST SPACE                                       * 0
+*  R11 =                                                              * 0
+*  R12 = BASE REGISTER                                                * 0
+*  R13 =                                                              * 0
+*  R14 = EXIT                                                         * 0
+*  R15 =                                                              * 0
+*********************************************************************** 0
+BUILD     CSECT                    BUILD ROUTINE                        0
+***<STANDARD ENTRY LINKAGE FOR ROUTINE>***                              0
+          STM   14,12,12(13)       SAVE ALL THE REGISTERS EXCEPT R13    0
+          LR    12,15              PUT ADDRESS OF ROUT  IN R12          0
+          USING BUILD,12           SET R12 AS A BASE REGISTER FOR ROUT  0
+          LA    14,SAVEREAD        SET POINTER TO ROUTINE SAVE AREA     0
+          ST    13,4(14)           BACKWARD POINTER                     0
+          ST    14,8(13)           FORWARD POINTER                      0
+          LR    13,14              SET POINTER IN R13 TO ROUTINE        0
+***<BUILD ROUTINE BODY>***                                              0
+          LM    3,5,0(1)           UNLOAD ARGUMENTS IN R3,R4,R5         0
+          LR    7,3                COPY POINTER TO THE BEGINING OF TAB  0
+          USING TABLEM,7           USE TABLEM DSECT IN R3               0
+LOOP1     XREAD 0(5),80            READ FIRST RECORD                    0
+          BC    B'0100',END1       CHECK IF END OF DATA                 0
+          LA    1,0(5)             LOAD BUFFER ADDRESS IN R1            0
+***<SEARCH FOR DATE>***                                                 0
+          TRT   0(80,1),CHARS      SEARCH FOR A CHAR                    0
+          LR    9,1                R9 = ADDRESS OF A FIRST CHAR         0
+          TRT   0(80,1),SPACE      SEARCH FOR A SPACE                   0
+          LR    10,1               R10 = ADDRESSS OF A SPECE            0
+          SR    10,9               R10 NOW IS THE LENGTH                0
+          BCTR  10,0               ADJUST THE LENGTH                    0
+          MVC   TDATE,0(9)         STORE DATE TO THE TABLE              0
+          TR    TDATE(7),TODW      MAKE DATE LOWER CASE                 0
+***<SEARCH FOR NAME.***                                                 0
+          TRT   0(80,1),CHARS      SEARCH FOR A CHAR                    0
+          LR    9,1                R9 = ADDRESS OF A FIRST CHAR         0
+          TRT   0(80,1),SPACE      SEARCH FOR A SPACE                   0
+          LR    10,1               R10 = ADDRESSS OF A SPECE            0
+          SR    10,9               R10 NOW IS THE LENGTH                0
+          BCTR  10,0               ADJUST THE LENGTH                    0
+          MVC   TNAME(13),0(9)     MOVE NAME TO THE TABLE               0
+          TR    TNAME(1),TOUP      MAKE FIRST LETTER UPPER CASE         0
+          TR    TNAME+1(12),TODW   MAKE THE REST LOWER CASE             0
+***<SEARCH FOR SYMBOL>***                                               0
+          TRT   0(80,1),CHARS      SEARCH FOR A CHAR                    0
+          LR    9,1                R9 = ADDRESS OF A FIRST CHAR         0
+          TRT   0(80,1),SPACE      SEARCH FOR A SPACE                   0
+          LR    10,1               R10 = ADDRESSS OF A SPECE            0
+          SR    10,9               R10 NOW IS THE LENGTH                0
+          BCTR  10,0               ADJUST THE LENGTH                    0
+          MVC   TSYMB,0(9)         SAVE SYMBOL TO THE TABLE             0
+          TR    TSYMB(1),TOUP      MAKE FIRST LETTER UPPER CASE         0
+          TR    TSYMB+1(2),TODW    MAKE REST LOWER CASE                 0
+***<SEARCH FOR NUMBER>***                                               0
+          TRT   0(80,1),CHARS      SEARCH FOR A CHAR                    0
+          LR    9,1                R9 = ADDRESS OF A FIRST CHAR         0
+          TRT   0(80,1),SPACE      SEARCH FOR A SPACE                   0
+          LR    10,1               R10 = ADDRESSS OF A SPECE            0
+          SR    10,9               R10 NOW IS THE LENGTH                0
+          BCTR  10,0               ADJUST THE LENGTH                    0
+          MVC   TNUMB,0(9)         SAVE NUMBER TO A TABLE               0
+***<GO AND READ NEXT RECORD>***                                         0
+          LA    7,25(0,7)          UPADTE TABLE POINTER                 0
+          BC    B'1111',LOOP1      GO BACK TO LOOP1                     0
+END1      DS    0H                                                      0
+          DROP  7                  DROP USING DSECTS                    0
+***<SET POINTERS>***                                                    0
+          ST    7,0(4)             PUT EOT POINTER IN EOT VARIABLE      0
+***<STANDARD EXIT LINKAGE FOR ROUTINE>***                               0
+          L     13,4(13)           SET R13 TO CALLERS SAVE AREA         0
+          LM    14,12,12(13)       RESTORE REGISTERS                    0
+          BR    14                 EXIT                                 0
+          LTORG                                                         0
+***<STORAGE FOR BUILD ROUTINE>***                                       0
+SAVEREAD  DS    18F                REGISTERS STORAGE                    0
+CHARS     DC    256X'00'           TABLE TO SEARCH FOR ANY CHARACTER    0
+          ORG   CHARS+C'a'                                              0
+          DC    9C'L'              IF LOWER CASE, R2 = L                0
+          ORG   CHARS+C'j'                                              0
+          DC    9C'L'                                                   0
+          ORG   CHARS+C's'                                              0
+          DC    9C'L'                                                   0
+          ORG   CHARS+C'A'                                              0
+          DC    9C'U'              IF UPPER CASE, R2 = U                0
+          ORG   CHARS+C'J'                                              0
+          DC    9C'U'                                                   0
+          ORG   CHARS+C'S'                                              0
+          DC    9C'U'                                                   0
+          ORG   CHARS+C'0'                                              0
+          DC    10C'N'             IF NUMBER, R2 = N                    0
+          ORG                                                           0
+SPACE     DC    256X'00'           TABLE TO SEARCH FOR A SPACE          0
+          ORG   SPACE+X'40'                                             0
+          DC    C'S'               IF SPACE, R2 = S                     0
+          ORG                                                           0
+TOUP      DC    256X'00'                                                0
+          ORG   TOUP+C'a'                                               0
+          DC    X'C1C2C3C4C5C6C7C8C9'                                   0
+          ORG   TOUP+C'j'                                               0
+          DC    X'D1D2D3D4D5D6D7D8D9'                                   0
+          ORG   TOUP+C's'                                               0
+          DC    X'E2E3E4E5E6E7E8E9'                                     0
+          ORG   TOUP+C'A'                                               0
+          DC    X'C1C2C3C4C5C6C7C8C9'                                   0
+          ORG   TOUP+C'J'                                               0
+          DC    X'D1D2D3D4D5D6D7D8D9'                                   0
+          ORG   TOUP+C'S'                                               0
+          DC    X'E2E3E4E5E6E7E8E9'                                     0
+          ORG   TOUP+C'0'                                               0
+          DC    X'F0F1F2F3F4F5F6F7F8F9'                                 0
+          ORG                                                           0
+TODW      DC    256X'00'                                                0
+          ORG   TODW+C'a'                                               0
+          DC    X'818283848586878889'                                   0
+          ORG   TODW+C'j'                                               0
+          DC    X'919293949596979899'                                   0
+          ORG   TODW+C's'                                               0
+          DC    X'A2A3A4A5A6A7A8A9'                                     0
+          ORG   TODW+C'A'                                               0
+          DC    X'818283848586878889'                                   0
+          ORG   TODW+C'J'                                               0
+          DC    X'919293949596979899'                                   0
+          ORG   TODW+C'S'                                               0
+          DC    X'A2A3A4A5A6A7A8A9'                                     0
+          ORG   TODW+C'0'                                               0
+          DC    X'F0F1F2F3F4F5F6F7F8F9'                                 0
+          ORG                                                           0
+***<END OF BUILD ROUTINE>***                                            0
+*********************************************************************** 0
+*                           PRINT ROUTINE                             * 0
+*  NAME:     GEORGE ZHYLIN Z1810327                                   * 0
+*                                                                     * 0
+*  FUNCTION: ROUTINE GETS TABLE, EOT, HEADER LBL AND PAGE POINTERS AS * 0
+*            ARGUMENTS,THEN GOES THRU STANDARD ENTRY LINKAGE PROCESS. * 0
+*            ROUTINE PRINTS HEADERS WITH PAGE NUM, THEN PRINTS 50ITEMS* 0
+*            PER PAGE UNTIL END OF TABLE REACHED. IN THE END, ROUTINE * 0
+*            GOES THRU STANDARD EXIT LINK                             * 0
+*                                                                     * 0
+*                                                                     * 0
+*  REGISTER USAGE:                                                    * 0
+*  R1  = ARGUMENTS POINTER                                            * 0
+*  R2  =                                                              * 0
+*  R3  = TABLE POINTER                                                * 0
+*  R4  = EOT POINTER                                                  * 0
+*  R5  = TABLE ROW INFO LBL                                           * 0
+*  R6  = PAGE COUNTER                                                 * 0
+*  R7  = COUNTER FOR ROWS                                             * 0
+*  R8  = ITEM COUNTER                                                 * 0
+*  R9  = PAGE COUNTER                                                 * 0
+*  R10 =                                                              * 0
+*  R11 = COPY OF THE POINTER TO THE TABLE                             * 0
+*  R12 = BASE REGISTER                                                * 0
+*  R13 =                                                              * 0
+*  R14 = EXIT                                                         * 0
+*  R15 =                                                              * 0
+*********************************************************************** 0
+PRINT     CSECT                    PRINT ROUTINE                        0
+***<STANDARD ENTRY LINKAGE FOR ROUTINE>***                              0
+          STM   14,12,12(13)       SAVE ALL THE REGISTERS EXCEPT R13    0
+          LR    12,15              PUT ADDRESS OF ROUTINE IN R12        0
+          USING PRINT,12           SET R12 AS A BASE REGISTER FOR ROUT  0
+          LA    14,SAVEPRNT        SET POINTER TO ROUTINE SAVE AREA     0
+          ST    13,4(14)           BACKWARD POINTER                     0
+          ST    14,8(13)           FORWARD POINTER                      0
+          LR    13,14              SET POINTER IN R13 TO ROUTINE        0
+***<PRINT ROUTINE BODY>***                                              0
+          LM    3,6,0(1)           UNLOAD ARGUMENTS IN R3,R4,R5,R6      0
+          LR    11,3               COPY POINTER TO THE TABLE TO R11     0
+          USING TABLEM,11          USE TABLEM DSECT IN R11              0
+          LH    7,0(6)             GET PAGE NUM AND PUT 4BYTES IN R7    0
+          S     4,=F'1'            PUT CORRECT VALUE FOR EOT            0
+          S     4,=F'1'            PUT CORRECT VALUE FOR EOT            0
+          STH   7,PAGEN            STORE 4BYTES PAGE NUM IN PAGEN       0
+PRINTP    AP    PAGEN,=PL1'1'      ADD 1 TO OUR PAGE COUNTER            0
+          MVC   NUM,=XL4'40202020' FORMAT FOR OUTPUT                    0
+          ED    NUM,PAGEN          INSERT PAGE NUMBER IN LABEL          0
+          SR    8,8                RESET ITEM COUNTER                   0
+          XPRNT =C' ',1            SPACE AS PER INSTRUCTIONS            0
+          MVC   HEADER(66),0(5)    UPDATE THE HEADER TO DISP INFO FROM  0
+          XPRNT HEADER,70          PRINT HEADERS                        0
+          XPRNT INF,69             PRINT TABLE TAB INFO                 0
+          XPRNT =C' ',1            SPACE                                0
+LOOP2     MVC   PNAME,TNAME        INSERT NAME                          0
+          MVC   PSYMB,TSYMB        INSERT SYMBOL                        0
+          MVC   PNUMB,TNUMB        INSERT NUMBER                        0
+          MVC   PDATE,TDATE        INSERT DATE                          0
+          XPRNT PRESULT,70         PRINT RESULTS                        0
+          A     8,=F'1'            UPDATE THE ITEMS COUNTER             0
+          LA    11,25(0,11)        UPDATE THE TABLE POINTER             0
+          C     8,=F'50'           CHECK ITEMS COUNTER                  0
+          MVI   PRESULT,C' '       USE DESTRUCTIVE OVERLAP TO CLEAR     0
+          MVC   PRESULT+1(69),PRESULT  THE FIELDS                       0
+          BE    PRINTP             IF 50 ITEMS PRINTP                   0
+          CR    11,4               CHECK IF EOT                         0
+          BC    B'1010',ENDP       IF EOT GO TO THE ENDP                0
+          CR    11,4               GO BACK TO LOOP2                     0
+          BC    B'1111',LOOP2                                           0
+***<ENDP & FOOTERS>***                                                  0
+ENDP      XPRNT =C' ',1            SINGLE SPACE AS PER INSTRUCTIONS     0
+          LH    9,PAGEN            COPY PAGE COUNTER                    0
+          STH   9,0(6)                                                  0
+          DROP  12,11              STOP USING DSECTS                    0
+***<STANDARD EXIT LINKAGE FOR ROUTINE>***                               0
+          L     13,4(13)           SET R13 TO CALLERS SAVE AREA         0
+          LM    14,12,12(13)       RESTORE REGISTERS                    0
+          BR    14                 EXIT                                 0
+          LTORG                                                         0
+***<STORAGE FOR PRINT ROUTINE>***                                       0
+          DS    F                  TO ALIGN STORAGE                     0
+PAGEN     DC    PL2'0'             PACKED VARIABLE TO HOLD PAGE NUMBER  0
+CUSTS     DC    PL4'0'             CUSTOMERS COUNTER                    0
+BALSUM    DC    PL4'0'             SUM OF ALL THE BALANCES              0
+BALAVG    DC    PL4'0'             AVG OF ALL THE BALANCES              0
+BIG       DC    PL8'0'             NUM FOR DIVISION                     0
+SAVEPRNT  DS    18F                REGISTERS STORAGE                    0
+***<TAB INFO>***                                                        0
+HEADER    DC    C'1'               CCC            70C                   0
+          DC    C'                    Chronological List of'            0
+          DC    C' Elements           Page'                             0
+NUM       DS    CL4                PAGE NUMBER                          0
+INF       DC    C'-Name of Element   Chemical Symbol'         69C       0
+          DC    C'   Atomic Number    Date Discovered'                  0
+***<RESULT>***                                                          0
+PRESULT   DC    C'  '              CCC               2        70        0
+PNAME     DS    CL13               NAME              13                 0
+          DC    C'          '      SAPECE            10                 0
+PSYMB     DS    CL3                SYMBOL            3                  0
+          DC    C'               ' SPACE             15                 0
+PNUMB     DS    CL2                NUMBER            2                  0
+          DC    C'             '   SPACE             13                 0
+PDATE     DS    CL7                DATE              7                  0
+          DC    C'     '           SPACE             5                  0
+***<END OF PRINT ROUTINE>***                                            0
+*                                                                       0
+*********************************************************************** 0
+*                         SORT  ROUTINE                               * 0
+*  NAME:     GEORGE ZHYLIN Z1810327                                   * 0
+*                                                                     * 0
+*  FUNCTION: ROUTINE GETS 2 ARGUMENTS, TABLE,EOT.                     * 0
+*            ROUTINE GOES THRU STANDARD ENTRY LINKAGE, THEN UNLOAD    * 0
+*            PARAMETERS. THEN ROUTINE PERFORMS INSERTION SORT         * 0
+*            USING 4 POINTERS WE MOVE THRU THE TABLE COMPARING        * 0
+*            AND SWAPING ELEMENTS UNTIL WE REACH END OF TABLE         * 0
+*            AS 118 ELEMNTS, THEN WE RESTART OUR POINTERS AND COUNTERS* 0
+*            SEARCH ENDS WHEN NO SWAPS COUNTER REACHES 116            * 0
+*                                                                     * 0
+*  SPECIAL NOTES:  THIS SORT ROUTINE IS NOT OPTIMIZED DUE TO LACK OF  * 0
+*                  TIME AND I APOLOGIZE FOR THIS.                     * 0
+*                                                                     * 0
+*  REGISTER USAGE:                                                    * 0
+*  R1  = ARGUMENTS POINTER                                            * 0
+*  R2  =                                                              * 0
+*  R3  = TABLE POINTER                                                * 0
+*  R4  = EOT POINTER                                                  * 0
+*  R5  =                                                              * 0
+*  R6  = COUNTER                                                      * 0
+*  R7  = TABLE POINTER                                                * 0
+*  R8  = TABLE POINTER                                                * 0
+*  R9  = TABLE POINTER                                                * 0
+*  R10 = TABLE POINTER                                                * 0
+*  R11 = COUNTER                                                      * 0
+*  R12 = BASE REGISTER                                                * 0
+*  R13 =                                                              * 0
+*  R14 = EXIT                                                         * 0
+*  R15 = SEARCH RESULT VALUE                                          * 0
+*********************************************************************** 0
+SORT      CSECT                    SORT ROUTINE                         0
+***<STANDARD ENTRY LINKAGE FOR ROUTINE>***                              0
+          STM   14,12,12(13)       SAVE ALL THE REGISTERS EXCEPT R13    0
+          LR    12,15              PUT ADDRESS OF ROUTINE IN R12        0
+          USING SORT,12            SET R12 AS A BASE REGISTER FOR ROUT  0
+          LA    14,SAVESORT        SET POINTER TO ROUTINE SAVE AREA     0
+          ST    13,4(14)           BACKWARD POINTER                     0
+          ST    14,8(13)           FORWARD POINTER                      0
+          LR    13,14              SET POINTER IN R13 TO ROUTINE        0
+***<SEARCH ROUTINE BODY>***                                             0
+          LM    3,4,0(1)           UNLOAD ARGUMENTS IN R3,R4            0
+          SR    11,11              INITIALIZE THE COUNTER               0
+          SR    6,6                INITIALIZE THE SWAP COUNTER          0
+          LR    7,3                PUT POINTER1 TO THE TABLE IN R7      0
+          LR    8,3                PUT POINTER2 TO THE TABLE IN R8      0
+          LR    9,3                PUT POINTER3 TO THE TABLE IN R9      0
+          LR    10,3               PUT POINTER4 TO THE TABLE IN R10     0
+          LA    7,7(0,7)           UPDATE THE POINTER1 TO NEXT ENTRY    0
+          LA    8,32(0,8)          UPDATE THE POINTER2 TO NEXT ENTRY    0
+          LA    10,25(0,10)        UPDATE THE POINTER4                  0
+LOOP      DS    0H                                                      0
+          C     11,=F'117'         CHECK IF END OF TABLE REACHED        0
+          BE    RESTART            IF REACHED THEN RESTART POINTERS     0
+GONEXT    DS    0H                                                      0
+          C     6,=F'116'          CHECK IF SORT ENDED                  0
+          BE    ENDS               EXIT                                 0
+          CLC   0(13,7),0(8)       COMPARE 7 BYTES NAME IN 2 ENTRYS     0
+          BC    B'0010',SWAP       FIRST ENTRY IS HIGHER SO SWAP        0
+          CLC   0(13,7),0(8)       COMPARE 7 BYTES NAME IN 2 ENTRYS     0
+          BC    B'1101',NOSWAP     NO SWAP                              0
+SWAP      DS    0H                                                      0
+          MVC   TEMP1,0(9)         SAVE ENTRY 1 TO TEMP1                0
+          MVC   TEMP2,0(10)        SAVE ENTRY 2 TO TEMP2                0
+          MVC   0(25,9),TEMP2      MOVE ENTRY 2 TO ENTRY 1 POSITION     0
+          MVC   0(25,10),TEMP1     MOVE ENTRY 1 FROM TEMP TO ENTRY 2 P  0
+          CR    9,9                                                     0
+          BC    B'1111',SWAPUP     GO AND ADJUST THE POINTERS           0
+NOSWAP    DS    0H                                                      0
+          A     6,=F'1'            UPDATE THE SWAP COUNTER              0
+SWAPUP    LA    7,25(0,7)          UPDATE THE POINTER                   0
+          LA    8,25(0,8)          UPDATE THE POINTER                   0
+          LA    9,25(0,9)          UPDATE THE POINTER                   0
+          LA    10,25(0,10)        UPDATE THE POINTER                   0
+          A     11,=F'1'           UPDATE THE COUNTER                   0
+          CR    9,9                                                     0
+          BC    B'1111',LOOP       GO BACK TO THE LOOP                  0
+RESTART   DS    0H                                                      0
+          SR    11,11              RESET TABLE ITEMS COUNTER            0
+          SR    6,6                RESET END SORT COUNTER               0
+          LR    7,3                PUT POINTER TO THE TABLE IN R7       0
+          LR    8,3                PUT POINTER TO THE TABLE IN R8       0
+          LR    9,3                PUT POINTER TO THE TABLE IN R9       0
+          LR    10,3               PUT POINTER TO THE TABLE IN R10      0
+          LA    7,7(0,7)           UPDATE THE POINTER2 TO NEXT ENTRY    0
+          LA    8,32(0,8)          UPDATE THE POINTER2 TO NEXT ENTRY    0
+          LA    10,25(0,10)        UPDATE THE POINTER4                  0
+          CR    9,9                                                     0
+          BC    B'1111',GONEXT                                          0
+***<STANDARD EXIT LINKAGE FOR ROUTINE>***                               0
+ENDS      L     13,4(13)           SET R13 TO CALLERS SAVE AREA         0
+          LM    14,12,12(13)       RESTORE REGISTERS                    0
+          BR    14                 EXIT                                 0
+          LTORG                                                         0
+***<STORAGE FOR SEARCH ROUTINE>***                                      0
+TEMP1     DS    CL25               TEMP                                 0
+TEMP2     DS    CL25               INPUT TRANSACTION                    0
+SAVESORT  DS    18F                REGISTERS STORAGE                    0
+***<END OF SEARCH ROUTINE>***                                           0
+          END   MAIN                                                    0
+*                                                                       0
+*                                                                       0
+*                                                                       0
+*                                                                       0
+/*                                                                      0
+//FT05F001   DD  *                                                      0
+ anciENT       coppER               Cu         29 
+    ancIEnT        SuLFuR              S           16 
+ AncIent       sILveR             Ag           47 
+      AnCiEnt        TIn               Sn            50 
+ AncIenT       AntIMoNY         sB         51 
+    aNCieNt        Gold                 aU          79 
+ AnCIENT       mErcUrY             hG           80 
+      anCiENt        LeAd               Pb            82 
+ Ca.1400       BismutH           bi         83 
+    1669           phOsPHORuS       P           15 
+ CA.1694       CaRboN               C            6  
+      1735           iroN                fE            26 
+ 1735          platiNUM           pt         78 
+    1751           NicKEL            nI          28 
+ 1751          COBaLT           CO           27 
+      1755           MaGnesIUm            MG            12 
+ 1772          NiTrogEN            N          7  
+    1774           oXYgen             O           8  
+ 1774          mangaNEse         mN           25 
+      1774           CHloRINE         cl            17 
+ 1774          ChromiUM             cR         24 
+    1776           hyDROgeN            H           1  
+ 1781          MOlybDENUM         Mo           42 
+      1782           TellurIuM         TE            52 
+ 1783          tUNgStEn         w          74 
+    1789           zIRcOniUm            zR          40 
+ 1789          uRANIUm             u            92 
+      1790           StroNtIUM          sR            38 
+ 1791          SCaNdiuM          sC         21 
+    1794           YTtRIum          Y           39 
+ 1797          BeRyLliuM            Be           4  
+      1797           vaNaDIUM            v             23 
+ 1801          nIObiuM            NB         41 
+    1802           tantaLuM          Ta          73 
+ 1803          RHoDium          Rh           45 
+      1803           PaLLADIUM            pD            46 
+ 1803          cerIuM              ce         58 
+    1803           OsMIUM             os          76 
+ 1803          IrIdIum           IR           77 
+      1807           SODIuM           Na            11 
+ 1807          POTasSium            K          19 
+    1808           boRoN               b           5  
+      1808           baRiuM            ba            56 
+ 1811          IoDiNe           I          53 
+    1817           LiThium              lI          3  
+ 1817          CAdmIUM             cd           48 
+ 1817          ARSenIc           as         33 
+      1824           silIcoN            SI            14 
+    1825           ALUminuM         al          13 
+  1825           bROmInE               bR      25     
+ 1826          sELeNIUM             sE           34 
+      1829           thorium             Th            90 
+ 1830          tItAniuM           ti         22 
+    1839           lAnTHAnuM         lA          57 
+ 1842          ErbIUm           Er           68 
+      1843           TerBium              tB            65 
+ 1844          rUthEnium           Ru         44 
+    1860           CEsiUM             Cs          55 
+ 1861          rUbiDIUM          Rb           37 
+      1861           THaLLiUM         TL            81 
+ 1863          InDIUM               In         49 
+    1867           holmIUm             hO          67 
+ 1875          zinC               zn           30 
+      1878           YTTERbIum         yb            70 
+ 1879          CALcIuM          ca         20 
+    1879           saMAriUM             Sm          62 
+ 1879          ThuLIUm             TM           69 
+      1880           GadoLinIuM         Gd            64 
+ 1885          pRaSeODyMIUm      Pr         59 
+    1885           NEODymiUm        ND          60 
+ 1886          fLUoriNe             f            9  
+      1886           GERManIuM           GE            32 
+ 1886          GaLlIUm            ga         31 
+    1886           DYsprOSIUm        Dy          66 
+ 1894          ArgOn            AR           18 
+      1895           heLiuM               HE            2  
+ 1898          neOn                Ne         10 
+    1898           KrYPtOn            Kr          36 
+ 1898          XENoN             XE           54 
+      1898           polonium         pO            84 
+ 1898          RADiUM               rA         88 
+    1899           ActiNIum            AC          89 
+ 1900          radon              rn           86 
+      1901           euROpIum          Eu            63 
+ 1907          LuTetiUm         LU         71 
+    1913           pRoTAcTiniUM         pa          91 
+ 1923          haFnIUm             hF           72 
+      1925           RhENIum            re            75 
+ 1937          tEcHnETIuM        TC         43 
+    1939           fraNcIuM         fr          87 
+ 1940          AstAtiNe             aT           85 
+      1940           NEpTUNIUm           Np            93 
+ 1940          PLutoNIum          pu         94 
+    1944           ameriCiUM         AM          95 
+ 1944          curIum           cm           96 
+      1945           pROMEtHIUm           Pm            61 
+ 1949          bErkeLIum           bK         97 
+    1950           calIforNiUM        cf          98 
+ 1952          einSteIniuM       eS           99 
+      1952           fErmIum          fm            100
+ 1955          mENdelevIuM          Md         101
+    1958           NObeliUM            no          102
+ 1961          LAwRenCIuM         lR           103
+      1964           rUTHErfoRDIUM     Rf            104
+ 1967          duBNIUm          db         105
+    1974           SEABorGiUM           sG          106
+ 1981          BohrIUm             bh           107
+      1982           MEiTnERIuM         mT            109
+ 1984          HasSiuM           Hs         108
+    1994           DarmsTaDtIUm     DS          110
+ 1994          ROenTgenIum          rG           111
+      1996           UNUNbiUm            UUB           112
+ 1998          UNuntriUm          UuT        113
+    1999           UnuNocTiUM        uuo         118
+ 1999          UnunQUaDium      uuQ          114
+      2000           UNuNHEXIuM           UuH           116
+ 2004          UnunPENtIUM         UUp        115
+    unKNoWN        UNuNsEptiUm        uUs         117
+/*                                                                      
+//FT06F001   DD SYSOUT=*                                                
+//                                                                      
+
+
+

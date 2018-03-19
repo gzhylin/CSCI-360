@@ -1,0 +1,159 @@
+1                    J E S 2  J O B  L O G  --  S Y S T E M  S 0 W 1  --  N O D E  Z O S K C T R         
+0 
+ 20.01.07 JOB08068 ---- SUNDAY,    17 SEP 2017 ----
+ 20.01.07 JOB08068  IRR010I  USERID KC03N08  IS ASSIGNED TO THIS JOB.
+ 20.01.07 JOB08068  ICH70001I KC03N08  LAST ACCESS AT 20:00:54 ON SUNDAY, SEPTEMBER 17, 2017
+ 20.01.07 JOB08068  $HASP373 KC03N08Z STARTED - INIT 2    - CLASS A        - SYS S0W1
+ 20.01.07 JOB08068  -                                         --TIMINGS (MINS.)--            ----PAGING COUNTS---
+ 20.01.07 JOB08068  -JOBNAME  STEPNAME PROCSTEP    RC   EXCP    TCB    SRB  CLOCK   SERV  PG   PAGE   SWAP    VIO SWAPS
+ 20.01.07 JOB08068  -KC03N08Z                      00     46 ******    .00     .0    103   0      0      0      0     0
+ 20.01.07 JOB08068  -KC03N08Z ENDED.  NAME-George Zhylin        TOTAL TCB CPU TIME=   .00  TOTAL ELAPSED TIME=    .0
+ 20.01.07 JOB08068  $HASP395 KC03N08Z ENDED
+0------ JES2 JOB STATISTICS ------
+-  17 SEP 2017 JOB EXECUTION DATE
+-          108 CARDS READ
+-          159 SYSOUT PRINT RECORDS
+-            0 SYSOUT PUNCH RECORDS
+-           16 SYSOUT SPOOL KBYTES
+-         0.00 MINUTES EXECUTION TIME
+         1 //KC03N08Z JOB ,'George Zhylin' ,MSGCLASS=H                             JOB08068
+         2 //STEP1   EXEC PGM=ASSIST                                               00020000
+         3 //STEPLIB   DD DSN=KC02293.ASSIST.LOADLIB,DISP=SHR                      00030000
+         4 //SYSPRINT  DD SYSOUT=*                                                 00040000
+         5 //SYSIN     DD *                                                        00050000
+         6 //FT05F001   DD  *                                                      00950000
+         7 //FT06F001   DD SYSOUT=*                                                01080000
+ ICH70001I KC03N08  LAST ACCESS AT 20:00:54 ON SUNDAY, SEPTEMBER 17, 2017
+ IEF236I ALLOC. FOR KC03N08Z STEP1
+ IGD103I SMS ALLOCATED TO DDNAME STEPLIB
+ IEF237I JES2 ALLOCATED TO SYSPRINT
+ IEF237I JES2 ALLOCATED TO SYSIN
+ IEF237I JES2 ALLOCATED TO FT05F001
+ IEF237I JES2 ALLOCATED TO FT06F001
+ IEF142I KC03N08Z STEP1 - STEP WAS EXECUTED - COND CODE 0000
+ IGD104I KC02293.ASSIST.LOADLIB                       RETAINED,  DDNAME=STEPLIB 
+ IEF285I   KC03N08.KC03N08Z.JOB08068.D0000103.?         SYSOUT        
+ IEF285I   KC03N08.KC03N08Z.JOB08068.D0000101.?         SYSIN         
+ IEF285I   KC03N08.KC03N08Z.JOB08068.D0000102.?         SYSIN         
+ IEF285I   KC03N08.KC03N08Z.JOB08068.D0000104.?         SYSOUT        
+ IEF373I STEP/STEP1   /START 2017260.2001
+ IEF032I STEP/STEP1   /STOP  2017260.2001 
+         CPU:     0 HR  00 MIN  00.00 SEC    SRB:     0 HR  00 MIN  00.00 SEC    
+         VIRT:   584K  SYS:   268K  EXT:        0K  SYS:    11508K
+         ATB- REAL:                     0K  SLOTS:                     0K
+              VIRT- ALLOC:       0M SHRD:       0M
+ IEF375I  JOB/KC03N08Z/START 2017260.2001
+ IEF033I  JOB/KC03N08Z/STOP  2017260.2001 
+         CPU:     0 HR  00 MIN  00.00 SEC    SRB:     0 HR  00 MIN  00.00 SEC    
+1*** ASSIST 4.0/A2-05/15/82  470/V7A/0:OS/VS2  INS=SDFP7/X=BGHO, CHECK/TRC/=1180, OPTS=CDKMPR FROM PENN ST*NIU COMPSCI*LT         
+0                                                                                                                                 
+0                                                                                                               PAGE    1         
+0  LOC  OBJECT CODE    ADDR1 ADDR2  STMT   SOURCE STATEMENT                                                                       
+                                       1 *********************************************************************** 00060000         
+                                       2 *  PROGRAM ASSIGNMENT2                                                * 00070000         
+                                       3 *                                                                     * 00080000         
+                                       4 *  NAME:     GEORGE ZHYLIN Z1810327                                   * 00090000         
+                                       5 *                                                                     * 00100000         
+                                       6 *  FUNCTION: TRY TO READ A RECORD AND CHECK FRO EOF,                  * 00110000         
+                                       7 *            IF EOF THEN PRINT SUMARY LINE AND EXIT.                  * 00120000         
+                                       8 *            IF NOT EOF THEN READ 3 NUMBERS FROM THE RECORD & DISPLAY,* 00130000         
+                                       9 *            CALC RESULTS Y+Z-X AND DISPLAY,INCREMENT COUNTER AND SUM * 00140000         
+                                      10 *  INPUT:    11 LINES WITH 3 ROWS OF 4DIGIT NUMBERS, SEE LINE 96      * 00150000         
+                                      11 *                                                                     * 00160000         
+                                      12 *  OUTPUT:   VALUES X,Y,Z,RESULT FOR EACH LINE & COUNT,SUM IN THE END * 00170000         
+                                      13 *                                                                     * 00180000         
+                                      14 *  REGISTER USAGE: R1 USED BY XDECI                                   * 00190000         
+                                      15 *                  R2,R3,R4 USED FOR X,Y,Z BY XDECI                   * 00200000         
+                                      16 *                  R6,R7,R8 USED TO STORE VARS:COUNT,SUM,ONE          * 00210000         
+                                      17 *                  R15 - BASE REGISTER                                * 00220000         
+                                      18 *                                                                     * 00230000         
+                                      19 *********************************************************************** 00240000         
+ 000000                               20 MAIN      CSECT                                                         00250000         
+ 000000                               21           USING MAIN,15                                                 00260000         
+                                      22 ***<TRY TO READ FIRS RECORD>                                            00270000         
+ 000000 E000 F0A8 0050 000A8          23           XREAD RECORD,80                                               00280000         
+                                      24 ***<TEST FOR EOF>                                                       00290000         
+ 000006 4740 F052            00052    25 CHCKEOF   BC    B'0100',EOF        IF EOF GO TO EOF STATEMENT           00300000         
+                                      26 ***<LOOP THRU THE RECORDS AND>                                          00310000         
+                                      27 ***<INCREMENT COUNTER AND SUM VARS>                                     00320000         
+ 00000A 5320 F0A8            000A8    28           XDECI 2,RECORD           READ X VALUE AND PUT IN REGISTER 2   00330000         
+ 00000E 5331 0000            00000    29           XDECI 3,0(1)             READ Y VALUE AND PUT IN REGISTER 3   00340000         
+ 000012 5341 0000            00000    30           XDECI 4,0(1)             READ Z VALUE AND PUT IN REGISTER 4   00350000         
+ 000016 5220 F0FD            000FD    31           XDECO 2,XOUTPUT          PUT CHAR VALUE OF X INTO XOUTPUT     00360000         
+ 00001A 5230 F113            00113    32           XDECO 3,YOUTPUT          PUT CHAR VALUE OF Y INTO YOUTPUT     00370000         
+ 00001E 5240 F129            00129    33           XDECO 4,ZOUTPUT          PUT CHAR VALUE OF Z INTO ZOUTPUT     00380000         
+ 000022 1A34                          34           AR    3,4                AD VALUE Z IN R4 TO VALUE Y IN R3    00390000         
+ 000024 1B32                          35           SR    3,2                SUBSTRUCT (Y+Z) IN R3 FROM X IN R2   00400000         
+ 000026 5230 F144            00144    36           XDECO 3,ROUTPUT          PUT CHAR VALUE OF RESULT IN ROUTPUT  00410000         
+ 00002A E020 F0F8 0058 000F8          37           XPRNT XLBL,88            PRINT LINE WITH X,Y,Z AND RESULT     00420000         
+ 000030 5850 F150            00150    38           L     5,COUNT            LOAD VALUE FROM COUNT VAR TO REG 5   00430000         
+ 000034 5860 F154            00154    39           L     6,SUM              LOAD VALUE FROM SUM VAR TO REG 6     00440000         
+ 000038 5870 F0A4            000A4    40           L     7,ONE              LOAD VALUE FROM ONE VAR TO REG 7     00450000         
+ 00003C 1A57                          41           AR    5,7                ADD 1 FROM R7 TO COUNTER VALUE IN R5 00460000         
+ 00003E 1A63                          42           AR    6,3                ADD RESULT FROM R3 TO TOTAL SUM (R6) 00470000         
+ 000040 5050 F150            00150    43           ST    5,COUNT            STORE COUNT FROM REGISTER 5          00480000         
+ 000044 5060 F154            00154    44           ST    6,SUM              STORE SUM FROM REGISTER 6            00490000         
+                                      45 *                                                                       00500000         
+ 000048 E000 F0A8 0050 000A8          46           XREAD RECORD,80          READ NEXT RECORD AND GO IN A LOOP    00510000         
+ 00004E 47F0 F006            00006    47           BC    B'1111',CHCKEOF    GO TO CHCKEOF STATEMENT              00520000         
+                                      48 ***<PRINT THE RESULTS>                                                  00530000         
+ 000052 5250 F075            00075    49 EOF       XDECO 5,COUNTOUT         PUT VALUE OF COUNT(R5)IN COUNTOUT    00540000         
+ 000056 5260 F096            00096    50           XDECO 6,SUMOUT           PUT VALUE OF SUM(R6)IN SUMOUT        00550000         
+ 00005A E020 F062 0040 00062          51           XPRNT COUNTLBL,64        PRINT RESULT VALUES                  00560000         
+                                      52 ***<END PROGRAM>                                                        00570000         
+1                                                                                                               PAGE    2         
+0  LOC  OBJECT CODE    ADDR1 ADDR2  STMT   SOURCE STATEMENT                                                                       
+ 000060 07FE                          53           BR    14                 END PROGRAM                          00580000         
+                                      54 ***<NEXT 10 LINES LEFT BLANK INTENTIONALLY>                             00590000         
+                                      55 *                                                                       00600000         
+                                      56 *                                                                       00610000         
+                                      57 *                                                                       00620000         
+                                      58 *                                                                       00630000         
+                                      59 *                                                                       00640000         
+                                      60 *                                                                       00650000         
+                                      61 *                                                                       00660000         
+                                      62 *                                                                       00670000         
+                                      63 *                                                                       00680000         
+                                      64 *                                                                       00690000         
+                                      65 *                                                                       00700000         
+                                      66 *** <OUTPUT FOR THE END RESULT>                                         00710000         
+ 000062 F1D5E4D4C2C5D940              67 COUNTLBL  DC    C'1NUMBER OF LINES = '                                  00720000         
+ 000075                               68 COUNTOUT  DS    CL12               COUNT CHAR VALUE                     00730000         
+ 000081 4040404040                    69           DC    C'     '           BLANK SPACE                          00740000         
+ 000086 40E2E4D440D6C640              70 SUMLBL    DC    C' SUM OF RESULTS '                                     00750000         
+ 000096                               71 SUMOUT    DS    CL12               SUM CHAR VALUE                       00760000         
+                                      72 *** <OUTPUT FOR SINGLE LINE OF THE RECORD>                              00770000         
+ 0000A4 00000001                      73 ONE       DC    F'1'               DECLARE VARIABLE FOR COUNTER         00780000         
+ 0000A8                               74 RECORD    DS    80C                RECORD INPUT AREA                    00790000         
+ 0000F8 F1E7407E40                    75 XLBL      DC    C'1X = '           LABEL FOR X =                        00800000         
+ 0000FD                               76 XOUTPUT   DS    CL12               CHAR VALUE X                         00810000         
+ 000109 4040404040                    77           DC    C'     '           BLANK SPACE                          00820000         
+ 00010E 40E8407E40                    78 YLBL      DC    C' Y = '           LABEL FOR Y =                        00830000         
+ 000113                               79 YOUTPUT   DS    CL12               CHAR VALUE Y                         00840000         
+ 00011F 4040404040                    80           DC    C'     '           BLANK SPACE                          00850000         
+ 000124 40E9407E40                    81 ZLBL      DC    C' Z = '           LABEL FOR Z =                        00860000         
+ 000129                               82 ZOUTPUT   DS    CL12               CHAR VALUE Z                         00870000         
+ 000135 4040404040                    83           DC    C'     '           BLANK SPACE                          00880000         
+ 00013A 40D9C5E2E4D3E340              84 RLBL      DC    C' RESULT = '      LABEL RESULT =                       00890000         
+ 000144                               85 ROUTPUT   DS    CL12               LABEL FOR RESULT (Y+Z)-X             00900000         
+ 000150 00000000                      86 COUNT     DC    F'0'               COUNT VARIABLE TO HOLD NUM OF LOOPS  00910000         
+ 000154 00000000                      87 SUM       DC    F'0'               SUM VARIABLE TO HOLD TOTAL SUM       00920000         
+                                      88           END   MAIN               EXIT                                 00930000         
+0***  NO   STATEMENTS FLAGGED -  NO   WARNINGS,  NO   ERRORS                                                                      
+0*** DYNAMIC CORE AREA USED:  LOW:    4928 HIGH:     652 LEAVING:  487988 FREE BYTES. AVERAGE:       62 BYTES/STMT ***            
+0*** ASSEMBLY TIME =    0.000 SECS,    89000 STATEMENTS/SEC ***                                                                   
+0*** PROGRAM EXECUTION BEGINNING - ANY OUTPUT BEFORE EXECUTION TIME MESSAGE IS PRODUCED BY USER PROGRAM ***                       
+1X =         8163      Y =         2529      Z =         2805      RESULT =        -2829                                          
+1X =         4536      Y =         1839      Z =         5741      RESULT =         3044                                          
+1X =          591      Y =         7843      Z =         9487      RESULT =        16739                                          
+1X =         4190      Y =         3057      Z =         2775      RESULT =         1642                                          
+1X =         2399      Y =          667      Z =         4129      RESULT =         2397                                          
+1X =         8118      Y =         3961      Z =         6535      RESULT =         2378                                          
+1X =         4765      Y =          498      Z =         1111      RESULT =        -3156                                          
+1X =         9056      Y =         2345      Z =         1110      RESULT =        -5601                                          
+1X =            1      Y =            2      Z =            3      RESULT =            4                                          
+1X =         9999      Y =         9998      Z =         9997      RESULT =         9996                                          
+1X =         8001      Y =         7999      Z =         3512      RESULT =         3510                                          
+1NUMBER OF LINES =           11      SUM OF RESULTS        28124                                                                  
+0*** EXECUTION TIME =    0.000 SECS.       226 INSTRUCTIONS EXECUTED -   226000 INSTRUCTIONS/SEC ***                              
+0*** AM004 - NORMAL USER TERMINATION BY RETURN ***                                                                                

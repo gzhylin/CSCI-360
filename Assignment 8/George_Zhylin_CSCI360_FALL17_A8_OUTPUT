@@ -1,0 +1,945 @@
+1                    J E S 2  J O B  L O G  --  S Y S T E M  S 0 W 1  --  N O D E  Z O S K C T R         
+0 
+ 22.12.05 JOB03629 ---- WEDNESDAY, 29 NOV 2017 ----
+ 22.12.05 JOB03629  IRR010I  USERID KC03N08  IS ASSIGNED TO THIS JOB.
+ 22.12.05 JOB03629  ICH70001I KC03N08  LAST ACCESS AT 22:10:42 ON WEDNESDAY, NOVEMBER 29, 2017
+ 22.12.05 JOB03629  $HASP373 KC03N08Z STARTED - INIT 3    - CLASS A        - SYS S0W1
+ 22.12.05 JOB03629  -                                         --TIMINGS (MINS.)--            ----PAGING COUNTS---
+ 22.12.05 JOB03629  -JOBNAME  STEPNAME PROCSTEP    RC   EXCP    TCB    SRB  CLOCK   SERV  PG   PAGE   SWAP    VIO SWAPS
+ 22.12.05 JOB03629  -KC03N08Z                      00     65 ******    .00     .0   3277   0      0      0      0     0
+ 22.12.05 JOB03629  -KC03N08Z ENDED.  NAME-George Zhylin        TOTAL TCB CPU TIME=   .00  TOTAL ELAPSED TIME=    .0
+ 22.12.05 JOB03629  $HASP395 KC03N08Z ENDED
+0------ JES2 JOB STATISTICS ------
+-  29 NOV 2017 JOB EXECUTION DATE
+-          723 CARDS READ
+-          945 SYSOUT PRINT RECORDS
+-            0 SYSOUT PUNCH RECORDS
+-           97 SYSOUT SPOOL KBYTES
+-         0.00 MINUTES EXECUTION TIME
+         1 //KC03N08Z JOB ,'George Zhylin' ,MSGCLASS=H                             JOB03629
+         2 //STEP1   EXEC PGM=ASSIST                                               0       
+         3 //STEPLIB   DD DSN=KC02293.ASSIST.LOADLIB,DISP=SHR                      0       
+         4 //SYSPRINT  DD SYSOUT=*                                                 0       
+         5 //SYSIN     DD *                                                        0       
+         6 //FT05F001   DD  *                                                      0       
+         7 //FT06F001   DD SYSOUT=*                                                        
+ ICH70001I KC03N08  LAST ACCESS AT 22:10:42 ON WEDNESDAY, NOVEMBER 29, 2017
+ IEF236I ALLOC. FOR KC03N08Z STEP1
+ IGD103I SMS ALLOCATED TO DDNAME STEPLIB
+ IEF237I JES2 ALLOCATED TO SYSPRINT
+ IEF237I JES2 ALLOCATED TO SYSIN
+ IEF237I JES2 ALLOCATED TO FT05F001
+ IEF237I JES2 ALLOCATED TO FT06F001
+ IEF142I KC03N08Z STEP1 - STEP WAS EXECUTED - COND CODE 0000
+ IGD104I KC02293.ASSIST.LOADLIB                       RETAINED,  DDNAME=STEPLIB 
+ IEF285I   KC03N08.KC03N08Z.JOB03629.D0000103.?         SYSOUT        
+ IEF285I   KC03N08.KC03N08Z.JOB03629.D0000101.?         SYSIN         
+ IEF285I   KC03N08.KC03N08Z.JOB03629.D0000102.?         SYSIN         
+ IEF285I   KC03N08.KC03N08Z.JOB03629.D0000104.?         SYSOUT        
+ IEF373I STEP/STEP1   /START 2017333.2212
+ IEF032I STEP/STEP1   /STOP  2017333.2212 
+         CPU:     0 HR  00 MIN  00.12 SEC    SRB:     0 HR  00 MIN  00.00 SEC    
+         VIRT:   584K  SYS:   264K  EXT:        0K  SYS:    11344K
+         ATB- REAL:                     0K  SLOTS:                     0K
+              VIRT- ALLOC:       0M SHRD:       0M
+ IEF375I  JOB/KC03N08Z/START 2017333.2212
+ IEF033I  JOB/KC03N08Z/STOP  2017333.2212 
+         CPU:     0 HR  00 MIN  00.12 SEC    SRB:     0 HR  00 MIN  00.00 SEC    
+1*** ASSIST 4.0/A2-05/15/82  470/V7A/0:OS/VS2  INS=SDFP7/X=BGHO, CHECK/TRC/=1180, OPTS=CDKMPR FROM PENN ST*NIU COMPSCI*LT         
+0                                                                                                                                 
+0                                                                                                               PAGE    1         
+0  LOC  OBJECT CODE    ADDR1 ADDR2  STMT   SOURCE STATEMENT                                                                       
+                                       1 *********************************************************************** 0                
+                                       2 *  PROGRAM ASSIGNMENT8                                                * 0                
+                                       3 *                                                                     * 0                
+                                       4 *  NAME:     GEORGE ZHYLIN Z1810327                                   * 0                
+                                       5 *                                                                     * 0                
+                                       6 *  FUNCTION: PROGRAM READS STUDENT INFORMATION FROM THE RECORD,       * 0                
+                                       7 *            PROCESS AND CONVERT DATA AND STORE IT IN A TABLE         * 0                
+                                       8 *            PROGRAM CONVERT BACK AND DISPLAY ALL THE DATA FROM THE   * 0                
+                                       9 *            TABLE. AFTER DISPLAYING THE DATA PROGRAM PERFORMS A DUMP * 0                
+                                      10 *            NEXT PROGRAM SORTS ALL THE ENTRYS FROM THE TABLE IN DESC * 0                
+                                      11 *            ORDER AND THEN PRINTS THEM OUT AGAIN.                    * 0                
+                                      12 *                                                                     * 0                
+                                      13 *                                                                     * 0                
+                                      14 *  SUBROUTINES:  MAIN, BUILD, PRINT, SORT                             * 0                
+                                      15 *                                                                     * 0                
+                                      16 *                                                                     * 0                
+                                      17 *                                                                     * 0                
+                                      18 *                                                                     * 0                
+                                      19 *  INPUT:    100 LINES WITH 7 ROWS OF CUSTOMER DATA,                  * 0                
+                                      20 *                                                                     * 0                
+                                      21 *                                                                     * 0                
+                                      22 *  OUTPUT:  PROCESSED DATA FROM THE TABLE, SORTED DATA FROM THE TABLE * 0                
+                                      23 *                                                                     * 0                
+                                      24 *                                                                     * 0                
+                                      25 *                                                                     * 0                
+                                      26 *                                                                     * 0                
+                                      27 *  REGISTER USAGE:                                                    * 0                
+                                      28 *  R1  = USED TO LOAD ARGUMENTS                                       * 0                
+                                      29 *  R2  =                                                              * 0                
+                                      30 *  R3  =                                                              * 0                
+                                      31 *  R4  =                                                              * 0                
+                                      32 *  R5  =                                                              * 0                
+                                      33 *  R6  =                                                              * 0                
+                                      34 *  R7  =                                                              * 0                
+                                      35 *  R8  =                                                              * 0                
+                                      36 *  R9  =                                                              * 0                
+                                      37 *  R10 =                                                              * 0                
+                                      38 *  R11 =                                                              * 0                
+                                      39 *  R12 =                                                              * 0                
+                                      40 *  R13 =                                                              * 0                
+                                      41 *  R14 = EXIT                                                         * 0                
+                                      42 *  R15 = USED TO CALL ROUTINE                                         * 0                
+                                      43 *********************************************************************** 0                
+                                      44 *The structure of a table entry is as follows, in this order:         * 0                
+                                      45 *                                                                     * 0                
+                                      46 *Student ID (4 bytes)                                                 * 0                
+                                      47 *Password (12 bytes)                                                  * 0                
+                                      48 *Password Renewal Date (2 bytes)                                      * 0                
+                                      49 *Major (4 bytes)                                                      * 0                
+                                      50 *Grade Point Average (2 bytes)                                        * 0                
+                                      51 *Total Credit Hours (2 bytes)                                         * 0                
+                                      52 *Hours Currently Enrolled (1 byte)                                    * 0                
+1                                                                                                               PAGE    2         
+0  LOC  OBJECT CODE    ADDR1 ADDR2  STMT   SOURCE STATEMENT                                                                       
+                                      53 *                                                                     * 0                
+                                      54 *Thus each table entry is 27 bytes long.                              * 0                
+                                      55 *********************************************************************** 0                
+                                      56 ***<DSECT FOR INPUT>***                                                 0                
+ 000000                               57 INPUT     DSECT                    INPUT DSECT                          0                
+ 000000                               58 IID       DS    CL9                STUDENT ID                           0                
+ 000009                               59           DS    CL1                SPACE                                0                
+ 00000A                               60 IPASS     DS    CL12               PASSWORD                             0                
+ 000016                               61           DS    CL1                SPACE                                0                
+ 000017                               62 IPASD     DS    CL8                PASSWORD RENEWAL DATE                0                
+ 00001F                               63           DS    CL1                SPACE                                0                
+ 000020                               64 IMAG      DS    CL4                MAJOR                                0                
+ 000024                               65           DS    CL1                SPACE                                0                
+ 000025                               66 IGPA      DS    CL3                GPA                                  0                
+ 000028                               67           DS    CL1                SPACE                                0                
+ 000029                               68 ITOT      DS    CL3                TOTAL CREDITS                        0                
+ 00002C                               69           DS    CL1                SPACE                                0                
+ 00002D                               70 IHCUR     DS    CL2                HOURS CURRENTLY ENROLLED             0                
+ 00002F                               71           DS    CL33               SPACE                                0                
+                                      72 ***<DSECT FOR TABLE>***                                                 0                
+ 000000                               73 TABLEM    DSECT                    TABLE DSECT                          0                
+ 000000                               74 TID       DS    PL4                ID                                   0                
+ 000004                               75 TPASS     DS    CL12               PASSWORD                             0                
+ 000010                               76 TPASD     DS    CL2                PASS DATE                            0                
+ 000012                               77 TMAG      DS    CL4                MAJOR                                0                
+ 000016                               78 TGPA      DS    CL2                GPA                                  0                
+ 000018                               79 TTOT      DS    CL2                TOTAL H                              0                
+ 00001A                               80 THCUR     DS    CL1                HOURS CURRENT                        0                
+                                      81 ***<MAIN ROUTINE>***                                                    0                
+ 000000                               82 MAIN      CSECT                    MAIN ROUTINE                         0                
+                                      83 ***<STANDARD ENTRY LINKAGE>***                                          0                
+ 000000 90EC D00C            0000C    84           STM   14,12,12(13)       SAVE ALL THE REGISTERS EXCEPT R13    0                
+ 000004 18CF                          85           LR    12,15              PUT ADDRESS OF ROUTINE IN R12        0                
+ 000000                               86           USING MAIN,12            SET R12 AS A BASE REGISTER FOR ROUT  0                
+ 000006 41E0 CD04            00D04    87           LA    14,SAVEMAIN        SET POINTER TO ROUTINE SAVE AREA     0                
+ 00000A 50DE 0004            00004    88           ST    13,4(14)           BACKWARD POINTER                     0                
+ 00000E 50ED 0008            00008    89           ST    14,8(13)           FORWARD POINTER                      0                
+ 000012 18DE                          90           LR    13,14              SET POINTER IN R13 TO ROUTINE        0                
+                                      91 ***<MAIN ROUTINE BODY>***                                               0                
+ 000014 4110 CD4C            00D4C    92           LA    1,BLIST            LOAD BUILD ARGUMENTS IN R1           0                
+ 000018 58F0 C050            00050    93           L     15,=V(BUILD)       GET ADDRESS OF BUILD ROUTINE         0                
+ 00001C 05EF                          94           BALR  14,15              CALL BUILD ROUTINE                   0                
+ 00001E E060 C060 00A2 00060          95           XDUMP TABLE,162                                               0                
+ 000024 4110 CD58            00D58    96           LA    1,PLIST1           LOAD PRINT ARGUMENTS IN R1           0                
+ 000028 58F0 C054            00054    97           L     15,=V(PRINT)       GET ADDRESS OF PRINT ROUTINE         0                
+ 00002C 05EF                          98           BALR  14,15              CALL PRINT ROUTINE                   0                
+ 00002E 4110 CD78            00D78    99           LA    1,SLIST            LOAD SORT  ARGUMENTS IN R1           0                
+ 000032 58F0 C058            00058   100           L     15,=V(SORT)        GET ADDRESS OF SORT  ROUTINE         0                
+ 000036 05EF                         101           BALR  14,15              CALL SORT  ROUTINE                   0                
+ 000038 4110 CD68            00D68   102           LA    1,PLIST2           LOAD PRINT ARGUMENTS IN R1           0                
+ 00003C 58F0 C054            00054   103           L     15,=V(PRINT)       GET ADDRESS OF PRINT ROUTINE         0                
+ 000040 05EF                         104           BALR  14,15              CALL PRINT ROUTINE                   0                
+                                     105 ***<STANDARD EXIT LINKAGE>***                                           0                
+ 000042 58DD 0004            00004   106           L     13,4(13)           SET R13 TO CALLERS SAVE AREA         0                
+ 000046 98EC D00C            0000C   107           LM    14,12,12(13)       LOAD BACK ALL REGISTERS EXEPT R13    0                
+ 00004A 07FE                         108           BR    14                 EXIT                                 0                
+                                     109           LTORG                                                         0                
+1                                                                                                               PAGE    3         
+0  LOC  OBJECT CODE    ADDR1 ADDR2  STMT   SOURCE STATEMENT                                                                       
+ 000050 00000E18                     110                =V(BUILD)                                                                 
+ 000054 00001000                     111                =V(PRINT)                                                                 
+ 000058 000013C8                     112                =V(SORT)                                                                  
+                                     113 ***<STORAGE FOR MAIN ROUTINE>***                                        0                
+ 000060                              114           DS    0D                 ALIGNMENT                            0                
+ 000060                              115 TABLE     DS    110CL28            TABLE                                0                
+ 000C68                              116 EOT       DS    F                  ADDRESS OF END OF TABLE              0                
+ 000C6C 4040404040404040             117 RECORD    DC    81C' '             BUFFER                               0                
+ 000CBD 60D5819485409686             118 TABLEINF  DC    C'-Name of Element   Chemical Symbol'         69C       0                
+ 000CDF 404040C1A3969489             119           DC    C'   Atomic Number    Date Discovered'                  0                
+ 000D02 000C                         120 PAGENUM   DC    PL2'0'             PAGE NUMBER                          0                
+ 000D04                              121 SAVEMAIN  DS    18F                MAIN ROUTINE SAVE AREA               0                
+ 000D4C 00000060                     122 BLIST     DC    A(TABLE)           ARGUMENTS FOR BUILD ROUTINE          0                
+ 000D50 00000C68                     123           DC    A(EOT)                                                  0                
+ 000D54 00000C6C                     124           DC    A(RECORD)                                               0                
+ 000D58 00000060                     125 PLIST1    DC    A(TABLE)           ARGUMENTS FOR PRINT1 ROUTINE         0                
+ 000D5C 00000C68                     126           DC    A(EOT)                                                  0                
+ 000D60 00000D80                     127           DC    A(HEADER1)                                              0                
+ 000D64 00000D02                     128           DC    A(PAGENUM)                                              0                
+ 000D68 00000060                     129 PLIST2    DC    A(TABLE)           ARGUMENTS FOR PRINT2 ROUTINE         0                
+ 000D6C 00000C68                     130           DC    A(EOT)                                                  0                
+ 000D70 00000DCA                     131           DC    A(HEADER2)                                              0                
+ 000D74 00000D02                     132           DC    A(PAGENUM)                                              0                
+ 000D78 00000060                     133 SLIST     DC    A(TABLE)           ARGUMENTS FOR SORT ROUTINE           0                
+ 000D7C 00000C68                     134           DC    A(EOT)                                                  0                
+ 000D80 F140404040404040             135 HEADER1   DC    C'1                          Student Information'       0                
+ 000DAE 4040404040404040             136           DC    C'                        Page'        74               0                
+ 000DCA F140404040404040             137 HEADER2   DC    C'1                          Student Information'       0                
+ 000DF8 4082A84040C7D7C1             138           DC    C' by  GPA                Page'        74               0                
+                                     139 *********************************************************************** 0                
+                                     140 *                          BUILD ROUTINE                              * 0                
+                                     141 *  NAME:     GEORGE ZHYLIN Z1810327                                   * 0                
+                                     142 *                                                                     * 0                
+                                     143 *  FUNCTION: ROUTINE GETS TABLE,EOT,RECORD POINTERS AS ARGUMENTS, NEXT* 0                
+                                     144 *            ROUTINE GOES THRU STANDARD ENTRY LINKAGE. TRY'S TO READ  * 0                
+                                     145 *            FIRST RECORD, AND UNTIL EOF REACHED PROGRAM READS DATA   * 0                
+                                     146 *            THEN PROCESS IT, CONVERT IT AND STORE IN THE TABLE       * 0                
+                                     147 *            ROUTINE STORES THE POINTERS AND GOES THRU STANDARD EXIT  * 0                
+                                     148 *            LINKAGE                                                  * 0                
+                                     149 *                                                                     * 0                
+                                     150 *  REGISTER USAGE:                                                    * 0                
+                                     151 *  R1  = ARGUMENTS                                                    * 0                
+                                     152 *  R2  = DATE OPERATIONS                                              * 0                
+                                     153 *  R3  = POINTER TO THE TABLE                                         * 0                
+                                     154 *  R4  = POINTER TO THE EOT                                           * 0                
+                                     155 *  R5  = POINTER TO THE RECORD(BUFFER)                                * 0                
+                                     156 *  R6  = POINTER TO THE END OF THE TABLE                              * 0                
+                                     157 *  R7  = COPY OF THE TABLE POINTER                                    * 0                
+                                     158 *  R8  = DATE OPERATIONS                                              * 0                
+                                     159 *  R9  = MONTH OPERATIONS                                             * 0                
+                                     160 *  R10 =                                                              * 0                
+                                     161 *  R11 = YEAR OPERATIONS                                              * 0                
+                                     162 *  R12 = BASE REGISTER                                                * 0                
+                                     163 *  R13 =                                                              * 0                
+                                     164 *  R14 = EXIT                                                         * 0                
+                                     165 *  R15 =                                                              * 0                
+                                     166 *********************************************************************** 0                
+1                                                                                                               PAGE    4         
+0  LOC  OBJECT CODE    ADDR1 ADDR2  STMT   SOURCE STATEMENT                                                                       
+ 000E18                              167 BUILD     CSECT                    BUILD ROUTINE                        0                
+                                     168 ***<STANDARD ENTRY LINKAGE FOR ROUTINE>***                              0                
+ 000E18 90EC D00C            0000C   169           STM   14,12,12(13)       SAVE ALL THE REGISTERS EXCEPT R13    0                
+ 000E1C 18CF                         170           LR    12,15              PUT ADDRESS OF ROUT  IN R12          0                
+ 000E18                              171           USING BUILD,12           SET R12 AS A BASE REGISTER FOR ROUT  0                
+ 000E1E 41E0 C14C            00F64   172           LA    14,SAVEREAD        SET POINTER TO ROUTINE SAVE AREA     0                
+ 000E22 50DE 0004            00004   173           ST    13,4(14)           BACKWARD POINTER                     0                
+ 000E26 50ED 0008            00008   174           ST    14,8(13)           FORWARD POINTER                      0                
+ 000E2A 18DE                         175           LR    13,14              SET POINTER IN R13 TO ROUTINE        0                
+                                     176 ***<BUILD ROUTINE BODY>***                                              0                
+ 000E2C 9835 1000            00000   177           LM    3,5,0(1)           UNLOAD ARGUMENTS IN R3,R4,R5         0                
+ 000E30 1873                         178           LR    7,3                COPY POINTER TO THE BEGINING OF TAB  0                
+ 000000                              179           USING INPUT,5            USE TABLEM DSECT IN R5 FOR BUFFER    0                
+ 000E32 E000 5000 0050 00000         180 LOOP1     XREAD INPUT,80           READ FIRST RECORD                    0                
+ 000E38 4740 C134            00F4C   181           BC    B'0100',END1       CHECK IF END OF DATA                 0                
+                                     182 ***<CONVERT STUDENT ID>***                                              0                
+ 000E3C F277 C198 5001 00FB0 00001   183           PACK  TEMPID1(8),IID+1(8) CONVER TO PACKED AND PUT IN TEMP    0                
+ 000E42 1BBB                         184           SR    11,11              RESET R11                            0                
+ 000E44 4FB0 C198            00FB0   185           CVB   11,TEMPID1         CONVERT TO BIN AND PUT IN R11        0                
+ 000E48 F247 C1AC 5001 00FC4 00001   186           PACK  TEMPID3(5),IID+1(8)                                     0                
+ 000E4E F040 C1AC 0001 00FC4 00001   187           SRP   TEMPID3(5),1,0     SHIFT LEFT                           0                
+                                     188 *                                  TEMP1(5) = 12 34 56 78 0F            0                
+ 000E54 D203 C1A4 C1AC 00FBC 00FC4   189           MVC   TEMPID2(4),TEMPID3 MOVE ID TO TEMPID2                   0                
+                                     190 *                                  TEMPID2(4) =  12 34 56 78 (4BYTES)   0                
+ 000E5A BEBF 7000            00000   191           STCM  11,B'1111',0(7)    INSERT STUDENT ID IN THE TABLE       0                
+                                     192 *                                  STUDENT ID 4 BYTES                   0                
+                                     193 ***<CONVERT PASSWORD>***                                                0                
+ 000E5E D203 C1B8 500A 00FD0 0000A   194           MVC   TEMPPS1(4),IPASS   GET FIRST 4 BYTES OF THE PASS        0                
+ 000E64 1BBB                         195           SR    11,11              RESET R11                            0                
+ 000E66 58B0 C1B8            00FD0   196           L     11,TEMPPS1         LOAD FIRST 4 BYTES OF THE PASS TO 11 0                
+ 000E6A 57B0 C1A4            00FBC   197           X     11,TEMPID2         XOR R11 WITH ID IN TEMPID2           0                
+ 000E6E BEBF 7004            00004   198           STCM  11,B'1111',4(7)    INSERT FIRST 4 ENCR BYTES OF PASS    0                
+                                     199 *                                                                       0                
+ 000E72 D203 C1B8 500E 00FD0 0000E   200           MVC   TEMPPS1(4),IPASS+4 GET SECND 4 BYTES OF THE PASS        0                
+ 000E78 1BBB                         201           SR    11,11              RESET R11                            0                
+ 000E7A 58B0 C1B8            00FD0   202           L     11,TEMPPS1         LOAD SECND 4 BYTES OF THE PASS TO 11 0                
+ 000E7E 57B0 C1A4            00FBC   203           X     11,TEMPID2         XOR R11 WITH ID IN TEMPID2           0                
+ 000E82 BEBF 7008            00008   204           STCM  11,B'1111',8(7)    INSERT SECND 4 ENCR BYTES OF PASS    0                
+                                     205 *                                                                       0                
+ 000E86 D203 C1B8 5012 00FD0 00012   206           MVC   TEMPPS1(4),IPASS+8 GET THIRD 4 BYTES OF THE PASS        0                
+ 000E8C 1BBB                         207           SR    11,11              RESET R11                            0                
+ 000E8E 58B0 C1B8            00FD0   208           L     11,TEMPPS1         LOAD THIRD 4 BYTES OF THE PASS TO 11 0                
+ 000E92 57B0 C1A4            00FBC   209           X     11,TEMPID2         XOR R11 WITH ID IN TEMPID2           0                
+ 000E96 BEBF 700C            0000C   210           STCM  11,B'1111',12(7)   INSERT THIRD 4 ENCR BYTES OF PASS    0                
+                                     211 *                                  STUDENT PASSWORD ENCR IN 12 BYTES    0                
+                                     212 ***<CONVERT PASS RENEWAL DATE>***                                       0                
+                                     213 *                                  YEAR                                 0                
+ 000E9A D203 C1C0 501B 00FD8 0001B   214           MVC   TEMPD1(4),IPASD+4  GET YEAR                             0                
+ 000EA0 F223 C1C8 C1C0 00FE0 00FD8   215           PACK  TEMPD2(3),TEMPD1   CONVERT AND STORE PASS DATE IN PACK  0                
+ 000EA6 FB22 C1C8 C148 00FE0 00F60   216           SP    TEMPD2,=PL3'1980'  SUBSTRUCT 1980 FROM THE YEAR         0                
+ 000EAC F872 C1D0 C1C8 00FE8 00FE0   217           ZAP   TEMPD3,TEMPD2      PUT YEAR IN A 8 BYTE VARIABLE        0                
+ 000EB2 1BBB                         218           SR    11,11              RESET R11                            0                
+ 000EB4 4FB0 C1D0            00FE8   219           CVB   11,TEMPD3          CONVERT TO BINARY AND BUT IN R11     0                
+ 000EB8 89B0 0009            00009   220           SLL   11,9               SHIFT YEAR TO THE LEFT               0                
+                                     221 *                                  YEAR NOW FROM LEFT 9BITS OF R11      0                
+ 000EBC D201 C1DC 5019 00FF4 00019   222           MVC   TEMPD4(2),IPASD+2  GET MONTH                            0                
+ 000EC2 F211 C1E4 C1DC 00FFC 00FF4   223           PACK  TEMPD5(2),TEMPD4   CONVERT TO PACKED AND STORE          0                
+1                                                                                                               PAGE    5         
+0  LOC  OBJECT CODE    ADDR1 ADDR2  STMT   SOURCE STATEMENT                                                                       
+ 000EC8 F871 C1D0 C1E4 00FE8 00FFC   224           ZAP   TEMPD3,TEMPD5      PUT MONTH IN A 8 BYTE VAR            0                
+ 000ECE 1B99                         225           SR    9,9                RESET R13                            0                
+ 000ED0 4F90 C1D0            00FE8   226           CVB   9,TEMPD3           CONVERT TO BIN AND PUT IN R13        0                
+ 000ED4 8990 0005            00005   227           SLL   9,5                SHIFT 5 BITS TO THE LEFT             0                
+                                     228 *                                  MONTH NOW FROM LEFT 5BITS OF R13     0                
+ 000ED8 D201 C1DC 5017 00FF4 00017   229           MVC   TEMPD4(2),IPASD    GET DATE                             0                
+ 000EDE F211 C1E4 C1DC 00FFC 00FF4   230           PACK  TEMPD5(2),TEMPD4   CONVERT TO PACKED AND STORE          0                
+ 000EE4 F871 C1D0 C1E4 00FE8 00FFC   231           ZAP   TEMPD3,TEMPD5      PUT DATE IN A 8 BYTE VAR             0                
+ 000EEA 1B22                         232           SR    2,2                RESET R2                             0                
+ 000EEC 4F20 C1D0            00FE8   233           CVB   2,TEMPD3           CONVERT TO BIN AND PUT IN R2         0                
+                                     234 *                                  NOW DATE FROM LEFT IN FIRST 5 BITS   0                
+ 000EF0 1B88                         235           SR    8,8                RESET R8                             0                
+ 000EF2 1A8B                         236           AR    8,11               ADD YEAR                             0                
+ 000EF4 1A89                         237           AR    8,9                ADD MONTH                            0                
+ 000EF6 1A82                         238           AR    8,2                ADD DAY                              0                
+                                     239 *                                  RIGHT 2 BYTES CONTAIN THE DATE       0                
+ 000EF8 BE83 7010            00010   240           STCM  8,B'0011',16(7)    INSERT 2 BYTES DATE IN THE TABLE REC 0                
+                                     241 ***<CONVERT MAJOR>***                                                   0                
+ 000EFC D203 7012 5020 00012 00020   242           MVC   18(4,7),IMAG       INSERT MAJOR                         0                
+                                     243 ***<CONVERT GPA>***                                                     0                
+ 000F02 F212 C1E4 5025 00FFC 00025   244           PACK  TEMPD5(2),IGPA     PACK GPA                             0                
+ 000F08 F871 C1D0 C1E4 00FE8 00FFC   245           ZAP   TEMPD3,TEMPD5      PUT GPA IN A 8 BYTE VAR              0                
+ 000F0E 1B22                         246           SR    2,2                RESET R2                             0                
+ 000F10 4F20 C1D0            00FE8   247           CVB   2,TEMPD3           CONVERT TO BIN AND PUT IN R2         0                
+ 000F14 BE23 7016            00016   248           STCM  2,B'0011',22(7)    INSERT GPA IN TO THE RECORD          0                
+                                     249 ***<CONVERT TOTAL CREDIT HOURS>***                                      0                
+ 000F18 F212 C1E4 5029 00FFC 00029   250           PACK  TEMPD5(2),ITOT     PACK TOTAL HOURS                     0                
+ 000F1E F871 C1D0 C1E4 00FE8 00FFC   251           ZAP   TEMPD3,TEMPD5      PUT TOT CR IN A 8 BYTE VAR           0                
+ 000F24 1B22                         252           SR    2,2                RESET R2                             0                
+ 000F26 4F20 C1D0            00FE8   253           CVB   2,TEMPD3           CONVERT TO BIN AND PUT IN R2         0                
+ 000F2A BE23 7018            00018   254           STCM  2,B'0011',24(7)    INSERT GPA IN TO THE RECORD          0                
+                                     255 ***<CONVERT CURRENTLY ENROLLED HOURS>***                                0                
+ 000F2E F211 C1E4 502D 00FFC 0002D   256           PACK  TEMPD5(2),IHCUR    PACK TOTAL HOURS                     0                
+ 000F34 F871 C1D0 C1E4 00FE8 00FFC   257           ZAP   TEMPD3,TEMPD5      PUT TOT CR IN A 8 BYTE VAR           0                
+ 000F3A 1B22                         258           SR    2,2                RESET R2                             0                
+ 000F3C 4F20 C1D0            00FE8   259           CVB   2,TEMPD3           CONVERT TO BIN AND PUT IN R2         0                
+ 000F40 BE21 701A            0001A   260           STCM  2,B'0001',26(7)    INSERT GPA IN TO THE RECORD          0                
+                                     261 ***<GO AND READ NEXT RECORD>***                                         0                
+ 000F44 4170 701C            0001C   262           LA    7,28(0,7)          UPADTE TABLE POINTER                 0                
+ 000F48 47F0 C01A            00E32   263           BC    B'1111',LOOP1      GO BACK TO LOOP1                     0                
+ 000F4C                              264 END1      DS    0H                                                      0                
+ 000F4C                              265           DROP  5                  DROP USING DSECTS                    0                
+                                     266 ***<SET POINTERS>***                                                    0                
+ 000F4C 5074 0000            00000   267           ST    7,0(4)             PUT EOT POINTER IN EOT VARIABLE      0                
+                                     268 ***<STANDARD EXIT LINKAGE FOR ROUTINE>***                               0                
+ 000F50 58DD 0004            00004   269           L     13,4(13)           SET R13 TO CALLERS SAVE AREA         0                
+ 000F54 98EC D00C            0000C   270           LM    14,12,12(13)       RESTORE REGISTERS                    0                
+ 000F58 07FE                         271           BR    14                 EXIT                                 0                
+                                     272           LTORG                                                         0                
+ 000F60 01980C                       273                =PL3'1980'                                                                
+                                     274 ***<STORAGE FOR BUILD ROUTINE>***                                       0                
+ 000F64                              275 SAVEREAD  DS    18F                REGISTERS STORAGE                    0                
+ 000FB0                              276 TEMPID1   DS    D                                                       0                
+ 000FB8                              277           DS    F                                                       0                
+ 000FBC                              278 TEMPID2   DS    PL4                                                     0                
+ 000FC0                              279           DS    F                                                       0                
+ 000FC4                              280 TEMPID3   DS    PL5                                                     0                
+1                                                                                                               PAGE    6         
+0  LOC  OBJECT CODE    ADDR1 ADDR2  STMT   SOURCE STATEMENT                                                                       
+ 000FCC                              281           DS    F                                                       0                
+ 000FD0                              282 TEMPPS1   DS    CL4                                                     0                
+ 000FD4                              283           DS    F                                                       0                
+ 000FD8                              284 TEMPD1    DS    CL4                                                     0                
+ 000FDC                              285           DS    F                                                       0                
+ 000FE0                              286 TEMPD2    DS    PL3                                                     0                
+ 000FE4                              287           DS    F                                                       0                
+ 000FE8                              288 TEMPD3    DS    D            PL8'0'                                     0                
+ 000FF0                              289           DS    F                                                       0                
+ 000FF4                              290 TEMPD4    DS    CL2                                                     0                
+ 000FF8                              291           DS    F                                                       0                
+ 000FFC 000C                         292 TEMPD5    DC    PL2'0'                                                  0                
+                                     293 ***<END OF BUILD ROUTINE>***                                            0                
+                                     294 *********************************************************************** 0                
+                                     295 *                           PRINT ROUTINE                             * 0                
+                                     296 *  NAME:     GEORGE ZHYLIN Z1810327                                   * 0                
+                                     297 *                                                                     * 0                
+                                     298 *  FUNCTION: ROUTINE GETS TABLE, EOT, HEADER LBL AND PAGE POINTERS AS * 0                
+                                     299 *            ARGUMENTS,THEN GOES THRU STANDARD ENTRY LINKAGE PROCESS. * 0                
+                                     300 *            ROUTINE GETS AND CONVERTS DATA FROM THE TABLE            * 0                
+                                     301 *            PRINTS HEADERS WITH PAGE NUM, THEN PRINTS 40ITEMS        * 0                
+                                     302 *            PER PAGE UNTIL END OF TABLE REACHED. IN THE END, ROUTINE * 0                
+                                     303 *            GOES THRU STANDARD EXIT LINKAGE                          * 0                
+                                     304 *                                                                     * 0                
+                                     305 *                                                                     * 0                
+                                     306 *  REGISTER USAGE:                                                    * 0                
+                                     307 *  R1  = ARGUMENTS POINTER                                            * 0                
+                                     308 *  R2  = CVD USE                                                      * 0                
+                                     309 *  R3  = TABLE POINTER                                                * 0                
+                                     310 *  R4  = EOT POINTER                                                  * 0                
+                                     311 *  R5  = TABLE ROW INFO LBL                                           * 0                
+                                     312 *  R6  = PAGE COUNTER                                                 * 0                
+                                     313 *  R7  = COUNTER FOR ROWS                                             * 0                
+                                     314 *  R8  = ITEM COUNTER                                                 * 0                
+                                     315 *  R9  = PAGE COUNTER                                                 * 0                
+                                     316 *  R10 = TOTAL ITEMS COUNTER                                          * 0                
+                                     317 *  R11 = COPY OF THE POINTER TO THE TABLE                             * 0                
+                                     318 *  R12 = BASE REGISTER                                                * 0                
+                                     319 *  R13 =                                                              * 0                
+                                     320 *  R14 = EXIT                                                         * 0                
+                                     321 *  R15 =                                                              * 0                
+                                     322 *********************************************************************** 0                
+ 001000                              323 PRINT     CSECT                    PRINT ROUTINE                        0                
+                                     324 ***<STANDARD ENTRY LINKAGE FOR ROUTINE>***                              0                
+ 001000 90EC D00C            0000C   325           STM   14,12,12(13)       SAVE ALL THE REGISTERS EXCEPT R13    0                
+ 001004 18CF                         326           LR    12,15              PUT ADDRESS OF ROUTINE IN R12        0                
+ 001000                              327           USING PRINT,12           SET R12 AS A BASE REGISTER FOR ROUT  0                
+ 001006 41E0 C20C            0120C   328           LA    14,SAVEPRNT        SET POINTER TO ROUTINE SAVE AREA     0                
+ 00100A 50DE 0004            00004   329           ST    13,4(14)           BACKWARD POINTER                     0                
+ 00100E 50ED 0008            00008   330           ST    14,8(13)           FORWARD POINTER                      0                
+ 001012 18DE                         331           LR    13,14              SET POINTER IN R13 TO ROUTINE        0                
+                                     332 ***<PRINT ROUTINE BODY>***                                              0                
+ 001014 9836 1000            00000   333           LM    3,6,0(1)           UNLOAD ARGUMENTS IN R3,R4,R5,R6      0                
+ 001018 18B3                         334           LR    11,3               COPY POINTER TO THE TABLE TO R11     0                
+ 000000                              335           USING TABLEM,11          USE TABLEM DSECT IN R11              0                
+ 00101A 4876 0000            00000   336           LH    7,0(6)             GET PAGE NUM AND PUT 4BYTES IN R7    0                
+ 00101E 1BAA                         337           SR    10,10              RESET R10                            0                
+1                                                                                                               PAGE    7         
+0  LOC  OBJECT CODE    ADDR1 ADDR2  STMT   SOURCE STATEMENT                                                                       
+                                     338 *         S     4,=CL27'1'         PUT CORRECT VALUE FOR EOT            0                
+                                     339 *         S     4,=F'1'            PUT CORRECT VALUE FOR EOT            0                
+                                     340 *         S     4,=F'1'            PUT CORRECT VALUE FOR EOT            0                
+ 001020 4070 C208            01208   341           STH   7,PAGEN            STORE 4BYTES PAGE NUM IN PAGEN       0                
+ 001024 FA10 C208 C1EE 01208 011EE   342 PRINTP    AP    PAGEN,=PL1'1'      ADD 1 TO OUR PAGE COUNTER            0                
+ 00102A D203 C2D5 C1C8 012D5 011C8   343           MVC   NUM,=XL4'40202020' FORMAT FOR OUTPUT                    0                
+ 001030 DE03 C2D5 C208 012D5 01208   344           ED    NUM,PAGEN          INSERT PAGE NUMBER IN LABEL          0                
+ 001036 1B88                         345           SR    8,8                RESET ITEM COUNTER                   0                
+ 001038 E020 C1EF 0001 011EF         346           XPRNT =C' ',1            SPACE AS PER INSTRUCTIONS            0                
+ 00103E D249 C28B 5000 0128B 00000   347           MVC   HEADER(74),0(5)    UPDATE THE HEADER TO DISP INFO FROM  0                
+ 001044 E020 C28B 004E 0128B         348           XPRNT HEADER,78          PRINT HEADERS                        0                
+ 00104A E020 C2D9 004E 012D9         349           XPRNT INF1,78            PRINT TABLE TAB INFO                 0                
+ 001050 E020 C327 004E 01327         350           XPRNT INF2,78            PRINT TABLE TAB INFO2                0                
+                                     351 *                                                                       0                
+                                     352 *OOP2     DS    0H                                                      0                
+                                     353 ***<STUDENT ID>***                                                      0                
+ 001056 1B22                         354 LOOP2     SR    2,2                                                     0                
+ 001058 5820 B000            00000   355           L     2,TID              GET ID AND PUT IN R2                 0                
+ 00105C 4E20 C268            01268   356           CVD   2,TEMP5            CONVERT TO PACKED AND PUT IN TEMP5   0                
+ 001060 D208 C377 C1D8 01377 011D8   357           MVC   ID,=XL10'21202020202020202020'         FORMAT           0                
+ 001066 DE08 C377 C26B 01377 0126B   358           ED    ID,TEMP5+3         INSERT ID IN LABEL                   0                
+ 00106C D200 C377 C1F0 01377 011F0   359           MVC   ID(1),=CL1'Q'      INSERT CHAR Q                        0                
+                                     360 ***<PASSWORD>***                                                        0                
+ 001072 D204 C274 C26B 01274 0126B   361           MVC   TEMP3(5),TEMP5+3   MOVE 5BYTES WITH ID TO TEMP3         0                
+ 001078 F040 C274 0001 01274 00001   362           SRP   TEMP3(5),1,0       SHIFT LEFT                           0                
+                                     363 *                                  TEMP3(5) = 12 34 56 78 0F            0                
+ 00107E D203 C280 C274 01280 01274   364           MVC   TEMP2(4),TEMP3     MOVE 4BYTES ID TO TEMP2              0                
+                                     365 *                                  TEMP2(4) =  12 34 56 78 (4BYTES)     0                
+ 001084 D203 C258 B004 01258 00004   366           MVC   TEMP4(4),TPASS     GET FIRST 4 BYTES OF THE PASS        0                
+ 00108A 1B22                         367           SR    2,2                RESET R2                             0                
+ 00108C 5820 C258            01258   368           L     2,TEMP4            LOAD FIRST 4 BYTES OF THE PASS TO R2 0                
+ 001090 5720 C280            01280   369           X     2,TEMP2            XOR R11 WITH ID IN TEMP2             0                
+ 001094 BE2F C383            01383   370           STCM  2,B'1111',PASS     INSERT FIRST 4 ENCR BYTES OF PASS    0                
+                                     371 *                                                                       0                
+ 001098 D203 C258 B008 01258 00008   372           MVC   TEMP4(4),TPASS+4   GET SECND 4 BYTES OF THE PASS        0                
+ 00109E 1B22                         373           SR    2,2                RESET R2                             0                
+ 0010A0 5820 C258            01258   374           L     2,TEMP4            LOAD FIRST 4 BYTES OF THE PASS TO R2 0                
+ 0010A4 5720 C280            01280   375           X     2,TEMP2            XOR R11 WITH ID IN TEMP2             0                
+ 0010A8 BE2F C387            01387   376           STCM  2,B'1111',PASS+4   INSERT FIRST 4 ENCR BYTES OF PASS    0                
+                                     377 *                                                                       0                
+ 0010AC D203 C258 B00C 01258 0000C   378           MVC   TEMP4(4),TPASS+8   GET THIRD 4 BYTES OF THE PASS        0                
+ 0010B2 1B22                         379           SR    2,2                RESET R2                             0                
+ 0010B4 5820 C258            01258   380           L     2,TEMP4            LOAD FIRST 4 BYTES OF THE PASS TO R2 0                
+ 0010B8 5720 C280            01280   381           X     2,TEMP2            XOR R11 WITH ID IN TEMP2             0                
+ 0010BC BE2F C38B            0138B   382           STCM  2,B'1111',PASS+8   INSERT FIRST 4 ENCR BYTES OF PASS    0                
+                                     383 *                                  STUDENT PASSWORD IN 12 BYTES         0                
+                                     384 ***<DATE>***                                                            0                
+ 0010C0 1B22                         385           SR    2,2                RESET                                0                
+ 0010C2 BF23 B010            00010   386           ICM   2,B'0011',TPASD    LOAD DATE IN BIN TO R2 TO THE RIGHT  0                
+ 0010C6 8920 001B            0001B   387           SLL   2,27               SHIFT LEFT 27 BITS                   0                
+ 0010CA 8820 001B            0001B   388           SRL   2,27               SHIFT RIGHT 27 BITS                  0                
+ 0010CE 4E20 C268            01268   389           CVD   2,TEMP5            CONVERT TO PACKED                    0                
+ 0010D2 D202 C394 C1F1 01394 011F1   390           MVC   DATED,=XL7'21202020202020'                FORMAT        0                
+ 0010D8 DE02 C394 C26E 01394 0126E   391           ED    DATED,TEMP5+6      INSERT DAY IN LABEL                  0                
+                                     392 *                                                                       0                
+ 0010DE 1B22                         393           SR    2,2                RESET                                0                
+ 0010E0 BF23 B010            00010   394           ICM   2,B'0011',TPASD    LOAD DATE IN BIN TO R2 TO THE RIGHT  0                
+1                                                                                                               PAGE    8         
+0  LOC  OBJECT CODE    ADDR1 ADDR2  STMT   SOURCE STATEMENT                                                                       
+ 0010E4 8920 0017            00017   395           SLL   2,23               SHIFT LEFT 23BITS                    0                
+ 0010E8 8820 001C            0001C   396           SRL   2,28               SHIFT RIGHT 28BITS                   0                
+ 0010EC 4E20 C268            01268   397           CVD   2,TEMP5            CONVERT TO PACKED                    0                
+ 0010F0 D202 C397 C1F1 01397 011F1   398           MVC   DATEM,=XL7'21202020202020'                FORMAT        0                
+ 0010F6 DE02 C397 C26E 01397 0126E   399           ED    DATEM,TEMP5+6      INSERT MONTH IN LABEL                0                
+ 0010FC D200 C397 C1F8 01397 011F8   400           MVC   DATEM(1),=CL1'/'   INSERT CHAR /                        0                
+                                     401 *                                                                       0                
+ 001102 1B22                         402           SR    2,2                RESET                                0                
+ 001104 BF23 B010            00010   403           ICM   2,B'0011',TPASD    LOAD DATE IN BIN TO R2 TO THE RIGHT  0                
+ 001108 8920 0010            00010   404           SLL   2,16               SHIFT LEFT 16BITS                    0                
+ 00110C 8820 0019            00019   405           SRL   2,25               SHIFT RIGHT 25BITS                   0                
+ 001110 4E20 C268            01268   406           CVD   2,TEMP5            CONVERT TO PACKED                    0                
+ 001114 FA72 C268 C1F9 01268 011F9   407           AP    TEMP5,=PL3'1980'   ADD 1980 TO THE YEAR                 0                
+ 00111A D204 C39A C1F1 0139A 011F1   408           MVC   DATEY,=XL7'21202020202020'                FORMAT        0                
+ 001120 DE04 C39A C26D 0139A 0126D   409           ED    DATEY,TEMP5+5      INSERT MONTH IN LABEL                0                
+ 001126 D200 C39A C1F8 0139A 011F8   410           MVC   DATEY(1),=CL1'/'   INSERT CHAR /                        0                
+                                     411 ***<MAJOR>***                                                           0                
+ 00112C D203 C3A4 B012 013A4 00012   412           MVC   MAJOR,TMAG         INSERT MAJOR                         0                
+                                     413 ***<GPA>***                                                             0                
+ 001132 1B22                         414           SR    2,2                RESET                                0                
+ 001134 BF23 B016            00016   415           ICM   2,B'0011',TGPA     LOAD GPA IN BIN TO R2 TO THE RIGHT   0                
+ 001138 4E20 C268            01268   416           CVD   2,TEMP5            CONVERT TO PACKED                    0                
+ 00113C D207 C3AA C1FC 013AA 011FC   417           MVC   GPA,=XL7'402021204B2020'                  FORMAT        0                
+ 001142 DE07 C3AA C26D 013AA 0126D   418           ED    GPA,TEMP5+5        INSERT MONTH IN LABEL                0                
+                                     419 ***<TOTAL HOURS>***                                                     0                
+ 001148 1B22                         420           SR    2,2                RESET                                0                
+ 00114A BF23 B018            00018   421           ICM   2,B'0011',TTOT     LOAD TOT IN BIN TO R2 TO THE RIGHT   0                
+ 00114E 4E20 C268            01268   422           CVD   2,TEMP5            CONVERT TO PACKED                    0                
+ 001152 D206 C3B4 C1E2 013B4 011E2   423           MVC   THR,=XL6'402020212020'                    FORMAT        0                
+ 001158 DE06 C3B4 C26D 013B4 0126D   424           ED    THR,TEMP5+5        INSERT TOT IN LABEL                  0                
+                                     425 ***<HOURS ENROLLED>***                                                  0                
+ 00115E 1B22                         426           SR    2,2                RESET                                0                
+ 001160 BF23 B01A            0001A   427           ICM   2,B'0011',THCUR    LOAD CUR IN BIN TO R2 TO THE RIGHT   0                
+ 001164 8820 0008            00008   428           SRL   2,8                SHIFT RIGHT                          0                
+ 001168 4E20 C268            01268   429           CVD   2,TEMP5            CONVERT TO PACKED                    0                
+ 00116C D208 C3BB C1E8 013BB 011E8   430           MVC   CHR,=XL6'402020202120'                    FORMAT        0                
+ 001172 DE08 C3BB C26D 013BB 0126D   431           ED    CHR,TEMP5+5        INSERT CUR IN LABEL                  0                
+                                     432 *                                                                       0                
+ 001178 E020 C375 004F 01375         433           XPRNT PRESULT,79         PRINT RESULTS                        0                
+ 00117E 5AA0 C1CC            011CC   434           A     10,=F'1'           UPDATE TOTAL COUNTER                 0                
+ 001182 5A80 C1CC            011CC   435           A     8,=F'1'            UPDATE THE ITEMS COUNTER             0                
+ 001186 41B0 B01C            0001C   436           LA    11,28(0,11)        UPDATE THE TABLE POINTER             0                
+ 00118A 5980 C1D0            011D0   437           C     8,=F'40'           CHECK ITEMS COUNTER                  0                
+ 00118E 9240 C375      01375         438           MVI   PRESULT,C' '       USE DESTRUCTIVE OVERLAP TO CLEAR     0                
+ 001192 D24A C376 C375 01376 01375   439           MVC   PRESULT+1(75),PRESULT  THE FIELDS                       0                
+ 001198 4780 C024            01024   440           BE    PRINTP             IF 50 ITEMS PRINTP                   0                
+ 00119C 59A0 C1D4            011D4   441           C     10,=F'100'         CHECK TOTAL COUNTER                  0                
+ 0011A0 4780 C1AA            011AA   442           BE    ENDP               IF 100 ITEMS EXIT                    0                
+ 0011A4 19B4                         443           CR    11,4               GO BACK TO LOOP2                     0                
+ 0011A6 47F0 C056            01056   444           BC    B'1111',LOOP2                                           0                
+                                     445 ***<ENDP & FOOTERS>***                                                  0                
+ 0011AA E020 C1EF 0001 011EF         446 ENDP      XPRNT =C' ',1            SINGLE SPACE AS PER INSTRUCTIONS     0                
+ 0011B0 4890 C208            01208   447           LH    9,PAGEN            COPY PAGE COUNTER                    0                
+ 0011B4 4096 0000            00000   448           STH   9,0(6)                                                  0                
+ 0011B8                              449           DROP  11                 STOP USING DSECTS                    0                
+                                     450 ***<STANDARD EXIT LINKAGE FOR ROUTINE>***                               0                
+ 0011B8 58DD 0004            00004   451           L     13,4(13)           SET R13 TO CALLERS SAVE AREA         0                
+1                                                                                                               PAGE    9         
+0  LOC  OBJECT CODE    ADDR1 ADDR2  STMT   SOURCE STATEMENT                                                                       
+ 0011BC 98EC D00C            0000C   452           LM    14,12,12(13)       RESTORE REGISTERS                    0                
+ 0011C0 07FE                         453           BR    14                 EXIT                                 0                
+                                     454           LTORG                                                         0                
+ 0011C8 40202020                     455                =XL4'40202020'                                                            
+ 0011CC 00000001                     456                =F'1'                                                                     
+ 0011D0 00000028                     457                =F'40'                                                                    
+ 0011D4 00000064                     458                =F'100'                                                                   
+ 0011D8 2120202020202020             459                =XL10'21202020202020202020'                                               
+ 0011E2 402020212020                 460                =XL6'402020212020'                                                        
+ 0011E8 402020202120                 461                =XL6'402020202120'                                                        
+ 0011EE 1C                           462                =PL1'1'                                                                   
+ 0011EF 40                           463                =C' '                                                                     
+ 0011F0 D8                           464                =CL1'Q'                                                                   
+ 0011F1 21202020202020               465                =XL7'21202020202020'                                                      
+ 0011F8 61                           466                =CL1'/'                                                                   
+ 0011F9 01980C                       467                =PL3'1980'                                                                
+ 0011FC 402021204B2020               468                =XL7'402021204B2020'                                                      
+                                     469 ***<STORAGE FOR PRINT ROUTINE>***                                       0                
+ 001204                              470           DS    F                  TO ALIGN STORAGE                     0                
+ 001208 000C                         471 PAGEN     DC    PL2'0'             PACKED VARIABLE TO HOLD PAGE NUMBER  0                
+ 00120C                              472 SAVEPRNT  DS    18F                REGISTERS STORAGE                    0                
+ 001254                              473           DS    F                                                       0                
+ 001258                              474 TEMP4     DS    CL4                TEMP VARIABLES                       0                
+ 001260                              475           DS    D                                                       0                
+ 001268 000000000000000C             476 TEMP5     DC    PL8'0'                                                  0                
+ 001270                              477           DS    F                                                       0                
+ 001274                              478 TEMP3     DS    PL5                                                     0                
+ 00127C                              479           DS    F                                                       0                
+ 001280                              480 TEMP2     DS    PL4                                                     0                
+ 001284                              481           DS    F                                                       0                
+ 001288                              482 TEMP1     DS    PL2                                                     0                
+ 00128A 0C                           483 ZERO      DC    PL1'0'                                                  0                
+                                     484 ***<TAB INFO>***                                                        0                
+ 00128B                              485 HEADER    DS    CL74                                                    0                
+ 0012D5                              486 NUM       DS    CL4                PAGE NUMBER                          0                
+ 0012D9 604040E2A3A48485             487 INF1      DC    C'-  Student                                   '        0                
+ 001306 4040404040404040             488           DC    C'                   Total  Current'                    0                
+ 001327 40404040C9C44040             489 INF2      DC    C'    ID        Password         Renewal Date   '       0                
+ 001355 D481919699404040             490           DC    C'Major     GPA     Hours    Hours'                     0                
+                                     491 ***<RESULT>***                                                          0                
+ 001375 4040                         492 PRESULT   DC    C'  '              SPACE             2                  0                
+ 001377                              493 ID        DS    CL9                ID                9                  0                
+ 001380 404040                       494           DC    C'   '             SAPECE            3                  0                
+ 001383                              495 PASS      DS    CL12               PASS              12                 0                
+ 00138F 4040404040                   496           DC    C'     '           SPACE             5                  0                
+ 001394                              497 DATED     DS    CL3                DAY                                  0                
+ 001397                              498 DATEM     DS    CL3                MONTH                                0                
+ 00139A                              499 DATEY     DS    CL5                YEAR                                 0                
+ 00139F 4040404040                   500           DC    C'     '           SPACE             5                  0                
+ 0013A4                              501 MAJOR     DS    CL4                MAJOR             4                  0                
+ 0013A8 4040                         502           DC    C'  '              SPACE             2                  0                
+ 0013AA                              503 GPA       DS    CL8                GPA               8                  0                
+ 0013B2 4040                         504           DC    C'  '              SPACE             2                  0                
+ 0013B4                              505 THR       DS    CL7                TOTAL H           7                  0                
+                                     506 *         DC    C'  '              SPACE             2                  0                
+ 0013BB                              507 CHR       DS    CL9                CURRENT HOURS     9                  0                
+                                     508 ***<END OF PRINT ROUTINE>***                                            0                
+1                                                                                                               PAGE   10         
+0  LOC  OBJECT CODE    ADDR1 ADDR2  STMT   SOURCE STATEMENT                                                                       
+                                     509 *                                                                       0                
+                                     510 *                                                                       0                
+                                     511 *********************************************************************** 0                
+                                     512 *                         SORT  ROUTINE                               * 0                
+                                     513 *  NAME:     GEORGE ZHYLIN Z1810327                                   * 0                
+                                     514 *                                                                     * 0                
+                                     515 *  FUNCTION: ROUTINE GETS 2 ARGUMENTS, TABLE,EOT.                     * 0                
+                                     516 *            ROUTINE GOES THRU STANDARD ENTRY LINKAGE, THEN UNLOAD    * 0                
+                                     517 *            PARAMETERS. THEN ROUTINE PERFORMS SORTING                * 0                
+                                     518 *            USING 4 POINTERS WE MOVE THRU THE TABLE COMPARING        * 0                
+                                     519 *            AND SWAPING ELEMENTS UNTIL WE REACH END OF TABLE         * 0                
+                                     520 *            AS 100 ELEMNTS, THEN WE RESTART OUR POINTERS AND COUNTERS* 0                
+                                     521 *            SEARCH ENDS WHEN NO SWAPS COUNTER REACHES 99             * 0                
+                                     522 *                                                                     * 0                
+                                     523 *  SPECIAL NOTES:  THIS SORT ROUTINE IS NOT OPTIMIZED DUE TO LACK OF  * 0                
+                                     524 *                  TIME AND I APOLOGIZE FOR THIS.                     * 0                
+                                     525 *                                                                     * 0                
+                                     526 *  REGISTER USAGE:                                                    * 0                
+                                     527 *  R1  = ARGUMENTS POINTER                                            * 0                
+                                     528 *  R2  = CVD USE                                                      * 0                
+                                     529 *  R3  = TABLE POINTER                                                * 0                
+                                     530 *  R4  = EOT POINTER                                                  * 0                
+                                     531 *  R5  =                                                              * 0                
+                                     532 *  R6  = COUNTER                                                      * 0                
+                                     533 *  R7  = TABLE POINTER                                                * 0                
+                                     534 *  R8  = TABLE POINTER                                                * 0                
+                                     535 *  R9  = TABLE POINTER                                                * 0                
+                                     536 *  R10 = TABLE POINTER                                                * 0                
+                                     537 *  R11 = COUNTER                                                      * 0                
+                                     538 *  R12 = BASE REGISTER                                                * 0                
+                                     539 *  R13 =                                                              * 0                
+                                     540 *  R14 = EXIT                                                         * 0                
+                                     541 *  R15 = SEARCH RESULT VALUE                                          * 0                
+                                     542 *********************************************************************** 0                
+ 0013C8                              543 SORT      CSECT                    SORT ROUTINE                         0                
+                                     544 ***<STANDARD ENTRY LINKAGE FOR ROUTINE>***                              0                
+ 0013C8 90EC D00C            0000C   545           STM   14,12,12(13)       SAVE ALL THE REGISTERS EXCEPT R13    0                
+ 0013CC 18CF                         546           LR    12,15              PUT ADDRESS OF ROUTINE IN R12        0                
+ 0013C8                              547           USING SORT,12            SET R12 AS A BASE REGISTER FOR ROUT  0                
+ 0013CE 41E0 C14C            01514   548           LA    14,SAVESORT        SET POINTER TO ROUTINE SAVE AREA     0                
+ 0013D2 50DE 0004            00004   549           ST    13,4(14)           BACKWARD POINTER                     0                
+ 0013D6 50ED 0008            00008   550           ST    14,8(13)           FORWARD POINTER                      0                
+ 0013DA 18DE                         551           LR    13,14              SET POINTER IN R13 TO ROUTINE        0                
+                                     552 ***<SEARCH ROUTINE BODY>***                                             0                
+ 0013DC 9834 1000            00000   553           LM    3,4,0(1)           UNLOAD ARGUMENTS IN R3,R4            0                
+ 0013E0 1BBB                         554           SR    11,11              INITIALIZE THE COUNTER               0                
+ 0013E2 1B66                         555           SR    6,6                INITIALIZE THE SWAP COUNTER          0                
+ 0013E4 1873                         556           LR    7,3                PUT POINTER1 TO THE TABLE IN R7      0                
+ 0013E6 1883                         557           LR    8,3                PUT POINTER2 TO THE TABLE IN R8      0                
+ 0013E8 1893                         558           LR    9,3                PUT POINTER3 TO THE TABLE IN R9      0                
+ 0013EA 18A3                         559           LR    10,3               PUT POINTER4 TO THE TABLE IN R10     0                
+                                     560 *                                                                       0                
+ 0013EC 4180 8016            00016   561           LA    8,22(0,8)          UPDATE THE POINTER1 TO NEXT ENTRY    0                
+ 0013F0 4190 901C            0001C   562           LA    9,28(0,9)          UPDATE THE POINTER2 TO NEXT ENTRY    0                
+ 0013F4 41A0 A032            00032   563           LA    10,50(0,10)        UPDATE THE POINTER4                  0                
+ 0013F8                              564 LOOP      DS    0H                                                      0                
+ 0013F8 59B0 C0D0            01498   565           C     11,=F'100'         CHECK IF END OF TABLE REACHED        0                
+1                                                                                                               PAGE   11         
+0  LOC  OBJECT CODE    ADDR1 ADDR2  STMT   SOURCE STATEMENT                                                                       
+ 0013FC 4780 C0A4            0146C   566           BE    RESTART            IF REACHED THEN RESTART POINTERS     0                
+ 001400                              567 GONEXT    DS    0H                                                      0                
+ 001400 5960 C0D4            0149C   568           C     6,=F'99'           CHECK IF SORT ENDED                  0                
+ 001404 4780 C0C2            0148A   569           BE    ENDS               EXIT                                 0                
+                                     570 *                                                                       0                
+ 001408 1B22                         571           SR    2,2                RESET                                0                
+ 00140A BF2C 8000            00000   572           ICM   2,B'1100',0(8)     LOAD GPA IN BIN TO R2 TO THE RIGHT   0                
+ 00140E 4E20 C0E8            014B0   573           CVD   2,T1               CONVERT TO PACKED                    0                
+                                     574 *                                                                       0                
+ 001412 1B22                         575           SR    2,2                RESET                                0                
+ 001414 BF2C A000            00000   576           ICM   2,B'1100',0(10)    LOAD GPA IN BIN TO R2 TO THE RIGHT   0                
+ 001418 4E20 C0F8            014C0   577           CVD   2,T2               CONVERT TO PACKED                    0                
+                                     578 *                                                                       0                
+ 00141C F977 C0E8 C0F8 014B0 014C0   579           CP    T1,T2              COMPARE                              0                
+ 001422 4740 C068            01430   580           BC    B'0100',SWAP       FIRST ENTRY IS HIGHER SO SWAP        0                
+ 001426 F977 C0E8 C0F8 014B0 014C0   581           CP    T1,T2              COMPARE                              0                
+ 00142C 47A0 C086            0144E   582           BC    B'1010',NOSWAP     FIRST ENTRY IS HIGHER SO SWAP        0                
+ 001430                              583 SWAP      DS    0H                                                      0                
+ 001430 D21B C108 7000 014D0 00000   584           MVC   SWAP1,0(7)         SAVE ENTRY 1 TO TEMP1                0                
+ 001436 D21B C130 9000 014F8 00000   585           MVC   SWAP2,0(9)         SAVE ENTRY 2 TO TEMP2                0                
+ 00143C D21B 7000 C130 00000 014F8   586           MVC   0(28,7),SWAP2      MOVE ENTRY 2 TO ENTRY 1 POSITION     0                
+ 001442 D21B 9000 C108 00000 014D0   587           MVC   0(28,9),SWAP1      MOVE ENTRY 1 FROM TEMP TO ENTRY 2 P  0                
+ 001448 1999                         588           CR    9,9                                                     0                
+ 00144A 47F0 C08A            01452   589           BC    B'1111',SWAPUP     GO AND ADJUST THE POINTERS           0                
+ 00144E                              590 NOSWAP    DS    0H                                                      0                
+ 00144E 5A60 C0D8            014A0   591           A     6,=F'1'            UPDATE THE SWAP COUNTER              0                
+ 001452 4170 701C            0001C   592 SWAPUP    LA    7,28(0,7)          UPDATE THE POINTER                   0                
+ 001456 4180 801C            0001C   593           LA    8,28(0,8)          UPDATE THE POINTER                   0                
+ 00145A 4190 901C            0001C   594           LA    9,28(0,9)          UPDATE THE POINTER                   0                
+ 00145E 41A0 A01C            0001C   595           LA    10,28(0,10)        UPDATE THE POINTER                   0                
+ 001462 5AB0 C0D8            014A0   596           A     11,=F'1'           UPDATE THE COUNTER                   0                
+ 001466 1999                         597           CR    9,9                                                     0                
+ 001468 47F0 C030            013F8   598           BC    B'1111',LOOP       GO BACK TO THE LOOP                  0                
+ 00146C                              599 RESTART   DS    0H                                                      0                
+ 00146C 1BBB                         600           SR    11,11              RESET TABLE ITEMS COUNTER            0                
+ 00146E 1B66                         601           SR    6,6                INITIALIZE THE SWAP COUNTER          0                
+ 001470 1873                         602           LR    7,3                PUT POINTER1 TO THE TABLE IN R7      0                
+ 001472 1883                         603           LR    8,3                PUT POINTER2 TO THE TABLE IN R8      0                
+ 001474 1893                         604           LR    9,3                PUT POINTER3 TO THE TABLE IN R9      0                
+ 001476 18A3                         605           LR    10,3               PUT POINTER4 TO THE TABLE IN R10     0                
+                                     606 *                                                                       0                
+ 001478 4180 8016            00016   607           LA    8,22(0,8)          UPDATE THE POINTER1 TO NEXT ENTRY    0                
+ 00147C 4190 901C            0001C   608           LA    9,28(0,9)          UPDATE THE POINTER2 TO NEXT ENTRY    0                
+ 001480 41A0 A032            00032   609           LA    10,50(0,10)        UPDATE THE POINTER4                  0                
+ 001484 1999                         610           CR    9,9                                                     0                
+ 001486 47F0 C038            01400   611           BC    B'1111',GONEXT                                          0                
+                                     612 ***<STANDARD EXIT LINKAGE FOR ROUTINE>***                               0                
+ 00148A 58DD 0004            00004   613 ENDS      L     13,4(13)           SET R13 TO CALLERS SAVE AREA         0                
+ 00148E 98EC D00C            0000C   614           LM    14,12,12(13)       RESTORE REGISTERS                    0                
+ 001492 07FE                         615           BR    14                 EXIT                                 0                
+                                     616           LTORG                                                         0                
+ 001498 00000064                     617                =F'100'                                                                   
+ 00149C 00000063                     618                =F'99'                                                                    
+ 0014A0 00000001                     619                =F'1'                                                                     
+                                     620 ***<STORAGE FOR SEARCH ROUTINE>***                                      0                
+ 0014A8                              621           DS    D                                                       0                
+ 0014B0 000000000000000C             622 T1        DC    PL8'0'                                                  0                
+1                                                                                                               PAGE   12         
+0  LOC  OBJECT CODE    ADDR1 ADDR2  STMT   SOURCE STATEMENT                                                                       
+ 0014B8                              623           DS    D                                                       0                
+ 0014C0 000000000000000C             624 T2        DC    PL8'0'                                                  0                
+ 0014C8                              625           DS    D                                                       0                
+ 0014D0                              626 SWAP1     DS    CL28               TEMP1                                0                
+ 0014F0                              627           DS    D                                                       0                
+ 0014F8                              628 SWAP2     DS    CL28               TEMP2                                0                
+ 001514                              629 SAVESORT  DS    18F                REGISTERS STORAGE                    0                
+                                     630 ***<END OF SEARCH ROUTINE>***                                           0                
+                                     631           END   MAIN                                                    0                
+0***  NO   STATEMENTS FLAGGED -  NO   WARNINGS,  NO   ERRORS                                                                      
+0*** DYNAMIC CORE AREA USED:  LOW:   42824 HIGH:    2460 LEAVING:  448284 FREE BYTES. AVERAGE:       71 BYTES/STMT ***            
+0*** ASSEMBLY TIME =    0.003 SECS,   210666 STATEMENTS/SEC ***                                                                   
+0*** PROGRAM EXECUTION BEGINNING - ANY OUTPUT BEFORE EXECUTION TIME MESSAGE IS PRODUCED BY USER PROGRAM ***                       
+0BEGIN XSNAP - CALL     1 AT D0000024 USER STORAGE                                                                                
+0                             CORE ADDRESSES SPECIFIED-     000060 TO 000102                                                      
+ 000060   0221701E A2F5FA80 93E2C1A6 75341862    476FD4E4 E2C3000A 001611F5 03A6FFD6   *.....5...SA.......MUSC.....5...O*         
+ 000080   E5BEF7BE C385E08F 21672158 4197D4E4    E2C3006E 004206F5 03BE99EB C40BBD32   *V.7.C.........MUSC.....5....D...*         
+ 0000A0   E71BA133 E114BC18 4161D7C8 E8E200BE    003712F5 039777E2 F3A021E0 E5AC1734   *X.........PHYS.....5...S3...V...*         
+ 0000C0   2065C234 3F8CC2C9 D6D3017C 00270EF5    01B2F59D B0F6D098 8BF81541 68101541   *..B...BIOL.....5..5..6...8......*         
+ 0000E0   4672D7C8 E8E20082 001204F5 007ACEA0    F9F6717C FDF27570 F1F4C2C8 404DD7C8   *..PHYS.....5....96...2..14BH .PH*         
+ 000100   E8E200BE 004602F5 029E2D8D B36BFF76    B567F372 B16347C1 406AC3E2 C3C900AA   *YS.....5..........3....A .CSCI..*         
+0                                                                                                                                 
+                                                                                                                                  
+1                          Student Information                        Page   1                                                    
+-  Student                                                      Total  Current                                                    
+    ID        Password         Renewal Date   Major     GPA     Hours    Hours                                                    
+  Q35745822   password         15/11/2015     MUSC     0.10       22     17                                                      
+  Q61276118   drowssap         23/12/2012     MUSC     1.10       66      6                                                      
+  Q62822891   winteriscomi     01/11/2012     PHYS     1.90       55     18                                                      
+  Q60258274   letmein          12/12/2011     BIOL     3.80       39     14                                                      
+  Q28505501   qwerty           18/03/2015     PHYS     1.30       18      4                                                      
+  Q08048288   1234567890       13/02/2012     PHYS     1.90       70      2                                                      
+  Q43920781   0987654321       10/03/2012     CSCI     1.70       44      1                                                      
+  Q38731131   asdfghjkl        24/02/2011     MUSC     2.50       80      9                                                      
+  Q01810721   zxcvbnm          15/08/2014     MATH     2.90       34      8                                                      
+  Q46232138   qwertyuiop       06/04/2011     PHYS     0.10       91      3                                                      
+  Q35364980   0011223344       03/07/2015     PHYS     3.40       42     12                                                      
+  Q13967108   answeris42       06/11/2010     PSYC     3.00       88      4                                                      
+  Q61826057   314159265359     14/09/2010     MATH     2.70       16      2                                                      
+  Q36515553   05772156649      23/12/2013     ANTH     0.30      107      5                                                      
+  Q63001752   2718281828       27/10/2013     CSCI     3.60       82     23                                                      
+  Q31773247   password123      25/09/2014     MATH     1.90      118     18                                                      
+  Q72982045   8675309          20/07/2014     PHYS     2.30       85     23                                                      
+  Q52385163   0101010          15/04/2015     PHYS     1.60       69     13                                                      
+  Q34404557   !@#$%^&*()       26/04/2012     PHYS     0.30       30     23                                                      
+  Q25522904   F5F5F5F5F5F5     13/12/2012     ANTH     2.70       99     18                                                      
+  Q71973135   5Fg1{x^3n(       19/11/2011     PHYS     0.20      106      5                                                      
+  Q57509589   Computer         18/10/2013     MATH     2.10       60      9                                                      
+  Q44072762   Laptop           10/08/2012     ANTH     0.60       87     19                                                      
+  Q94539607   WorldOfWarcr     16/10/2010     MUSC     0.20       98     23                                                      
+  Q43612144   CallOfDuty       20/08/2012     PHYS     1.10       24     15                                                      
+  Q58517153   funny            09/08/2013     PHYS     0.30       64     21                                                      
+  Q68537648   weakpass         09/08/2014     PHYS     1.60       92     14                                                      
+  Q74770424   strongpass       28/10/2015     PHYS     1.30       66     23                                                      
+  Q90926219   metarzan         04/07/2010     BIOL     0.30       40     12                                                      
+  Q09999853   youjane          14/07/2015     ANTH     0.30       91      6                                                      
+  Q89324332   REDBULL          13/09/2011     CSCI     0.40       00      5                                                      
+  Q41997419   racecar          11/06/2011     ANTH     2.00       04     15                                                      
+  Q49004688   iloveschool      13/12/2011     MUSC     2.60      114     24                                                      
+  Q93366146   aliceinwonde     14/08/2015     ANTH     1.50       68      2                                                      
+  Q67994516   magnets?         25/12/2010     BIOL     3.70       36     22                                                      
+  Q62143228   shiny            24/08/2012     ANTH     2.40       91      4                                                      
+  Q63143187   darkside         14/03/2010     BIOL     2.50       09     16                                                      
+  Q53501342   expectopatro     17/08/2013     PHYS     0.90      110     13                                                      
+  Q78138644   nedstark         04/12/2010     MATH     2.30       88     14                                                      
+  Q74378433   indianajones     09/12/2013     PHYS     0.20       86     11                                                      
+                                                                                                                                  
+1                          Student Information                        Page   2                                                    
+-  Student                                                      Total  Current                                                    
+    ID        Password         Renewal Date   Major     GPA     Hours    Hours                                                    
+  Q22539726   F4F4F4F4F4F4     04/03/2012     PSYC     4.00       05      1                                                      
+  Q93448440   papajohns        02/02/2013     PHYS     0.70       65     13                                                      
+  Q11109056   pizzahut         12/05/2015     ANTH     1.70      110     10                                                      
+  Q88979192   subwayisgood     24/08/2013     PHYS     1.00       71      9                                                      
+  Q98055507   mccydisbad       15/02/2010     PHYS     0.80       63     16                                                      
+  Q71491640   burgerpage       04/03/2011     MUSC     1.30       78     14                                                      
+  Q79504142   redchicken       09/04/2012     PHYS     0.50       94     22                                                      
+  Q20279768   yellowchicke     28/02/2010     PHYS     2.90      118     18                                                      
+  Q48240272   blue'ngreen      17/10/2014     PSYC     2.50       07      2                                                      
+  Q05275510   maketeal         21/01/2015     PSYC     0.90       70     14                                                      
+  Q71794442   acquirecurre     06/08/2012     PSYC     3.80       17      8                                                      
+  Q66267468   disregardfem     20/06/2010     MUSC     1.50       46      5                                                      
+  Q39119331   doyouevenlif     17/06/2014     PSYC     2.10       72     21                                                      
+  Q04988507   dudebrodude      09/01/2015     MUSC     1.90       74     16                                                      
+  Q20555902   Brodin           23/02/2012     PHYS     3.30       65     12                                                      
+  Q18118698   taylorslow       01/04/2011     MATH     1.60       38      5                                                      
+  Q70645080   googlethis       26/12/2012     PHYS     2.70       33      4                                                      
+  Q12775071   /r/funny         26/10/2012     PSYC     0.30       04     20                                                      
+  Q10084685   FREEEEEEEEEE     04/04/2012     MUSC     2.10       55      8                                                      
+  Q76380214   DOMMMMMMMMMM     07/08/2015     CSCI     1.50       63      8                                                      
+  Q85319721   SweepTheLeg      26/09/2013     MUSC     1.30      109     14                                                      
+  Q07643040   TheBestAroun     18/05/2012     PHYS     2.80       68      4                                                      
+  Q75667368   DanceMagicDa     05/07/2014     MATH     0.30       35     17                                                      
+  Q68652725   DavidBowie       21/04/2014     MATH     0.30       12      4                                                      
+  Q32010910   TheBeatles       26/06/2013     CSCI     3.60       83      7                                                      
+  Q00031165   QueenSoGood      08/07/2012     PHYS     1.40       35      7                                                      
+  Q72270533   ZombieBrains     02/05/2011     PSYC     3.20       86     11                                                      
+  Q18426525   CARL!!!!!!!!     03/01/2012     PHYS     1.10       76     20                                                      
+  Q09649918   JonHammWow       11/07/2015     PSYC     0.00       94      4                                                      
+  Q67576384   HIMYMSoGood      10/12/2012     ANTH     3.90       82     17                                                      
+  Q38754882   HighFiveBro      13/12/2013     PSYC     2.50       90     20                                                      
+  Q24945034   STINSON_OUT      12/05/2015     PHYS     4.00       16     21                                                      
+  Q88503456   UncleBuck        22/09/2013     MATH     2.70      101      2                                                      
+  Q71109829   ThereIsNoSpo     19/06/2013     MUSC     0.10      107     16                                                      
+  Q81946874   FreeYourMind     23/12/2012     ANTH     1.20       79      1                                                      
+  Q64839629   StrongBad        12/12/2014     MUSC     1.70       59      6                                                      
+  Q03182052   RoyaleWChees     23/12/2011     PHYS     3.00       02     15                                                      
+  Q13261659   programmer       25/06/2011     MATH     2.00      118     16                                                      
+  Q00276539   icannotbrain     16/11/2015     MATH     1.20       46     14                                                      
+  Q67871318   ihavethedumb     13/06/2013     PHYS     2.30       20     11                                                      
+                                                                                                                                  
+1                          Student Information                        Page   3                                                    
+-  Student                                                      Total  Current                                                    
+    ID        Password         Renewal Date   Major     GPA     Hours    Hours                                                    
+  Q04679760   PeopleAssume     07/09/2013     PSYC     2.50      119     14                                                      
+  Q09384114   ThatTimeIsAS     21/05/2010     PHYS     0.60       83     15                                                      
+  Q38836803   trictProgres     26/12/2010     PHYS     2.20       66      9                                                      
+  Q54738499   sionOfCauseT     25/08/2012     CSCI     2.90      109      1                                                      
+  Q17815357   oEffectButAc     24/12/2012     PHYS     2.30       35     14                                                      
+  Q10423687   tuallyFromAN     19/10/2014     ANTH     3.10      102     17                                                      
+  Q45165887   onLinearNonS     27/09/2012     PHYS     2.10       49     15                                                      
+  Q46423851   ubjectiveVie     24/06/2012     MUSC     0.20       30     20                                                      
+  Q10809227   wpointItsMor     22/01/2010     ANTH     3.20       16     11                                                      
+  Q85791889   eLikeABigBal     24/05/2012     PSYC     0.80       61     11                                                      
+  Q42843017   lOfWibblyWob     24/09/2013     PHYS     1.00       30     12                                                      
+  Q77567002   bly...time-y     04/12/2011     PSYC     0.80       10      3                                                      
+  Q57940012   wime-y...        03/05/2015     PHYS     2.20      103      9                                                      
+  Q29891791   stuff            01/12/2014     PHYS     0.20       98     19                                                      
+  Q76609035   BowtiesAreCo     25/09/2012     PHYS     1.50       58     22                                                      
+  Q77636733   EXTERMINATE      01/04/2012     BIOL     2.90       56      9                                                      
+  Q14757792   ImBatman         01/12/2013     ANTH     0.90       89      7                                                      
+  Q86362255   xXLegolasXx      05/02/2015     PSYC     3.40       47     21                                                      
+  Q33769268   Tibbers          03/09/2013     PSYC     2.30       61     17                                                      
+  Q07927924   SHAZAM           24/11/2013     PHYS     4.00       17     12                                                      
+                                                                                                                                  
+                                                                                                                                  
+1                          Student Information by  GPA                Page   4                                                    
+-  Student                                                      Total  Current                                                    
+    ID        Password         Renewal Date   Major     GPA     Hours    Hours                                                    
+  Q22539726   F4F4F4F4F4F4     04/03/2012     PSYC     4.00       05      1                                                      
+  Q24945034   STINSON_OUT      12/05/2015     PHYS     4.00       16     21                                                      
+  Q07927924   SHAZAM           24/11/2013     PHYS     4.00       17     12                                                      
+  Q67576384   HIMYMSoGood      10/12/2012     ANTH     3.90       82     17                                                      
+  Q60258274   letmein          12/12/2011     BIOL     3.80       39     14                                                      
+  Q71794442   acquirecurre     06/08/2012     PSYC     3.80       17      8                                                      
+  Q67994516   magnets?         25/12/2010     BIOL     3.70       36     22                                                      
+  Q63001752   2718281828       27/10/2013     CSCI     3.60       82     23                                                      
+  Q32010910   TheBeatles       26/06/2013     CSCI     3.60       83      7                                                      
+  Q35364980   0011223344       03/07/2015     PHYS     3.40       42     12                                                      
+  Q86362255   xXLegolasXx      05/02/2015     PSYC     3.40       47     21                                                      
+  Q20555902   Brodin           23/02/2012     PHYS     3.30       65     12                                                      
+  Q72270533   ZombieBrains     02/05/2011     PSYC     3.20       86     11                                                      
+  Q10809227   wpointItsMor     22/01/2010     ANTH     3.20       16     11                                                      
+  Q10423687   tuallyFromAN     19/10/2014     ANTH     3.10      102     17                                                      
+  Q13967108   answeris42       06/11/2010     PSYC     3.00       88      4                                                      
+  Q03182052   RoyaleWChees     23/12/2011     PHYS     3.00       02     15                                                      
+  Q01810721   zxcvbnm          15/08/2014     MATH     2.90       34      8                                                      
+  Q20279768   yellowchicke     28/02/2010     PHYS     2.90      118     18                                                      
+  Q54738499   sionOfCauseT     25/08/2012     CSCI     2.90      109      1                                                      
+  Q77636733   EXTERMINATE      01/04/2012     BIOL     2.90       56      9                                                      
+  Q07643040   TheBestAroun     18/05/2012     PHYS     2.80       68      4                                                      
+  Q61826057   314159265359     14/09/2010     MATH     2.70       16      2                                                      
+  Q25522904   F5F5F5F5F5F5     13/12/2012     ANTH     2.70       99     18                                                      
+  Q70645080   googlethis       26/12/2012     PHYS     2.70       33      4                                                      
+  Q88503456   UncleBuck        22/09/2013     MATH     2.70      101      2                                                      
+  Q49004688   iloveschool      13/12/2011     MUSC     2.60      114     24                                                      
+  Q38731131   asdfghjkl        24/02/2011     MUSC     2.50       80      9                                                      
+  Q63143187   darkside         14/03/2010     BIOL     2.50       09     16                                                      
+  Q48240272   blue'ngreen      17/10/2014     PSYC     2.50       07      2                                                      
+  Q38754882   HighFiveBro      13/12/2013     PSYC     2.50       90     20                                                      
+  Q04679760   PeopleAssume     07/09/2013     PSYC     2.50      119     14                                                      
+  Q62143228   shiny            24/08/2012     ANTH     2.40       91      4                                                      
+  Q72982045   8675309          20/07/2014     PHYS     2.30       85     23                                                      
+  Q78138644   nedstark         04/12/2010     MATH     2.30       88     14                                                      
+  Q67871318   ihavethedumb     13/06/2013     PHYS     2.30       20     11                                                      
+  Q17815357   oEffectButAc     24/12/2012     PHYS     2.30       35     14                                                      
+  Q33769268   Tibbers          03/09/2013     PSYC     2.30       61     17                                                      
+  Q38836803   trictProgres     26/12/2010     PHYS     2.20       66      9                                                      
+  Q57940012   wime-y...        03/05/2015     PHYS     2.20      103      9                                                      
+                                                                                                                                  
+1                          Student Information by  GPA                Page   5                                                    
+-  Student                                                      Total  Current                                                    
+    ID        Password         Renewal Date   Major     GPA     Hours    Hours                                                    
+  Q57509589   Computer         18/10/2013     MATH     2.10       60      9                                                      
+  Q39119331   doyouevenlif     17/06/2014     PSYC     2.10       72     21                                                      
+  Q10084685   FREEEEEEEEEE     04/04/2012     MUSC     2.10       55      8                                                      
+  Q45165887   onLinearNonS     27/09/2012     PHYS     2.10       49     15                                                      
+  Q41997419   racecar          11/06/2011     ANTH     2.00       04     15                                                      
+  Q13261659   programmer       25/06/2011     MATH     2.00      118     16                                                      
+  Q62822891   winteriscomi     01/11/2012     PHYS     1.90       55     18                                                      
+  Q08048288   1234567890       13/02/2012     PHYS     1.90       70      2                                                      
+  Q31773247   password123      25/09/2014     MATH     1.90      118     18                                                      
+  Q04988507   dudebrodude      09/01/2015     MUSC     1.90       74     16                                                      
+  Q43920781   0987654321       10/03/2012     CSCI     1.70       44      1                                                      
+  Q11109056   pizzahut         12/05/2015     ANTH     1.70      110     10                                                      
+  Q64839629   StrongBad        12/12/2014     MUSC     1.70       59      6                                                      
+  Q52385163   0101010          15/04/2015     PHYS     1.60       69     13                                                      
+  Q68537648   weakpass         09/08/2014     PHYS     1.60       92     14                                                      
+  Q18118698   taylorslow       01/04/2011     MATH     1.60       38      5                                                      
+  Q93366146   aliceinwonde     14/08/2015     ANTH     1.50       68      2                                                      
+  Q66267468   disregardfem     20/06/2010     MUSC     1.50       46      5                                                      
+  Q76380214   DOMMMMMMMMMM     07/08/2015     CSCI     1.50       63      8                                                      
+  Q76609035   BowtiesAreCo     25/09/2012     PHYS     1.50       58     22                                                      
+  Q00031165   QueenSoGood      08/07/2012     PHYS     1.40       35      7                                                      
+  Q28505501   qwerty           18/03/2015     PHYS     1.30       18      4                                                      
+  Q74770424   strongpass       28/10/2015     PHYS     1.30       66     23                                                      
+  Q71491640   burgerpage       04/03/2011     MUSC     1.30       78     14                                                      
+  Q85319721   SweepTheLeg      26/09/2013     MUSC     1.30      109     14                                                      
+  Q81946874   FreeYourMind     23/12/2012     ANTH     1.20       79      1                                                      
+  Q00276539   icannotbrain     16/11/2015     MATH     1.20       46     14                                                      
+  Q61276118   drowssap         23/12/2012     MUSC     1.10       66      6                                                      
+  Q43612144   CallOfDuty       20/08/2012     PHYS     1.10       24     15                                                      
+  Q18426525   CARL!!!!!!!!     03/01/2012     PHYS     1.10       76     20                                                      
+  Q88979192   subwayisgood     24/08/2013     PHYS     1.00       71      9                                                      
+  Q42843017   lOfWibblyWob     24/09/2013     PHYS     1.00       30     12                                                      
+  Q53501342   expectopatro     17/08/2013     PHYS     0.90      110     13                                                      
+  Q05275510   maketeal         21/01/2015     PSYC     0.90       70     14                                                      
+  Q14757792   ImBatman         01/12/2013     ANTH     0.90       89      7                                                      
+  Q98055507   mccydisbad       15/02/2010     PHYS     0.80       63     16                                                      
+  Q85791889   eLikeABigBal     24/05/2012     PSYC     0.80       61     11                                                      
+  Q77567002   bly...time-y     04/12/2011     PSYC     0.80       10      3                                                      
+  Q93448440   papajohns        02/02/2013     PHYS     0.70       65     13                                                      
+  Q44072762   Laptop           10/08/2012     ANTH     0.60       87     19                                                      
+                                                                                                                                  
+1                          Student Information by  GPA                Page   6                                                    
+-  Student                                                      Total  Current                                                    
+    ID        Password         Renewal Date   Major     GPA     Hours    Hours                                                    
+  Q09384114   ThatTimeIsAS     21/05/2010     PHYS     0.60       83     15                                                      
+  Q79504142   redchicken       09/04/2012     PHYS     0.50       94     22                                                      
+  Q89324332   REDBULL          13/09/2011     CSCI     0.40       00      5                                                      
+  Q36515553   05772156649      23/12/2013     ANTH     0.30      107      5                                                      
+  Q34404557   !@#$%^&*()       26/04/2012     PHYS     0.30       30     23                                                      
+  Q58517153   funny            09/08/2013     PHYS     0.30       64     21                                                      
+  Q90926219   metarzan         04/07/2010     BIOL     0.30       40     12                                                      
+  Q09999853   youjane          14/07/2015     ANTH     0.30       91      6                                                      
+  Q12775071   /r/funny         26/10/2012     PSYC     0.30       04     20                                                      
+  Q75667368   DanceMagicDa     05/07/2014     MATH     0.30       35     17                                                      
+  Q68652725   DavidBowie       21/04/2014     MATH     0.30       12      4                                                      
+  Q71973135   5Fg1{x^3n(       19/11/2011     PHYS     0.20      106      5                                                      
+  Q94539607   WorldOfWarcr     16/10/2010     MUSC     0.20       98     23                                                      
+  Q74378433   indianajones     09/12/2013     PHYS     0.20       86     11                                                      
+  Q46423851   ubjectiveVie     24/06/2012     MUSC     0.20       30     20                                                      
+  Q29891791   stuff            01/12/2014     PHYS     0.20       98     19                                                      
+  Q35745822   password         15/11/2015     MUSC     0.10       22     17                                                      
+  Q46232138   qwertyuiop       06/04/2011     PHYS     0.10       91      3                                                      
+  Q71109829   ThereIsNoSpo     19/06/2013     MUSC     0.10      107     16                                                      
+  Q09649918   JonHammWow       11/07/2015     PSYC     0.00       94      4                                                      
+                                                                                                                                  
+0*** EXECUTION TIME =    0.115 SECS.    246454 INSTRUCTIONS EXECUTED -  2143078 INSTRUCTIONS/SEC ***                              
+0*** AM004 - NORMAL USER TERMINATION BY RETURN ***                                                                                

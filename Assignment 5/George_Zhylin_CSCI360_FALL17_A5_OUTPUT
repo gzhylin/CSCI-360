@@ -1,0 +1,452 @@
+1                    J E S 2  J O B  L O G  --  S Y S T E M  S 0 W 1  --  N O D E  Z O S K C T R         
+0 
+ 19.16.24 JOB08377 ---- SUNDAY,    22 OCT 2017 ----
+ 19.16.24 JOB08377  IRR010I  USERID KC03N08  IS ASSIGNED TO THIS JOB.
+ 19.16.24 JOB08377  ICH70001I KC03N08  LAST ACCESS AT 19:15:57 ON SUNDAY, OCTOBER 22, 2017
+ 19.16.24 JOB08377  $HASP373 KC03N08Z STARTED - INIT 3    - CLASS A        - SYS S0W1
+ 19.16.24 JOB08377  -                                         --TIMINGS (MINS.)--            ----PAGING COUNTS---
+ 19.16.24 JOB08377  -JOBNAME  STEPNAME PROCSTEP    RC   EXCP    TCB    SRB  CLOCK   SERV  PG   PAGE   SWAP    VIO SWAPS
+ 19.16.24 JOB08377  -KC03N08Z                      00     57 ******    .00     .0    220   0      0      0      0     0
+ 19.16.24 JOB08377  -KC03N08Z ENDED.  NAME-George Zhylin        TOTAL TCB CPU TIME=   .00  TOTAL ELAPSED TIME=    .0
+ 19.16.24 JOB08377  $HASP395 KC03N08Z ENDED
+0------ JES2 JOB STATISTICS ------
+-  22 OCT 2017 JOB EXECUTION DATE
+-          388 CARDS READ
+-          452 SYSOUT PRINT RECORDS
+-            0 SYSOUT PUNCH RECORDS
+-           51 SYSOUT SPOOL KBYTES
+-         0.00 MINUTES EXECUTION TIME
+         1 //KC03N08Z JOB ,'George Zhylin' ,MSGCLASS=H                             JOB08377
+         2 //STEP1   EXEC PGM=ASSIST                                               00020000
+         3 //STEPLIB   DD DSN=KC02293.ASSIST.LOADLIB,DISP=SHR                      00030000
+         4 //SYSPRINT  DD SYSOUT=*                                                 00040000
+         5 //SYSIN     DD *                                                        00050000
+         6 //FT05F001   DD  *                                                              
+         7 //FT06F001   DD SYSOUT=*                                                        
+ ICH70001I KC03N08  LAST ACCESS AT 19:15:57 ON SUNDAY, OCTOBER 22, 2017
+ IEF236I ALLOC. FOR KC03N08Z STEP1
+ IGD103I SMS ALLOCATED TO DDNAME STEPLIB
+ IEF237I JES2 ALLOCATED TO SYSPRINT
+ IEF237I JES2 ALLOCATED TO SYSIN
+ IEF237I JES2 ALLOCATED TO FT05F001
+ IEF237I JES2 ALLOCATED TO FT06F001
+ IEF142I KC03N08Z STEP1 - STEP WAS EXECUTED - COND CODE 0000
+ IGD104I KC02293.ASSIST.LOADLIB                       RETAINED,  DDNAME=STEPLIB 
+ IEF285I   KC03N08.KC03N08Z.JOB08377.D0000103.?         SYSOUT        
+ IEF285I   KC03N08.KC03N08Z.JOB08377.D0000101.?         SYSIN         
+ IEF285I   KC03N08.KC03N08Z.JOB08377.D0000102.?         SYSIN         
+ IEF285I   KC03N08.KC03N08Z.JOB08377.D0000104.?         SYSOUT        
+ IEF373I STEP/STEP1   /START 2017295.1916
+ IEF032I STEP/STEP1   /STOP  2017295.1916 
+         CPU:     0 HR  00 MIN  00.01 SEC    SRB:     0 HR  00 MIN  00.00 SEC    
+         VIRT:   584K  SYS:   268K  EXT:        0K  SYS:    11500K
+         ATB- REAL:                     0K  SLOTS:                     0K
+              VIRT- ALLOC:       0M SHRD:       0M
+ IEF375I  JOB/KC03N08Z/START 2017295.1916
+ IEF033I  JOB/KC03N08Z/STOP  2017295.1916 
+         CPU:     0 HR  00 MIN  00.01 SEC    SRB:     0 HR  00 MIN  00.00 SEC    
+1*** ASSIST 4.0/A2-05/15/82  470/V7A/0:OS/VS2  INS=SDFP7/X=BGHO, CHECK/TRC/=1180, OPTS=CDKMPR FROM PENN ST*NIU COMPSCI*LT         
+0                                                                                                                                 
+0                                                                                                               PAGE    1         
+0  LOC  OBJECT CODE    ADDR1 ADDR2  STMT   SOURCE STATEMENT                                                                       
+                                       1 *********************************************************************** 00060000         
+                                       2 *  PROGRAM ASSIGNMENT5                                                * 00070000         
+                                       3 *                                                                     * 00080000         
+                                       4 *  NAME:     GEORGE ZHYLIN Z1810327                                   * 00090000         
+                                       5 *                                                                     * 00100000         
+                                       6 *  FUNCTION: PROGRAM READS NUMBERS FROM THE RECORD, SRORES THEM IN THE* 00110000         
+                                       7 *            TABLE, ALL THE NUMBER UP TO THE DELIMITER. THEN PROGRAM  * 00120000         
+                                       8 *            DISPLAYS ALL THE NUMBERS IN THE TABLE. AFTER THAT PROGRAM* 00130000         
+                                       9 *            READS ALL THE NUMBERS AFTER THE DELIMITER AND SEARCHES   * 00140000         
+                                      10 *            THE TABLE TO FIND THE MATCH. IF MATCH FOUND THEN DISPLAY * 00150000         
+                                      11 *            MASSEGE.                                                 * 00160000         
+                                      12 *                                                                     * 00170000         
+                                      13 *  SUBROUTINES:  MAIN, BUILD , PRINT AND SEARCH                       * 00180000         
+                                      14 *                                                                     * 00190000         
+                                      15 *                                                                     * 00200000         
+                                      16 *                                                                     * 00210000         
+                                      17 *                                                                     * 00220000         
+                                      18 *  INPUT:    16 LINES WITH 3 ROWS, ALL INTS, SEE LINE 164             * 00230000         
+                                      19 *                                                                     * 00240000         
+                                      20 *                                                                     * 00250000         
+                                      21 *  OUTPUT:  TABLE OF NUMBERS, AND LIST OF A NUMBERS SEARCHED IN THE   * 00260000         
+                                      22 *          TABLE                                                      * 00270000         
+                                      23 *                                                                     * 00280000         
+                                      24 *                                                                     * 00290000         
+                                      25 *                                                                     * 00300000         
+                                      26 *  REGISTER USAGE:                                                    * 00310000         
+                                      27 *  R1  = USED TO LOAD ARGUMENTS                                       * 00320000         
+                                      28 *  R2  =                                                              * 00330000         
+                                      29 *  R3  =                                                              * 00340000         
+                                      30 *  R4  =                                                              * 00350000         
+                                      31 *  R5  =                                                              * 00360000         
+                                      32 *  R6  =                                                              * 00370000         
+                                      33 *  R7  =                                                              * 00380000         
+                                      34 *  R8  = VALUE FROM THE RECORD                                        * 00390000         
+                                      35 *  R9  =                                                              * 00400000         
+                                      36 *  R10 =                                                              * 00410000         
+                                      37 *  R11 =                                                              * 00420000         
+                                      38 *  R12 =                                                              * 00430000         
+                                      39 *  R13 =                                                              * 00440000         
+                                      40 *  R14 = EXIT                                                         * 00450000         
+                                      41 *  R15 = USED TO CALL ROUTINE                                         * 00460000         
+                                      42 *********************************************************************** 00470000         
+ 000000                               43 MAIN      CSECT                    MAIN ROUTINE                         00480000         
+                                      44 ***<STANDARD ENTRY LINKAGE>***                                          00490000         
+ 000000 90EC D00C            0000C    45           STM   14,12,12(13)       SAVE ALL THE REGISTERS EXCEPT R13    00500000         
+ 000004 18CF                          46           LR    12,15              PUT ADDRESS OF ROUTINE IN R12        00510000         
+ 000000                               47           USING MAIN,12            SET R12 AS A BASE REGISTER FOR ROUT  00520000         
+ 000006 41E0 C1E8            001E8    48           LA    14,SAVEMAIN        SET POINTER TO ROUTINE SAVE AREA     00530000         
+ 00000A 50DE 0004            00004    49           ST    13,4(14)           BACKWARD POINTER                     00540000         
+ 00000E 50ED 0008            00008    50           ST    14,8(13)           FORWARD POINTER                      00550000         
+ 000012 18DE                          51           LR    13,14              SET POINTER IN R13 TO ROUTINE        00560000         
+                                      52 ***<MAIN ROUTINE BODY>***                                               00570000         
+1                                                                                                               PAGE    2         
+0  LOC  OBJECT CODE    ADDR1 ADDR2  STMT   SOURCE STATEMENT                                                                       
+ 000014 4110 C230            00230    53           LA    1,BLIST            LOAD BUILD ARGUMENTS IN R1           00580000         
+ 000018 58F0 C088            00088    54           L     15,=V(BUILD)       GET ADDRESS OF BUILD ROUTINE         00590000         
+ 00001C 05EF                          55           BALR  14,15              CALL BUILD ROUTINE                   00600000         
+ 00001E 4110 C23C            0023C    56           LA    1,PLIST            LOAD PRINT ARGUMENTS IN R1           00610000         
+ 000022 58F0 C08C            0008C    57           L     15,=V(PRINT)       GET ADDRESS OF PRINT ROUTINE         00620000         
+ 000026 05EF                          58           BALR  14,15              CALL PRINT ROUTINE                   00630000         
+ 000028 E020 C09C 001F 0009C          59           XPRNT =C'-Results of searching the table',31                  00640000         
+ 00002E E000 C190 0050 00190          60 LOOP6     XREAD RECORD,80          START READING AFETR DELIMITER        00650000         
+ 000034 4740 C07E            0007E    61           BC    B'0100',ENDM       IF EOF GO TO THE ENDM AND EXIT       00660000         
+ 000038 5380 C190            00190    62           XDECI 8,RECORD           GET NUMBER FROM THE RECORD           00670000         
+ 00003C 5080 C1E0            001E0    63           ST    8,TARGET           LOAD NUMBER TO A TARGET              00680000         
+ 000040 4110 C244            00244    64           LA    1,SLIST            LOAD SEARCH ARGUMENTS IN R1          00690000         
+ 000044 58F0 C090            00090    65           L     15,=V(SEARCH)      GET ADDRESS OF SEARCH ROUTINE        00700000         
+ 000048 05EF                          66           BALR  14,15              CALL SEARCH ROUTINE                  00710000         
+ 00004A 59F0 C094            00094    67           C     15,=F'1'           CHECK RESULT OF SEARCH ROUTINE IS F  00720000         
+ 00004E 4780 C06C            0006C    68           BC    B'1000',GOF        IF RESULT IS FOUND THEN GO TO GOF    00730000         
+ 000052 59F0 C098            00098    69           C     15,=F'0'           CHECK RESULT OF SEARCH ROUTINE IS NF 00740000         
+ 000056 4780 C05A            0005A    70           BC    B'1000',GONF       IF RESULT IS FOUND THEN GO TO GONF   00750000         
+                                      71 ***<NUMBER NOT FOUND>***                                                00760000         
+ 00005A 5280 C25D            0025D    72 GONF      XDECO 8,NFNUM            PUT NUM IN A LBL NFNUM               00770000         
+ 00005E E020 C254 0023 00254          73           XPRNT NF,35              PRINT NOT FOUND LBL                  00780000         
+ 000064 59F0 C098            00098    74           C     15,=F'0'           GO BACK TO LOOP6                     00790000         
+ 000068 47F0 C02E            0002E    75           BC    B'1111',LOOP6                                           00800000         
+                                      76 ***<NUMBER FOUND>***                                                    00810000         
+ 00006C 5280 C280            00280    77 GOF       XDECO 8,FNUM             PUT NUM IN A LBL FNUM                00820000         
+ 000070 E020 C277 001F 00277          78           XPRNT F,31               PRINT FOUND LBL                      00830000         
+ 000076 59F0 C098            00098    79           C     15,=F'0'           GO BACK TO LOOP6                     00840000         
+ 00007A 47F0 C02E            0002E    80           BC    B'1111',LOOP6                                           00850000         
+                                      81 *                                                                       00860000         
+                                      82 *                                                                       00870000         
+                                      83 *                                                                       00880000         
+                                      84 *                                                                       00890000         
+                                      85 *                                                                       00900000         
+                                      86 *                                                                       00910000         
+                                      87 ***<STANDARD EXIT LINKAGE>***                                           00920000         
+ 00007E 58DD 0004            00004    88 ENDM      L     13,4(13)           SET R13 TO CALLERS SAVE AREA         00930000         
+ 000082 98EC D00C            0000C    89           LM    14,12,12(13)       LOAD BACK ALL REGISTERS EXEPT R13    00940000         
+ 000086 07FE                          90           BR    14                 EXIT                                 00950000         
+                                      91           LTORG                                                         00960000         
+ 000088 00000298                      92                =V(BUILD)                                                                 
+ 00008C 00000360                      93                =V(PRINT)                                                                 
+ 000090 000004B0                      94                =V(SEARCH)                                                                
+ 000094 00000001                      95                =F'1'                                                                     
+ 000098 00000000                      96                =F'0'                                                                     
+ 00009C 60D985A2A493A3A2              97                =C'-Results of searching the table'                                       
+                                      98 *                                                                       00970000         
+                                      99 ***<STORAGE FOR MAIN ROUTINE>***                                        00980000         
+ 0000BC FFFFFFFFFFFFFFFF             100 TABLE     DC    52F'-1'            TABLE                                00990000         
+ 00018C                              101 EOT       DS    F                  ADDRESS OF END OF TABLE              01000000         
+ 000190                              102 RECORD    DS    80C                BUFFER                               01010000         
+ 0001E0                              103 TARGET    DS    F                  TARGET VALUE                         01020000         
+ 0001E4                              104 RESULT    DS    F                  SEARCH RESULT VALUE                  01030000         
+ 0001E8                              105 SAVEMAIN  DS    18F                MAIN ROUTINE SAVE AREA               01040000         
+ 000230 000000BC                     106 BLIST     DC    A(TABLE)           ARGUMENTS FOR BUILD ROUTINE          01050000         
+ 000234 0000018C                     107           DC    A(EOT)                                                  01060000         
+ 000238 00000190                     108           DC    A(RECORD)                                               01070000         
+ 00023C 000000BC                     109 PLIST     DC    A(TABLE)           ARGUMENTS FOR PRINT ROUTINE          01080000         
+1                                                                                                               PAGE    3         
+0  LOC  OBJECT CODE    ADDR1 ADDR2  STMT   SOURCE STATEMENT                                                                       
+ 000240 0000018C                     110           DC    A(EOT)                                                  01090000         
+ 000244 000000BC                     111 SLIST     DC    A(TABLE)           ARGUMENTS FOR SEARCH ROUTINE         01100000         
+ 000248 0000018C                     112           DC    A(EOT)                                                  01110000         
+ 00024C 000001E0                     113           DC    A(TARGET)                                               01120000         
+ 000250 000001E4                     114           DC    A(RESULT)                                               01130000         
+ 000254 60E3C1D9C7C5E340             115 NF        DC    C'-TARGET ='       LABEL FOR NOT FOUND PRINT LINE       01140000         
+ 00025D                              116 NFNUM     DS    CL12               NOT FOUND NUMBEL LBL                 01150000         
+ 000269 40E6C1E240D5D6E3             117           DC    C' WAS NOT FOUND'                                       01160000         
+ 000277 60E3C1D9C7C5E340             118 F         DC    C'-TARGET ='       LABEL FOR FOUND PRINT LINE           01170000         
+ 000280                              119 FNUM      DS    CL12               FOUND NUMBER LBL                     01180000         
+ 00028C 40E6C1E240C6D6E4             120           DC    C' WAS FOUND'                                           01190000         
+                                     121 *                                                                       01200000         
+                                     122 *                                                                       01210000         
+                                     123 *                                                                       01220000         
+                                     124 *                                                                       01230000         
+                                     125 *                                                                       01240000         
+                                     126 *                                                                       01250000         
+                                     127 *                                                                       01260000         
+                                     128 *                                                                       01270000         
+                                     129 *********************************************************************** 01280000         
+                                     130 *                          BUILD ROUTINE                              * 01290000         
+                                     131 *  NAME:     GEORGE ZHYLIN Z1810327                                   * 01300000         
+                                     132 *                                                                     * 01310000         
+                                     133 *  FUNCTION: ROUTINE GETS TABLE,EOT,RECORD POINTERS AS ARGUMENTS, NEXT* 01320000         
+                                     134 *            ROUTINE GOES THRU STANDARD ENTRY LINKAGE. TRY'S TO READ  * 01330000         
+                                     135 *            FIRST RECORD, IF EOF THEN GOES TO THE END, IF NOT THEN   * 01340000         
+                                     136 *            CONVERT RECORD TO CHAR FORMAT AND PUTS IN A TABLE. THIS  * 01350000         
+                                     137 *            PROCESS CONTINUES UNTIL DELIMITER (-77777777) FOUND.     * 01360000         
+                                     138 *            ROUTINE STORES THE POINTERS AND GOES THRU STANDARD EXIT  * 01370000         
+                                     139 *            LINKAGE.                                                 * 01380000         
+                                     140 *  REGISTER USAGE:                                                    * 01390000         
+                                     141 *  R1  = XDECI                                                        * 01400000         
+                                     142 *  R2  = POINTER TO THE TABLE                                         * 01410000         
+                                     143 *  R3  = POINTER TO THE EOT                                           * 01420000         
+                                     144 *  R4  = POINTER TO THE RECORD(BUFFER)                                * 01430000         
+                                     145 *  R5  = POINTER TO THE BEGINING OF THE TABLE                         * 01440000         
+                                     146 *  R6  = POINTER TO THE END OF THE TABLE                              * 01450000         
+                                     147 *  R7  =                                                              * 01460000         
+                                     148 *  R8  = RECORD VARIABLE                                              * 01470000         
+                                     149 *  R9  =                                                              * 01480000         
+                                     150 *  R10 =                                                              * 01490000         
+                                     151 *  R11 =                                                              * 01500000         
+                                     152 *  R12 = BASE REGISTER                                                * 01510000         
+                                     153 *  R13 =                                                              * 01520000         
+                                     154 *  R14 = EXIT                                                         * 01530000         
+                                     155 *  R15 =                                                              * 01540000         
+                                     156 *********************************************************************** 01550000         
+ 000298                              157 BUILD     CSECT                    BUILD ROUTINE                        01560000         
+                                     158 ***<STANDARD ENTRY LINKAGE FOR ROUTINE>***                              01570000         
+ 000298 90EC D00C            0000C   159           STM   14,12,12(13)       SAVE ALL THE REGISTERS EXCEPT R13    01580000         
+ 00029C 18CF                         160           LR    12,15              PUT ADDRESS OF ROUT  IN R12          01590000         
+ 000298                              161           USING BUILD,12           SET R12 AS A BASE REGISTER FOR ROUT  01600000         
+ 00029E 41E0 C080            00318   162           LA    14,SAVEREAD        SET POINTER TO ROUTINE SAVE AREA     01610000         
+ 0002A2 50DE 0004            00004   163           ST    13,4(14)           BACKWARD POINTER                     01620000         
+ 0002A6 50ED 0008            00008   164           ST    14,8(13)           FORWARD POINTER                      01630000         
+ 0002AA 18DE                         165           LR    13,14              SET POINTER IN R13 TO ROUTINE        01640000         
+                                     166 ***<BUILD ROUTINE BODY>***                                              01650000         
+1                                                                                                               PAGE    4         
+0  LOC  OBJECT CODE    ADDR1 ADDR2  STMT   SOURCE STATEMENT                                                                       
+ 0002AC 9824 1000            00000   167           LM    2,4,0(1)           UNLOAD ARGUMENTS IN R2,R3,R4         01660000         
+ 0002B0 1852                         168           LR    5,2                COPY POINTER TO BEGINING OF THE TABL 01670000         
+ 0002B2 E004 0000 0050 00000         169 LOOP1     XREAD 0(4),80            READ FIRST RECORD                    01680000         
+ 0002B8 4740 C05C            002F4   170           BC    B'0100',END        IF EOF GO TO END LABEL               01690000         
+ 0002BC 5384 0000            00000   171           XDECI 8,0(4)             PUT ENTRY IN R8                      01700000         
+ 0002C0 4710 C01A            002B2   172           BC    B'0001',LOOP1      IF NO DATA THEN RETURN TO LOOP1      01710000         
+ 0002C4 5980 C078            00310   173           C     8,=F'-77777777'    SEARCH FOR DELIMITER                 01720000         
+ 0002C8 4780 C05C            002F4   174           BC    B'1000',END        IF DELIMETER FOUND, GO TO THE END    01730000         
+ 0002CC 5082 0000            00000   175           ST    8,0(2)             STORE ENTRY IN TABLE                 01740000         
+ 0002D0 4122 0004            00004   176           LA    2,4(2)             UPDATE POINTER TO POINT TO NEXT E    01750000         
+ 0002D4 5381 0000            00000   177           XDECI 8,0(1)             TRY TO READ NEXT ENTRY               01760000         
+ 0002D8 4710 C01A            002B2   178 LOOP2     BC    B'0001',LOOP1      IF NO DATA THEN RETURN TO LOOP1      01770000         
+ 0002DC 5980 C078            00310   179           C     8,=F'-77777777'    SEARCH FOR DELIMITER                 01780000         
+ 0002E0 4780 C05C            002F4   180           BC    B'1000',END        IF DELIMETER FOUND, GO TO THE END    01790000         
+ 0002E4 5082 0000            00000   181           ST    8,0(2)             STORE ENTRY IN TABLE                 01800000         
+ 0002E8 4122 0004            00004   182           LA    2,4(2)             UPDATE POINTER TO POINT TO NEXT E    01810000         
+ 0002EC 5381 0000            00000   183           XDECI 8,0(1)             TRY TO READ NEXT ENTRY               01820000         
+ 0002F0 47F0 C040            002D8   184           BC    B'1111',LOOP2      GO TO LOOP2 AND CONTINUE             01830000         
+ 0002F4 1862                         185 END       LR    6,2                STORE POINTER OF EOT TO R6           01840000         
+ 0002F6 5B60 C07C            00314   186           S     6,=F'10'           SUBSTRACT ONE FULLWORD FROM R6       01850000         
+                                     187 ***<SET POINTERS>***                                                    01860000         
+ 0002FA 5063 0000            00000   188           ST    6,0(3)             PUT EOT POINTER IN EOT VARIABLE      01870000         
+ 0002FE 5052 0000            00000   189           ST    5,0(2)             RESTORE POINTER TO THE BEGINING OF T 01880000         
+                                     190 ***<STANDARD EXIT LINKAGE FOR ROUTINE>***                               01890000         
+ 000302 58DD 0004            00004   191           L     13,4(13)           SET R13 TO CALLERS SAVE AREA         01900000         
+ 000306 98EC D00C            0000C   192           LM    14,12,12(13)       RESTORE REGISTERS                    01910000         
+ 00030A 07FE                         193           BR    14                 EXIT                                 01920000         
+                                     194           LTORG                                                         01930000         
+ 000310 FB5D348F                     195                =F'-77777777'                                                             
+ 000314 0000000A                     196                =F'10'                                                                    
+                                     197 ***<STORAGE FOR BUILD ROUTINE>***                                       01940000         
+ 000318                              198 SAVEREAD  DS    18F                REGISTERS STORAGE                    01950000         
+                                     199 ***<END OF BUILD ROUTINE>***                                            01960000         
+                                     200 *                                                                       01970000         
+                                     201 *                                                                       01980000         
+                                     202 *                                                                       01990000         
+                                     203 *                                                                       02000000         
+                                     204 *                                                                       02010000         
+                                     205 *                                                                       02020000         
+                                     206 *                                                                       02030000         
+                                     207 *********************************************************************** 02040000         
+                                     208 *                           PRINT ROUTINE                             * 02050000         
+                                     209 *  NAME:     GEORGE ZHYLIN Z1810327                                   * 02060000         
+                                     210 *                                                                     * 02070000         
+                                     211 *  FUNCTION: ROUTINE GETS TABLE AND EOT POINTERS AS ARGUMENTS. THEN   * 02080000         
+                                     212 *            GOES THRU STANDARD ENTRY LINKAGE PROCESS.                * 02090000         
+                                     213 *            ROUTINE LOADS NUMBER FROM THE TABLE, CONVERT AND INSERT  * 02100000         
+                                     214 *            THE NUMBER IN A LINE OF 7 NUMBERS, UNTIL EOT REACHED.    * 02110000         
+                                     215 *            AFTER EOT REACHED, ROUTINE GOES THRU STANDARD EXIT LINK  * 02120000         
+                                     216 *                                                                     * 02130000         
+                                     217 *                                                                     * 02140000         
+                                     218 *  REGISTER USAGE:                                                    * 02150000         
+                                     219 *  R1  = ARGUMENTS POINTER                                            * 02160000         
+                                     220 *  R2  = TABLE POINTER                                                * 02170000         
+                                     221 *  R3  = EOT POINTER                                                  * 02180000         
+                                     222 *  R4  = TABLE NUMBER VARIABLE                                        * 02190000         
+                                     223 *  R5  =                                                              * 02200000         
+1                                                                                                               PAGE    5         
+0  LOC  OBJECT CODE    ADDR1 ADDR2  STMT   SOURCE STATEMENT                                                                       
+                                     224 *  R6  =                                                              * 02210000         
+                                     225 *  R7  = COUNTER FOR ROWS                                             * 02220000         
+                                     226 *  R8  = LABEL POINTER                                                * 02230000         
+                                     227 *  R9  =                                                              * 02240000         
+                                     228 *  R10 =                                                              * 02250000         
+                                     229 *  R11 =                                                              * 02260000         
+                                     230 *  R12 =                                                              * 02270000         
+                                     231 *  R13 =                                                              * 02280000         
+                                     232 *  R14 = EXIT                                                         * 02290000         
+                                     233 *  R15 =                                                              * 02300000         
+                                     234 *********************************************************************** 02310000         
+ 000360                              235 PRINT     CSECT                    PRINT ROUTINE                        02320000         
+                                     236 ***<STANDARD ENTRY LINKAGE FOR ROUTINE>***                              02330000         
+ 000360 90EC D00C            0000C   237           STM   14,12,12(13)       SAVE ALL THE REGISTERS EXCEPT R13    02340000         
+ 000364 18CF                         238           LR    12,15              PUT ADDRESS OF ROUTINE IN R12        02350000         
+ 000360                              239           USING PRINT,12           SET R12 AS A BASE REGISTER FOR ROUT  02360000         
+ 000366 41E0 C0AC            0040C   240           LA    14,SAVEPRNT        SET POINTER TO ROUTINE SAVE AREA     02370000         
+ 00036A 50DE 0004            00004   241           ST    13,4(14)           BACKWARD POINTER                     02380000         
+ 00036E 50ED 0008            00008   242           ST    14,8(13)           FORWARD POINTER                      02390000         
+ 000372 18DE                         243           LR    13,14              SET POINTER IN R13 TO ROUTINE        02400000         
+                                     244 ***<PRINT ROUTINE BODY>***                                              02410000         
+ 000374 9823 1000            00000   245           LM    2,3,0(1)           UNLOAD ARGUMENTS IN R2,R3            02420000         
+ 000378 E020 C084 0026 003E4         246           XPRNT =C'1                       Table Contents',38           02430000         
+ 00037E 1852                         247           LR    5,2                COPY POINTER TO BEGINING OF THE TABL 02440000         
+ 000380 5870 C078            003D8   248           L     7,=F'0'            SET ROW COUNTER TO ZERO              02450000         
+ 000384 9240 C0F5      00455         249 LOOP3     MVI   NUM1,C' '          USE DESTRUCTIVE OVERLAP TO CLEAR     02460000         
+ 000388 D253 C0F6 C0F5 00456 00455   250           MVC   NUM1+1(84),NUM1    THE FIELDS                           02470000         
+ 00038E 4180 C0F5            00455   251           LA    8,NUM1             STORE THE ADDRESS OF FIRST LBL IN R8 02480000         
+ 000392 1923                         252 LOOP4     CR    2,3                COMPARE CURRENT RECORD AGAINST EOT   02490000         
+ 000394 47A0 C064            003C4   253           BC    B'1010',ENDP       IF END OF TABLE GO TO THE ENDP       02500000         
+ 000398 5970 C07C            003DC   254           C     7,=F'7'            CHECK IF 7 RECORDS PRINTED ON LINE   02510000         
+ 00039C 4780 C058            003B8   255           BE    PRINTL             IF 7 RECORDS, PRINT LINE             02520000         
+ 0003A0 5842 0000            00000   256           L     4,0(2)             GET VALUE FROM THE TABLE             02530000         
+ 0003A4 5248 0000            00000   257           XDECO 4,0(8)             CONVERT AND PUT IN LABEL             02540000         
+ 0003A8 4122 0004            00004   258           LA    2,4(2)             INCREMENT TABLE POINTER              02550000         
+ 0003AC 4188 000C            0000C   259           LA    8,12(8)            INCREMENT LABEL POINTER              02560000         
+ 0003B0 5A70 C080            003E0   260           A     7,=F'1'            INCREMENT ROW COUNTER                02570000         
+ 0003B4 47F0 C032            00392   261           BC    B'1111',LOOP4      GO TO LOOP4                          02580000         
+ 0003B8 1B77                         262 PRINTL    SR    7,7                RESET ROW COUNTER                    02590000         
+ 0003BA E020 C0F4 0055 00454         263           XPRNT PRESULT,85         PRINT ROW                            02600000         
+ 0003C0 47F0 C024            00384   264           BC    B'1111',LOOP3      RETURN TO BEGINING OF THE LOOP3      02610000         
+ 0003C4 E020 C0F4 0055 00454         265 ENDP      XPRNT PRESULT,85         PRINT ROW AND EXIT                   02620000         
+ 0003CA 5052 0000            00000   266           ST    5,0(2)             RESTORE POINTER TO THE BEGINING OF T 02630000         
+                                     267 ***<STANDARD EXIT LINKAGE FOR ROUTINE>***                               02640000         
+ 0003CE 58DD 0004            00004   268           L     13,4(13)           SET R13 TO CALLERS SAVE AREA         02650000         
+ 0003D2 98EC D00C            0000C   269           LM    14,12,12(13)       RESTORE REGISTERS                    02660000         
+ 0003D6 07FE                         270           BR    14                 EXIT                                 02670000         
+                                     271           LTORG                                                         02680000         
+ 0003D8 00000000                     272                =F'0'                                                                     
+ 0003DC 00000007                     273                =F'7'                                                                     
+ 0003E0 00000001                     274                =F'1'                                                                     
+ 0003E4 F140404040404040             275                =C'1                       Table Contents'                                
+                                     276 ***<STORAGE FOR PRINT ROUTINE>***                                       02690000         
+ 00040C                              277 SAVEPRNT  DS    18F                REGISTERS STORAGE                    02700000         
+ 000454 F0                           278 PRESULT   DC    C'0'               CCC                                  02710000         
+ 000455                              279 NUM1      DS    CL12               VARIABLES TO HOLD VALUES FOR DISPLAY 02720000         
+ 000461                              280           DS    CL12                                                    02730000         
+1                                                                                                               PAGE    6         
+0  LOC  OBJECT CODE    ADDR1 ADDR2  STMT   SOURCE STATEMENT                                                                       
+ 00046D                              281           DS    CL12                                                    02740000         
+ 000479                              282           DS    CL12                                                    02750000         
+ 000485                              283           DS    CL12                                                    02760000         
+ 000491                              284           DS    CL12                                                    02770000         
+ 00049D                              285           DS    CL12                                                    02780000         
+                                     286 ***<END OF PRINT ROUTINE>***                                            02790000         
+                                     287 *                                                                       02800000         
+                                     288 *                                                                       02810000         
+                                     289 *                                                                       02820000         
+                                     290 *                                                                       02830000         
+                                     291 *                                                                       02840000         
+                                     292 *                                                                       02850000         
+                                     293 *                                                                       02860000         
+                                     294 *                                                                       02870000         
+                                     295 *                                                                       02880000         
+                                     296 *                                                                       02890000         
+                                     297 *                                                                       02900000         
+                                     298 *********************************************************************** 02910000         
+                                     299 *                         SEARCH ROUTINE                              * 02920000         
+                                     300 *  NAME:     GEORGE ZHYLIN Z1810327                                   * 02930000         
+                                     301 *                                                                     * 02940000         
+                                     302 *  FUNCTION: ROUTINE GETS 4 ARGUMENTS, TABLE,EOT,TARGET AND RESULT    * 02950000         
+                                     303 *            ROUTINE GOES THRU STANDARD ENTRY LINKAGE, THEN UNLOAD    * 02960000         
+                                     304 *            PARAMETERS. THEN LOAD ACTUAL TARGET VALUE AND TABLE VALUE* 02970000         
+                                     305 *            CHECK FOR EOF, COMPARE 2 VALUES IF VALUE NOT FOUND THEN  * 02980000         
+                                     306 *            SET R15 TO 0 AND EXIT, IF VALUE FOUND THEN SET R15 TO 1  * 02990000         
+                                     307 *            AND EXIT.                                                * 03000000         
+                                     308 *                                                                     * 03010000         
+                                     309 *  REGISTER USAGE:                                                    * 03020000         
+                                     310 *  R1  = ARGUMENTS POINTER                                            * 03030000         
+                                     311 *  R2  = TABLE POINTER                                                * 03040000         
+                                     312 *  R3  = EOT POINTER                                                  * 03050000         
+                                     313 *  R4  = TARGET POINTER                                               * 03060000         
+                                     314 *  R5  = RESULT POINTER                                               * 03070000         
+                                     315 *  R6  = TARGEV VALUE                                                 * 03080000         
+                                     316 *  R7  = TABLE VALUE                                                  * 03090000         
+                                     317 *  R8  =                                                              * 03100000         
+                                     318 *  R9  =                                                              * 03110000         
+                                     319 *  R10 =                                                              * 03120000         
+                                     320 *  R11 =                                                              * 03130000         
+                                     321 *  R12 =                                                              * 03140000         
+                                     322 *  R13 =                                                              * 03150000         
+                                     323 *  R14 = EXIT                                                         * 03160000         
+                                     324 *  R15 = SEARCH RESULT VALUE                                          * 03170000         
+                                     325 *********************************************************************** 03180000         
+ 0004B0                              326 SEARCH    CSECT                    SEARCH ROUTINE                       03190000         
+                                     327 ***<STANDARD ENTRY LINKAGE FOR ROUTINE>***                              03200000         
+ 0004B0 90EC D00C            0000C   328           STM   14,12,12(13)       SAVE ALL THE REGISTERS EXCEPT R13    03210000         
+ 0004B4 18CF                         329           LR    12,15              PUT ADDRESS OF ROUTINE IN R12        03220000         
+ 0004B0                              330           USING SEARCH,12          SET R12 AS A BASE REGISTER FOR ROUT  03230000         
+ 0004B6 41E0 C068            00518   331           LA    14,SAVESRCH        SET POINTER TO ROUTINE SAVE AREA     03240000         
+ 0004BA 50DE 0004            00004   332           ST    13,4(14)           BACKWARD POINTER                     03250000         
+ 0004BE 50ED 0008            00008   333           ST    14,8(13)           FORWARD POINTER                      03260000         
+ 0004C2 18DE                         334           LR    13,14              SET POINTER IN R13 TO ROUTINE        03270000         
+                                     335 ***<SEARCH ROUTINE BODY>***                                             03280000         
+ 0004C4 9825 1000            00000   336           LM    2,5,0(1)           UNLOAD ARGUMENTS IN R2,R3,R4,R5      03290000         
+ 0004C8 5864 0000            00000   337           L     6,0(4)             GET TARGET VALUE IN R6 FROM R4       03300000         
+1                                                                                                               PAGE    7         
+0  LOC  OBJECT CODE    ADDR1 ADDR2  STMT   SOURCE STATEMENT                                                                       
+ 0004CC 1923                         338 LOOP5     CR    2,3                COMPARE CURRENT RECORD AGAINST EOT   03310000         
+ 0004CE 47A0 C042            004F2   339           BC    B'1010',NFOUND     IF END OF TABLE GO TO THE NFOUND     03320000         
+ 0004D2 1B77                         340           SR    7,7                CLEAR R7                             03330000         
+ 0004D4 5872 0000            00000   341           L     7,0(2)             GET TABLE VALUE IN R7 FROM R2        03340000         
+ 0004D8 1967                         342           CR    6,7                COMPARE CURRENT VALUE AGAINST TARGET 03350000         
+ 0004DA 4780 C036            004E6   343           BC    B'1000',FOUND      IF TARGET FOUND GO TO FOUND LBL      03360000         
+ 0004DE 4122 0004            00004   344           LA    2,4(2)             INCREMENT TABLE POINTER              03370000         
+ 0004E2 47F0 C01C            004CC   345           BC    B'1111',LOOP5      GO TO LOOP5                          03380000         
+                                     346 ***<IF TARGET VALUE FOUND>***                                           03400000         
+ 0004E6 58F0 C060            00510   347 FOUND     L     15,=F'1'           IF VALUE FOUND, SET R15 TO 1         03400000         
+ 0004EA 59F0 C060            00510   348           C     15,=F'1'                                                03410000         
+ 0004EE 47F0 C04E            004FE   349           BC    B'1111',EXITSR     GO TO EXIT                           03420000         
+                                     350 ***<IF TARGET VALUE NOT FOUND>***                                       03430000         
+ 0004F2 58F0 C064            00514   351 NFOUND    L     15,=F'0'           IF VALUE NOT FOUND, SET R15 TO 0     03440000         
+ 0004F6 59F0 C064            00514   352           C     15,=F'0'                                                03450000         
+ 0004FA 47F0 C04E            004FE   353           BC    B'1111',EXITSR     GO TO EXIT                           03460000         
+                                     354 *                                                                       03470000         
+                                     355 ***<STANDARD EXIT LINKAGE FOR ROUTINE>***                               03480000         
+ 0004FE 58DD 0004            00004   356 EXITSR    L     13,4(13)           SET R13 TO CALLERS SAVE AREA         03490000         
+ 000502 58ED 000C            0000C   357           L     14,12(13)          RESTORE REGISTERS EXEPT 13 AND 15    03500000         
+ 000506 980C D014            00014   358           LM    0,12,20(13)                                             03510000         
+ 00050A 07FE                         359           BR    14                 EXIT                                 03520000         
+                                     360           LTORG                                                         03530000         
+ 000510 00000001                     361                =F'1'                                                                     
+ 000514 00000000                     362                =F'0'                                                                     
+                                     363 ***<STORAGE FOR SEARCH ROUTINE>***                                      03540000         
+ 000518                              364 SAVESRCH  DS    18F                REGISTERS STORAGE                    03550000         
+                                     365 ***<END OF SEARCH ROUTINE>***                                           03560000         
+                                     366           END   MAIN                                                    03570000         
+0***  NO   STATEMENTS FLAGGED -  NO   WARNINGS,  NO   ERRORS                                                                      
+0*** DYNAMIC CORE AREA USED:  LOW:   23900 HIGH:    1464 LEAVING:  468204 FREE BYTES. AVERAGE:       69 BYTES/STMT ***            
+0*** ASSEMBLY TIME =    0.001 SECS,   367000 STATEMENTS/SEC ***                                                                   
+0*** PROGRAM EXECUTION BEGINNING - ANY OUTPUT BEFORE EXECUTION TIME MESSAGE IS PRODUCED BY USER PROGRAM ***                       
+1                       Table Contents                                                                                            
+0           1       -2005         515          90          50          -1      172219                                             
+0       60205     -777224           3        7534      204914         141           0                                             
+0      606031        -419         218         111          46        9001      312909                                             
+0        -517           9          62          89         305         250         305                                             
+0     7845902        -311     -100001        -999           2        6509          -5                                             
+0         177          42         777         345       -9009       65712       88442                                             
+0         -84         131        5106         121         -89          15       95221                                             
+0         -80    -5005005          12                                                                                             
+-Results of searching the table                                                                                                   
+-TARGET =       -8033 WAS NOT FOUND                                                                                               
+-TARGET =         994 WAS NOT FOUND                                                                                               
+-TARGET =        9001 WAS FOUND                                                                                                   
+-TARGET =         177 WAS FOUND                                                                                                   
+-TARGET =           2 WAS FOUND                                                                                                   
+-TARGET =         321 WAS NOT FOUND                                                                                               
+-TARGET =        -419 WAS FOUND                                                                                                   
+0*** EXECUTION TIME =    0.002 SECS.      3359 INSTRUCTIONS EXECUTED -  1679500 INSTRUCTIONS/SEC ***                              
+0*** AM004 - NORMAL USER TERMINATION BY RETURN ***                                                                                

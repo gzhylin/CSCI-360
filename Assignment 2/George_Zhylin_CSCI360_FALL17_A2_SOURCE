@@ -1,0 +1,109 @@
+//KC03N08Z JOB ,'George Zhylin' ,MSGCLASS=H                             00010000
+//STEP1   EXEC PGM=ASSIST                                               00020000
+//STEPLIB   DD DSN=KC02293.ASSIST.LOADLIB,DISP=SHR                      00030000
+//SYSPRINT  DD SYSOUT=*                                                 00040000
+//SYSIN     DD *                                                        00050000
+*********************************************************************** 00060000
+*  PROGRAM ASSIGNMENT2                                                * 00070000
+*                                                                     * 00080000
+*  NAME:     GEORGE ZHYLIN Z1810327                                   * 00090000
+*                                                                     * 00100000
+*  FUNCTION: TRY TO READ A RECORD AND CHECK FRO EOF,                  * 00110000
+*            IF EOF THEN PRINT SUMARY LINE AND EXIT.                  * 00120000
+*            IF NOT EOF THEN READ 3 NUMBERS FROM THE RECORD & DISPLAY,* 00130000
+*            CALC RESULTS Y+Z-X AND DISPLAY,INCREMENT COUNTER AND SUM * 00140000
+*  INPUT:    11 LINES WITH 3 ROWS OF 4DIGIT NUMBERS, SEE LINE 96      * 00150000
+*                                                                     * 00160000
+*  OUTPUT:   VALUES X,Y,Z,RESULT FOR EACH LINE & COUNT,SUM IN THE END * 00170000
+*                                                                     * 00180000
+*  REGISTER USAGE: R1 USED BY XDECI                                   * 00190000
+*                  R2,R3,R4 USED FOR X,Y,Z BY XDECI                   * 00200000
+*                  R6,R7,R8 USED TO STORE VARS:COUNT,SUM,ONE          * 00210000
+*                  R15 - BASE REGISTER                                * 00220000
+*                                                                     * 00230000
+*********************************************************************** 00240000
+MAIN      CSECT                                                         00250000
+          USING MAIN,15                                                 00260000
+***<TRY TO READ FIRS RECORD>                                            00270000
+          XREAD RECORD,80                                               00280000
+***<TEST FOR EOF>                                                       00290000
+CHCKEOF   BC    B'0100',EOF        IF EOF GO TO EOF STATEMENT           00300000
+***<LOOP THRU THE RECORDS AND>                                          00310000
+***<INCREMENT COUNTER AND SUM VARS>                                     00320000
+          XDECI 2,RECORD           READ X VALUE AND PUT IN REGISTER 2   00330000
+          XDECI 3,0(1)             READ Y VALUE AND PUT IN REGISTER 3   00340000
+          XDECI 4,0(1)             READ Z VALUE AND PUT IN REGISTER 4   00350000
+          XDECO 2,XOUTPUT          PUT CHAR VALUE OF X INTO XOUTPUT     00360000
+          XDECO 3,YOUTPUT          PUT CHAR VALUE OF Y INTO YOUTPUT     00370000
+          XDECO 4,ZOUTPUT          PUT CHAR VALUE OF Z INTO ZOUTPUT     00380000
+          AR    3,4                AD VALUE Z IN R4 TO VALUE Y IN R3    00390000
+          SR    3,2                SUBSTRUCT (Y+Z) IN R3 FROM X IN R2   00400000
+          XDECO 3,ROUTPUT          PUT CHAR VALUE OF RESULT IN ROUTPUT  00410000
+          XPRNT XLBL,88            PRINT LINE WITH X,Y,Z AND RESULT     00420000
+          L     5,COUNT            LOAD VALUE FROM COUNT VAR TO REG 5   00430000
+          L     6,SUM              LOAD VALUE FROM SUM VAR TO REG 6     00440000
+          L     7,ONE              LOAD VALUE FROM ONE VAR TO REG 7     00450000
+          AR    5,7                ADD 1 FROM R7 TO COUNTER VALUE IN R5 00460000
+          AR    6,3                ADD RESULT FROM R3 TO TOTAL SUM (R6) 00470000
+          ST    5,COUNT            STORE COUNT FROM REGISTER 5          00480000
+          ST    6,SUM              STORE SUM FROM REGISTER 6            00490000
+*                                                                       00500000
+          XREAD RECORD,80          READ NEXT RECORD AND GO IN A LOOP    00510000
+          BC    B'1111',CHCKEOF    GO TO CHCKEOF STATEMENT              00520000
+***<PRINT THE RESULTS>                                                  00530000
+EOF       XDECO 5,COUNTOUT         PUT VALUE OF COUNT(R5)IN COUNTOUT    00540000
+          XDECO 6,SUMOUT           PUT VALUE OF SUM(R6)IN SUMOUT        00550000
+          XPRNT COUNTLBL,64        PRINT RESULT VALUES                  00560000
+***<END PROGRAM>                                                        00570000
+          BR    14                 END PROGRAM                          00580000
+***<NEXT 10 LINES LEFT BLANK INTENTIONALLY>                             00590000
+*                                                                       00600000
+*                                                                       00610000
+*                                                                       00620000
+*                                                                       00630000
+*                                                                       00640000
+*                                                                       00650000
+*                                                                       00660000
+*                                                                       00670000
+*                                                                       00680000
+*                                                                       00690000
+*                                                                       00700000
+*** <OUTPUT FOR THE END RESULT>                                         00710000
+COUNTLBL  DC    C'1NUMBER OF LINES = '                                  00720000
+COUNTOUT  DS    CL12               COUNT CHAR VALUE                     00730000
+          DC    C'     '           BLANK SPACE                          00740000
+SUMLBL    DC    C' SUM OF RESULTS '                                     00750000
+SUMOUT    DS    CL12               SUM CHAR VALUE                       00760000
+*** <OUTPUT FOR SINGLE LINE OF THE RECORD>                              00770000
+ONE       DC    F'1'               DECLARE VARIABLE FOR COUNTER         00780000
+RECORD    DS    80C                RECORD INPUT AREA                    00790000
+XLBL      DC    C'1X = '           LABEL FOR X =                        00800000
+XOUTPUT   DS    CL12               CHAR VALUE X                         00810000
+          DC    C'     '           BLANK SPACE                          00820000
+YLBL      DC    C' Y = '           LABEL FOR Y =                        00830000
+YOUTPUT   DS    CL12               CHAR VALUE Y                         00840000
+          DC    C'     '           BLANK SPACE                          00850000
+ZLBL      DC    C' Z = '           LABEL FOR Z =                        00860000
+ZOUTPUT   DS    CL12               CHAR VALUE Z                         00870000
+          DC    C'     '           BLANK SPACE                          00880000
+RLBL      DC    C' RESULT = '      LABEL RESULT =                       00890000
+ROUTPUT   DS    CL12               LABEL FOR RESULT (Y+Z)-X             00900000
+COUNT     DC    F'0'               COUNT VARIABLE TO HOLD NUM OF LOOPS  00910000
+SUM       DC    F'0'               SUM VARIABLE TO HOLD TOTAL SUM       00920000
+          END   MAIN               EXIT                                 00930000
+/*                                                                      00940000
+//FT05F001   DD  *                                                      00950000
+8163   2529   2805                                                      00960000
+4536   1839   5741                                                      00970000
+0591   7843   9487                                                      00980000
+4190   3057   2775                                                      00990000
+2399   0667   4129                                                      01000000
+8118   3961   6535                                                      01010000
+4765   0498   1111                                                      01020000
+9056   2345   1110                                                      01030000
+0001   0002   0003                                                      01040000
+9999   9998   9997                                                      01050000
+8001   7999   3512                                                      01060000
+/*                                                                      01070000
+//FT06F001   DD SYSOUT=*                                                01080000
+//                                                                      01090000

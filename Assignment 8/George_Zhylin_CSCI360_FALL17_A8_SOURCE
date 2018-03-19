@@ -1,0 +1,727 @@
+//KC03N08Z JOB ,'George Zhylin' ,MSGCLASS=H                             0
+//STEP1   EXEC PGM=ASSIST                                               0
+//STEPLIB   DD DSN=KC02293.ASSIST.LOADLIB,DISP=SHR                      0
+//SYSPRINT  DD SYSOUT=*                                                 0
+//SYSIN     DD *                                                        0
+*********************************************************************** 0
+*  PROGRAM ASSIGNMENT8                                                * 0
+*                                                                     * 0
+*  NAME:     GEORGE ZHYLIN Z1810327                                   * 0
+*                                                                     * 0
+*  FUNCTION: PROGRAM READS STUDENT INFORMATION FROM THE RECORD,       * 0
+*            PROCESS AND CONVERT DATA AND STORE IT IN A TABLE         * 0
+*            PROGRAM CONVERT BACK AND DISPLAY ALL THE DATA FROM THE   * 0
+*            TABLE. AFTER DISPLAYING THE DATA PROGRAM PERFORMS A DUMP * 0
+*            NEXT PROGRAM SORTS ALL THE ENTRYS FROM THE TABLE IN DESC * 0
+*            ORDER AND THEN PRINTS THEM OUT AGAIN.                    * 0
+*                                                                     * 0
+*                                                                     * 0
+*  SUBROUTINES:  MAIN, BUILD, PRINT, SORT                             * 0
+*                                                                     * 0
+*                                                                     * 0
+*                                                                     * 0
+*                                                                     * 0
+*  INPUT:    100 LINES WITH 7 ROWS OF CUSTOMER DATA,                  * 0
+*                                                                     * 0
+*                                                                     * 0
+*  OUTPUT:  PROCESSED DATA FROM THE TABLE, SORTED DATA FROM THE TABLE * 0
+*                                                                     * 0
+*                                                                     * 0
+*                                                                     * 0
+*                                                                     * 0
+*  REGISTER USAGE:                                                    * 0
+*  R1  = USED TO LOAD ARGUMENTS                                       * 0
+*  R2  =                                                              * 0
+*  R3  =                                                              * 0
+*  R4  =                                                              * 0
+*  R5  =                                                              * 0
+*  R6  =                                                              * 0
+*  R7  =                                                              * 0
+*  R8  =                                                              * 0
+*  R9  =                                                              * 0
+*  R10 =                                                              * 0
+*  R11 =                                                              * 0
+*  R12 =                                                              * 0
+*  R13 =                                                              * 0
+*  R14 = EXIT                                                         * 0
+*  R15 = USED TO CALL ROUTINE                                         * 0
+*********************************************************************** 0
+*The structure of a table entry is as follows, in this order:         * 0
+*                                                                     * 0
+*Student ID (4 bytes)                                                 * 0
+*Password (12 bytes)                                                  * 0
+*Password Renewal Date (2 bytes)                                      * 0
+*Major (4 bytes)                                                      * 0
+*Grade Point Average (2 bytes)                                        * 0
+*Total Credit Hours (2 bytes)                                         * 0
+*Hours Currently Enrolled (1 byte)                                    * 0
+*                                                                     * 0
+*Thus each table entry is 27 bytes long.                              * 0
+*********************************************************************** 0
+***<DSECT FOR INPUT>***                                                 0
+INPUT     DSECT                    INPUT DSECT                          0
+IID       DS    CL9                STUDENT ID                           0
+          DS    CL1                SPACE                                0
+IPASS     DS    CL12               PASSWORD                             0
+          DS    CL1                SPACE                                0
+IPASD     DS    CL8                PASSWORD RENEWAL DATE                0
+          DS    CL1                SPACE                                0
+IMAG      DS    CL4                MAJOR                                0
+          DS    CL1                SPACE                                0
+IGPA      DS    CL3                GPA                                  0
+          DS    CL1                SPACE                                0
+ITOT      DS    CL3                TOTAL CREDITS                        0
+          DS    CL1                SPACE                                0
+IHCUR     DS    CL2                HOURS CURRENTLY ENROLLED             0
+          DS    CL33               SPACE                                0
+***<DSECT FOR TABLE>***                                                 0
+TABLEM    DSECT                    TABLE DSECT                          0
+TID       DS    PL4                ID                                   0
+TPASS     DS    CL12               PASSWORD                             0
+TPASD     DS    CL2                PASS DATE                            0
+TMAG      DS    CL4                MAJOR                                0
+TGPA      DS    CL2                GPA                                  0
+TTOT      DS    CL2                TOTAL H                              0
+THCUR     DS    CL1                HOURS CURRENT                        0
+***<MAIN ROUTINE>***                                                    0
+MAIN      CSECT                    MAIN ROUTINE                         0
+***<STANDARD ENTRY LINKAGE>***                                          0
+          STM   14,12,12(13)       SAVE ALL THE REGISTERS EXCEPT R13    0
+          LR    12,15              PUT ADDRESS OF ROUTINE IN R12        0
+          USING MAIN,12            SET R12 AS A BASE REGISTER FOR ROUT  0
+          LA    14,SAVEMAIN        SET POINTER TO ROUTINE SAVE AREA     0
+          ST    13,4(14)           BACKWARD POINTER                     0
+          ST    14,8(13)           FORWARD POINTER                      0
+          LR    13,14              SET POINTER IN R13 TO ROUTINE        0
+***<MAIN ROUTINE BODY>***                                               0
+          LA    1,BLIST            LOAD BUILD ARGUMENTS IN R1           0
+          L     15,=V(BUILD)       GET ADDRESS OF BUILD ROUTINE         0
+          BALR  14,15              CALL BUILD ROUTINE                   0
+          XDUMP TABLE,162                                               0
+          LA    1,PLIST1           LOAD PRINT ARGUMENTS IN R1           0
+          L     15,=V(PRINT)       GET ADDRESS OF PRINT ROUTINE         0
+          BALR  14,15              CALL PRINT ROUTINE                   0
+          LA    1,SLIST            LOAD SORT  ARGUMENTS IN R1           0
+          L     15,=V(SORT)        GET ADDRESS OF SORT  ROUTINE         0
+          BALR  14,15              CALL SORT  ROUTINE                   0
+          LA    1,PLIST2           LOAD PRINT ARGUMENTS IN R1           0
+          L     15,=V(PRINT)       GET ADDRESS OF PRINT ROUTINE         0
+          BALR  14,15              CALL PRINT ROUTINE                   0
+***<STANDARD EXIT LINKAGE>***                                           0
+          L     13,4(13)           SET R13 TO CALLERS SAVE AREA         0
+          LM    14,12,12(13)       LOAD BACK ALL REGISTERS EXEPT R13    0
+          BR    14                 EXIT                                 0
+          LTORG                                                         0
+***<STORAGE FOR MAIN ROUTINE>***                                        0
+          DS    0D                 ALIGNMENT                            0
+TABLE     DS    110CL28            TABLE                                0
+EOT       DS    F                  ADDRESS OF END OF TABLE              0
+RECORD    DC    81C' '             BUFFER                               0
+TABLEINF  DC    C'-Name of Element   Chemical Symbol'         69C       0
+          DC    C'   Atomic Number    Date Discovered'                  0
+PAGENUM   DC    PL2'0'             PAGE NUMBER                          0
+SAVEMAIN  DS    18F                MAIN ROUTINE SAVE AREA               0
+BLIST     DC    A(TABLE)           ARGUMENTS FOR BUILD ROUTINE          0
+          DC    A(EOT)                                                  0
+          DC    A(RECORD)                                               0
+PLIST1    DC    A(TABLE)           ARGUMENTS FOR PRINT1 ROUTINE         0
+          DC    A(EOT)                                                  0
+          DC    A(HEADER1)                                              0
+          DC    A(PAGENUM)                                              0
+PLIST2    DC    A(TABLE)           ARGUMENTS FOR PRINT2 ROUTINE         0
+          DC    A(EOT)                                                  0
+          DC    A(HEADER2)                                              0
+          DC    A(PAGENUM)                                              0
+SLIST     DC    A(TABLE)           ARGUMENTS FOR SORT ROUTINE           0
+          DC    A(EOT)                                                  0
+HEADER1   DC    C'1                          Student Information'       0
+          DC    C'                        Page'        74               0
+HEADER2   DC    C'1                          Student Information'       0
+          DC    C' by  GPA                Page'        74               0
+*********************************************************************** 0
+*                          BUILD ROUTINE                              * 0
+*  NAME:     GEORGE ZHYLIN Z1810327                                   * 0
+*                                                                     * 0
+*  FUNCTION: ROUTINE GETS TABLE,EOT,RECORD POINTERS AS ARGUMENTS, NEXT* 0
+*            ROUTINE GOES THRU STANDARD ENTRY LINKAGE. TRY'S TO READ  * 0
+*            FIRST RECORD, AND UNTIL EOF REACHED PROGRAM READS DATA   * 0
+*            THEN PROCESS IT, CONVERT IT AND STORE IN THE TABLE       * 0
+*            ROUTINE STORES THE POINTERS AND GOES THRU STANDARD EXIT  * 0
+*            LINKAGE                                                  * 0
+*                                                                     * 0
+*  REGISTER USAGE:                                                    * 0
+*  R1  = ARGUMENTS                                                    * 0
+*  R2  = DATE OPERATIONS                                              * 0
+*  R3  = POINTER TO THE TABLE                                         * 0
+*  R4  = POINTER TO THE EOT                                           * 0
+*  R5  = POINTER TO THE RECORD(BUFFER)                                * 0
+*  R6  = POINTER TO THE END OF THE TABLE                              * 0
+*  R7  = COPY OF THE TABLE POINTER                                    * 0
+*  R8  = DATE OPERATIONS                                              * 0
+*  R9  = MONTH OPERATIONS                                             * 0
+*  R10 =                                                              * 0
+*  R11 = YEAR OPERATIONS                                              * 0
+*  R12 = BASE REGISTER                                                * 0
+*  R13 =                                                              * 0
+*  R14 = EXIT                                                         * 0
+*  R15 =                                                              * 0
+*********************************************************************** 0
+BUILD     CSECT                    BUILD ROUTINE                        0
+***<STANDARD ENTRY LINKAGE FOR ROUTINE>***                              0
+          STM   14,12,12(13)       SAVE ALL THE REGISTERS EXCEPT R13    0
+          LR    12,15              PUT ADDRESS OF ROUT  IN R12          0
+          USING BUILD,12           SET R12 AS A BASE REGISTER FOR ROUT  0
+          LA    14,SAVEREAD        SET POINTER TO ROUTINE SAVE AREA     0
+          ST    13,4(14)           BACKWARD POINTER                     0
+          ST    14,8(13)           FORWARD POINTER                      0
+          LR    13,14              SET POINTER IN R13 TO ROUTINE        0
+***<BUILD ROUTINE BODY>***                                              0
+          LM    3,5,0(1)           UNLOAD ARGUMENTS IN R3,R4,R5         0
+          LR    7,3                COPY POINTER TO THE BEGINING OF TAB  0
+          USING INPUT,5            USE TABLEM DSECT IN R5 FOR BUFFER    0
+LOOP1     XREAD INPUT,80           READ FIRST RECORD                    0
+          BC    B'0100',END1       CHECK IF END OF DATA                 0
+***<CONVERT STUDENT ID>***                                              0
+          PACK  TEMPID1(8),IID+1(8) CONVER TO PACKED AND PUT IN TEMP    0
+          SR    11,11              RESET R11                            0
+          CVB   11,TEMPID1         CONVERT TO BIN AND PUT IN R11        0
+          PACK  TEMPID3(5),IID+1(8)                                     0
+          SRP   TEMPID3(5),1,0     SHIFT LEFT                           0
+*                                  TEMP1(5) = 12 34 56 78 0F            0
+          MVC   TEMPID2(4),TEMPID3 MOVE ID TO TEMPID2                   0
+*                                  TEMPID2(4) =  12 34 56 78 (4BYTES)   0
+          STCM  11,B'1111',0(7)    INSERT STUDENT ID IN THE TABLE       0
+*                                  STUDENT ID 4 BYTES                   0
+***<CONVERT PASSWORD>***                                                0
+          MVC   TEMPPS1(4),IPASS   GET FIRST 4 BYTES OF THE PASS        0
+          SR    11,11              RESET R11                            0
+          L     11,TEMPPS1         LOAD FIRST 4 BYTES OF THE PASS TO 11 0
+          X     11,TEMPID2         XOR R11 WITH ID IN TEMPID2           0
+          STCM  11,B'1111',4(7)    INSERT FIRST 4 ENCR BYTES OF PASS    0
+*                                                                       0
+          MVC   TEMPPS1(4),IPASS+4 GET SECND 4 BYTES OF THE PASS        0
+          SR    11,11              RESET R11                            0
+          L     11,TEMPPS1         LOAD SECND 4 BYTES OF THE PASS TO 11 0
+          X     11,TEMPID2         XOR R11 WITH ID IN TEMPID2           0
+          STCM  11,B'1111',8(7)    INSERT SECND 4 ENCR BYTES OF PASS    0
+*                                                                       0
+          MVC   TEMPPS1(4),IPASS+8 GET THIRD 4 BYTES OF THE PASS        0
+          SR    11,11              RESET R11                            0
+          L     11,TEMPPS1         LOAD THIRD 4 BYTES OF THE PASS TO 11 0
+          X     11,TEMPID2         XOR R11 WITH ID IN TEMPID2           0
+          STCM  11,B'1111',12(7)   INSERT THIRD 4 ENCR BYTES OF PASS    0
+*                                  STUDENT PASSWORD ENCR IN 12 BYTES    0
+***<CONVERT PASS RENEWAL DATE>***                                       0
+*                                  YEAR                                 0
+          MVC   TEMPD1(4),IPASD+4  GET YEAR                             0
+          PACK  TEMPD2(3),TEMPD1   CONVERT AND STORE PASS DATE IN PACK  0
+          SP    TEMPD2,=PL3'1980'  SUBSTRUCT 1980 FROM THE YEAR         0
+          ZAP   TEMPD3,TEMPD2      PUT YEAR IN A 8 BYTE VARIABLE        0
+          SR    11,11              RESET R11                            0
+          CVB   11,TEMPD3          CONVERT TO BINARY AND BUT IN R11     0
+          SLL   11,9               SHIFT YEAR TO THE LEFT               0
+*                                  YEAR NOW FROM LEFT 9BITS OF R11      0
+          MVC   TEMPD4(2),IPASD+2  GET MONTH                            0
+          PACK  TEMPD5(2),TEMPD4   CONVERT TO PACKED AND STORE          0
+          ZAP   TEMPD3,TEMPD5      PUT MONTH IN A 8 BYTE VAR            0
+          SR    9,9                RESET R13                            0
+          CVB   9,TEMPD3           CONVERT TO BIN AND PUT IN R13        0
+          SLL   9,5                SHIFT 5 BITS TO THE LEFT             0
+*                                  MONTH NOW FROM LEFT 5BITS OF R13     0
+          MVC   TEMPD4(2),IPASD    GET DATE                             0
+          PACK  TEMPD5(2),TEMPD4   CONVERT TO PACKED AND STORE          0
+          ZAP   TEMPD3,TEMPD5      PUT DATE IN A 8 BYTE VAR             0
+          SR    2,2                RESET R2                             0
+          CVB   2,TEMPD3           CONVERT TO BIN AND PUT IN R2         0
+*                                  NOW DATE FROM LEFT IN FIRST 5 BITS   0
+          SR    8,8                RESET R8                             0
+          AR    8,11               ADD YEAR                             0
+          AR    8,9                ADD MONTH                            0
+          AR    8,2                ADD DAY                              0
+*                                  RIGHT 2 BYTES CONTAIN THE DATE       0
+          STCM  8,B'0011',16(7)    INSERT 2 BYTES DATE IN THE TABLE REC 0
+***<CONVERT MAJOR>***                                                   0
+          MVC   18(4,7),IMAG       INSERT MAJOR                         0
+***<CONVERT GPA>***                                                     0
+          PACK  TEMPD5(2),IGPA     PACK GPA                             0
+          ZAP   TEMPD3,TEMPD5      PUT GPA IN A 8 BYTE VAR              0
+          SR    2,2                RESET R2                             0
+          CVB   2,TEMPD3           CONVERT TO BIN AND PUT IN R2         0
+          STCM  2,B'0011',22(7)    INSERT GPA IN TO THE RECORD          0
+***<CONVERT TOTAL CREDIT HOURS>***                                      0
+          PACK  TEMPD5(2),ITOT     PACK TOTAL HOURS                     0
+          ZAP   TEMPD3,TEMPD5      PUT TOT CR IN A 8 BYTE VAR           0
+          SR    2,2                RESET R2                             0
+          CVB   2,TEMPD3           CONVERT TO BIN AND PUT IN R2         0
+          STCM  2,B'0011',24(7)    INSERT GPA IN TO THE RECORD          0
+***<CONVERT CURRENTLY ENROLLED HOURS>***                                0
+          PACK  TEMPD5(2),IHCUR    PACK TOTAL HOURS                     0
+          ZAP   TEMPD3,TEMPD5      PUT TOT CR IN A 8 BYTE VAR           0
+          SR    2,2                RESET R2                             0
+          CVB   2,TEMPD3           CONVERT TO BIN AND PUT IN R2         0
+          STCM  2,B'0001',26(7)    INSERT GPA IN TO THE RECORD          0
+***<GO AND READ NEXT RECORD>***                                         0
+          LA    7,28(0,7)          UPADTE TABLE POINTER                 0
+          BC    B'1111',LOOP1      GO BACK TO LOOP1                     0
+END1      DS    0H                                                      0
+          DROP  5                  DROP USING DSECTS                    0
+***<SET POINTERS>***                                                    0
+          ST    7,0(4)             PUT EOT POINTER IN EOT VARIABLE      0
+***<STANDARD EXIT LINKAGE FOR ROUTINE>***                               0
+          L     13,4(13)           SET R13 TO CALLERS SAVE AREA         0
+          LM    14,12,12(13)       RESTORE REGISTERS                    0
+          BR    14                 EXIT                                 0
+          LTORG                                                         0
+***<STORAGE FOR BUILD ROUTINE>***                                       0
+SAVEREAD  DS    18F                REGISTERS STORAGE                    0
+TEMPID1   DS    D                                                       0
+          DS    F                                                       0
+TEMPID2   DS    PL4                                                     0
+          DS    F                                                       0
+TEMPID3   DS    PL5                                                     0
+          DS    F                                                       0
+TEMPPS1   DS    CL4                                                     0
+          DS    F                                                       0
+TEMPD1    DS    CL4                                                     0
+          DS    F                                                       0
+TEMPD2    DS    PL3                                                     0
+          DS    F                                                       0
+TEMPD3    DS    D            PL8'0'                                     0
+          DS    F                                                       0
+TEMPD4    DS    CL2                                                     0
+          DS    F                                                       0
+TEMPD5    DC    PL2'0'                                                  0
+***<END OF BUILD ROUTINE>***                                            0
+*********************************************************************** 0
+*                           PRINT ROUTINE                             * 0
+*  NAME:     GEORGE ZHYLIN Z1810327                                   * 0
+*                                                                     * 0
+*  FUNCTION: ROUTINE GETS TABLE, EOT, HEADER LBL AND PAGE POINTERS AS * 0
+*            ARGUMENTS,THEN GOES THRU STANDARD ENTRY LINKAGE PROCESS. * 0
+*            ROUTINE GETS AND CONVERTS DATA FROM THE TABLE            * 0
+*            PRINTS HEADERS WITH PAGE NUM, THEN PRINTS 40ITEMS        * 0
+*            PER PAGE UNTIL END OF TABLE REACHED. IN THE END, ROUTINE * 0
+*            GOES THRU STANDARD EXIT LINKAGE                          * 0
+*                                                                     * 0
+*                                                                     * 0
+*  REGISTER USAGE:                                                    * 0
+*  R1  = ARGUMENTS POINTER                                            * 0
+*  R2  = CVD USE                                                      * 0
+*  R3  = TABLE POINTER                                                * 0
+*  R4  = EOT POINTER                                                  * 0
+*  R5  = TABLE ROW INFO LBL                                           * 0
+*  R6  = PAGE COUNTER                                                 * 0
+*  R7  = COUNTER FOR ROWS                                             * 0
+*  R8  = ITEM COUNTER                                                 * 0
+*  R9  = PAGE COUNTER                                                 * 0
+*  R10 = TOTAL ITEMS COUNTER                                          * 0
+*  R11 = COPY OF THE POINTER TO THE TABLE                             * 0
+*  R12 = BASE REGISTER                                                * 0
+*  R13 =                                                              * 0
+*  R14 = EXIT                                                         * 0
+*  R15 =                                                              * 0
+*********************************************************************** 0
+PRINT     CSECT                    PRINT ROUTINE                        0
+***<STANDARD ENTRY LINKAGE FOR ROUTINE>***                              0
+          STM   14,12,12(13)       SAVE ALL THE REGISTERS EXCEPT R13    0
+          LR    12,15              PUT ADDRESS OF ROUTINE IN R12        0
+          USING PRINT,12           SET R12 AS A BASE REGISTER FOR ROUT  0
+          LA    14,SAVEPRNT        SET POINTER TO ROUTINE SAVE AREA     0
+          ST    13,4(14)           BACKWARD POINTER                     0
+          ST    14,8(13)           FORWARD POINTER                      0
+          LR    13,14              SET POINTER IN R13 TO ROUTINE        0
+***<PRINT ROUTINE BODY>***                                              0
+          LM    3,6,0(1)           UNLOAD ARGUMENTS IN R3,R4,R5,R6      0
+          LR    11,3               COPY POINTER TO THE TABLE TO R11     0
+          USING TABLEM,11          USE TABLEM DSECT IN R11              0
+          LH    7,0(6)             GET PAGE NUM AND PUT 4BYTES IN R7    0
+          SR    10,10              RESET R10                            0
+*         S     4,=CL27'1'         PUT CORRECT VALUE FOR EOT            0
+*         S     4,=F'1'            PUT CORRECT VALUE FOR EOT            0
+*         S     4,=F'1'            PUT CORRECT VALUE FOR EOT            0
+          STH   7,PAGEN            STORE 4BYTES PAGE NUM IN PAGEN       0
+PRINTP    AP    PAGEN,=PL1'1'      ADD 1 TO OUR PAGE COUNTER            0
+          MVC   NUM,=XL4'40202020' FORMAT FOR OUTPUT                    0
+          ED    NUM,PAGEN          INSERT PAGE NUMBER IN LABEL          0
+          SR    8,8                RESET ITEM COUNTER                   0
+          XPRNT =C' ',1            SPACE AS PER INSTRUCTIONS            0
+          MVC   HEADER(74),0(5)    UPDATE THE HEADER TO DISP INFO FROM  0
+          XPRNT HEADER,78          PRINT HEADERS                        0
+          XPRNT INF1,78            PRINT TABLE TAB INFO                 0
+          XPRNT INF2,78            PRINT TABLE TAB INFO2                0
+*                                                                       0
+*OOP2     DS    0H                                                      0
+***<STUDENT ID>***                                                      0
+LOOP2     SR    2,2                                                     0
+          L     2,TID              GET ID AND PUT IN R2                 0
+          CVD   2,TEMP5            CONVERT TO PACKED AND PUT IN TEMP5   0
+          MVC   ID,=XL10'21202020202020202020'         FORMAT           0
+          ED    ID,TEMP5+3         INSERT ID IN LABEL                   0
+          MVC   ID(1),=CL1'Q'      INSERT CHAR Q                        0
+***<PASSWORD>***                                                        0
+          MVC   TEMP3(5),TEMP5+3   MOVE 5BYTES WITH ID TO TEMP3         0
+          SRP   TEMP3(5),1,0       SHIFT LEFT                           0
+*                                  TEMP3(5) = 12 34 56 78 0F            0
+          MVC   TEMP2(4),TEMP3     MOVE 4BYTES ID TO TEMP2              0
+*                                  TEMP2(4) =  12 34 56 78 (4BYTES)     0
+          MVC   TEMP4(4),TPASS     GET FIRST 4 BYTES OF THE PASS        0
+          SR    2,2                RESET R2                             0
+          L     2,TEMP4            LOAD FIRST 4 BYTES OF THE PASS TO R2 0
+          X     2,TEMP2            XOR R11 WITH ID IN TEMP2             0
+          STCM  2,B'1111',PASS     INSERT FIRST 4 ENCR BYTES OF PASS    0
+*                                                                       0
+          MVC   TEMP4(4),TPASS+4   GET SECND 4 BYTES OF THE PASS        0
+          SR    2,2                RESET R2                             0
+          L     2,TEMP4            LOAD FIRST 4 BYTES OF THE PASS TO R2 0
+          X     2,TEMP2            XOR R11 WITH ID IN TEMP2             0
+          STCM  2,B'1111',PASS+4   INSERT FIRST 4 ENCR BYTES OF PASS    0
+*                                                                       0
+          MVC   TEMP4(4),TPASS+8   GET THIRD 4 BYTES OF THE PASS        0
+          SR    2,2                RESET R2                             0
+          L     2,TEMP4            LOAD FIRST 4 BYTES OF THE PASS TO R2 0
+          X     2,TEMP2            XOR R11 WITH ID IN TEMP2             0
+          STCM  2,B'1111',PASS+8   INSERT FIRST 4 ENCR BYTES OF PASS    0
+*                                  STUDENT PASSWORD IN 12 BYTES         0
+***<DATE>***                                                            0
+          SR    2,2                RESET                                0
+          ICM   2,B'0011',TPASD    LOAD DATE IN BIN TO R2 TO THE RIGHT  0
+          SLL   2,27               SHIFT LEFT 27 BITS                   0
+          SRL   2,27               SHIFT RIGHT 27 BITS                  0
+          CVD   2,TEMP5            CONVERT TO PACKED                    0
+          MVC   DATED,=XL7'21202020202020'                FORMAT        0
+          ED    DATED,TEMP5+6      INSERT DAY IN LABEL                  0
+*                                                                       0
+          SR    2,2                RESET                                0
+          ICM   2,B'0011',TPASD    LOAD DATE IN BIN TO R2 TO THE RIGHT  0
+          SLL   2,23               SHIFT LEFT 23BITS                    0
+          SRL   2,28               SHIFT RIGHT 28BITS                   0
+          CVD   2,TEMP5            CONVERT TO PACKED                    0
+          MVC   DATEM,=XL7'21202020202020'                FORMAT        0
+          ED    DATEM,TEMP5+6      INSERT MONTH IN LABEL                0
+          MVC   DATEM(1),=CL1'/'   INSERT CHAR /                        0
+*                                                                       0
+          SR    2,2                RESET                                0
+          ICM   2,B'0011',TPASD    LOAD DATE IN BIN TO R2 TO THE RIGHT  0
+          SLL   2,16               SHIFT LEFT 16BITS                    0
+          SRL   2,25               SHIFT RIGHT 25BITS                   0
+          CVD   2,TEMP5            CONVERT TO PACKED                    0
+          AP    TEMP5,=PL3'1980'   ADD 1980 TO THE YEAR                 0
+          MVC   DATEY,=XL7'21202020202020'                FORMAT        0
+          ED    DATEY,TEMP5+5      INSERT MONTH IN LABEL                0
+          MVC   DATEY(1),=CL1'/'   INSERT CHAR /                        0
+***<MAJOR>***                                                           0
+          MVC   MAJOR,TMAG         INSERT MAJOR                         0
+***<GPA>***                                                             0
+          SR    2,2                RESET                                0
+          ICM   2,B'0011',TGPA     LOAD GPA IN BIN TO R2 TO THE RIGHT   0
+          CVD   2,TEMP5            CONVERT TO PACKED                    0
+          MVC   GPA,=XL7'402021204B2020'                  FORMAT        0
+          ED    GPA,TEMP5+5        INSERT MONTH IN LABEL                0
+***<TOTAL HOURS>***                                                     0
+          SR    2,2                RESET                                0
+          ICM   2,B'0011',TTOT     LOAD TOT IN BIN TO R2 TO THE RIGHT   0
+          CVD   2,TEMP5            CONVERT TO PACKED                    0
+          MVC   THR,=XL6'402020212020'                    FORMAT        0
+          ED    THR,TEMP5+5        INSERT TOT IN LABEL                  0
+***<HOURS ENROLLED>***                                                  0
+          SR    2,2                RESET                                0
+          ICM   2,B'0011',THCUR    LOAD CUR IN BIN TO R2 TO THE RIGHT   0
+          SRL   2,8                SHIFT RIGHT                          0
+          CVD   2,TEMP5            CONVERT TO PACKED                    0
+          MVC   CHR,=XL6'402020202120'                    FORMAT        0
+          ED    CHR,TEMP5+5        INSERT CUR IN LABEL                  0
+*                                                                       0
+          XPRNT PRESULT,79         PRINT RESULTS                        0
+          A     10,=F'1'           UPDATE TOTAL COUNTER                 0
+          A     8,=F'1'            UPDATE THE ITEMS COUNTER             0
+          LA    11,28(0,11)        UPDATE THE TABLE POINTER             0
+          C     8,=F'40'           CHECK ITEMS COUNTER                  0
+          MVI   PRESULT,C' '       USE DESTRUCTIVE OVERLAP TO CLEAR     0
+          MVC   PRESULT+1(75),PRESULT  THE FIELDS                       0
+          BE    PRINTP             IF 50 ITEMS PRINTP                   0
+          C     10,=F'100'         CHECK TOTAL COUNTER                  0
+          BE    ENDP               IF 100 ITEMS EXIT                    0
+          CR    11,4               GO BACK TO LOOP2                     0
+          BC    B'1111',LOOP2                                           0
+***<ENDP & FOOTERS>***                                                  0
+ENDP      XPRNT =C' ',1            SINGLE SPACE AS PER INSTRUCTIONS     0
+          LH    9,PAGEN            COPY PAGE COUNTER                    0
+          STH   9,0(6)                                                  0
+          DROP  11                 STOP USING DSECTS                    0
+***<STANDARD EXIT LINKAGE FOR ROUTINE>***                               0
+          L     13,4(13)           SET R13 TO CALLERS SAVE AREA         0
+          LM    14,12,12(13)       RESTORE REGISTERS                    0
+          BR    14                 EXIT                                 0
+          LTORG                                                         0
+***<STORAGE FOR PRINT ROUTINE>***                                       0
+          DS    F                  TO ALIGN STORAGE                     0
+PAGEN     DC    PL2'0'             PACKED VARIABLE TO HOLD PAGE NUMBER  0
+SAVEPRNT  DS    18F                REGISTERS STORAGE                    0
+          DS    F                                                       0
+TEMP4     DS    CL4                TEMP VARIABLES                       0
+          DS    D                                                       0
+TEMP5     DC    PL8'0'                                                  0
+          DS    F                                                       0
+TEMP3     DS    PL5                                                     0
+          DS    F                                                       0
+TEMP2     DS    PL4                                                     0
+          DS    F                                                       0
+TEMP1     DS    PL2                                                     0
+ZERO      DC    PL1'0'                                                  0
+***<TAB INFO>***                                                        0
+HEADER    DS    CL74                                                    0
+NUM       DS    CL4                PAGE NUMBER                          0
+INF1      DC    C'-  Student                                   '        0
+          DC    C'                   Total  Current'                    0
+INF2      DC    C'    ID        Password         Renewal Date   '       0
+          DC    C'Major     GPA     Hours    Hours'                     0
+***<RESULT>***                                                          0
+PRESULT   DC    C'  '              SPACE             2                  0
+ID        DS    CL9                ID                9                  0
+          DC    C'   '             SAPECE            3                  0
+PASS      DS    CL12               PASS              12                 0
+          DC    C'     '           SPACE             5                  0
+DATED     DS    CL3                DAY                                  0
+DATEM     DS    CL3                MONTH                                0
+DATEY     DS    CL5                YEAR                                 0
+          DC    C'     '           SPACE             5                  0
+MAJOR     DS    CL4                MAJOR             4                  0
+          DC    C'  '              SPACE             2                  0
+GPA       DS    CL8                GPA               8                  0
+          DC    C'  '              SPACE             2                  0
+THR       DS    CL7                TOTAL H           7                  0
+*         DC    C'  '              SPACE             2                  0
+CHR       DS    CL9                CURRENT HOURS     9                  0
+***<END OF PRINT ROUTINE>***                                            0
+*                                                                       0
+*                                                                       0
+*********************************************************************** 0
+*                         SORT  ROUTINE                               * 0
+*  NAME:     GEORGE ZHYLIN Z1810327                                   * 0
+*                                                                     * 0
+*  FUNCTION: ROUTINE GETS 2 ARGUMENTS, TABLE,EOT.                     * 0
+*            ROUTINE GOES THRU STANDARD ENTRY LINKAGE, THEN UNLOAD    * 0
+*            PARAMETERS. THEN ROUTINE PERFORMS SORTING                * 0
+*            USING 4 POINTERS WE MOVE THRU THE TABLE COMPARING        * 0
+*            AND SWAPING ELEMENTS UNTIL WE REACH END OF TABLE         * 0
+*            AS 100 ELEMNTS, THEN WE RESTART OUR POINTERS AND COUNTERS* 0
+*            SEARCH ENDS WHEN NO SWAPS COUNTER REACHES 99             * 0
+*                                                                     * 0
+*  SPECIAL NOTES:  THIS SORT ROUTINE IS NOT OPTIMIZED DUE TO LACK OF  * 0
+*                  TIME AND I APOLOGIZE FOR THIS.                     * 0
+*                                                                     * 0
+*  REGISTER USAGE:                                                    * 0
+*  R1  = ARGUMENTS POINTER                                            * 0
+*  R2  = CVD USE                                                      * 0
+*  R3  = TABLE POINTER                                                * 0
+*  R4  = EOT POINTER                                                  * 0
+*  R5  =                                                              * 0
+*  R6  = COUNTER                                                      * 0
+*  R7  = TABLE POINTER                                                * 0
+*  R8  = TABLE POINTER                                                * 0
+*  R9  = TABLE POINTER                                                * 0
+*  R10 = TABLE POINTER                                                * 0
+*  R11 = COUNTER                                                      * 0
+*  R12 = BASE REGISTER                                                * 0
+*  R13 =                                                              * 0
+*  R14 = EXIT                                                         * 0
+*  R15 = SEARCH RESULT VALUE                                          * 0
+*********************************************************************** 0
+SORT      CSECT                    SORT ROUTINE                         0
+***<STANDARD ENTRY LINKAGE FOR ROUTINE>***                              0
+          STM   14,12,12(13)       SAVE ALL THE REGISTERS EXCEPT R13    0
+          LR    12,15              PUT ADDRESS OF ROUTINE IN R12        0
+          USING SORT,12            SET R12 AS A BASE REGISTER FOR ROUT  0
+          LA    14,SAVESORT        SET POINTER TO ROUTINE SAVE AREA     0
+          ST    13,4(14)           BACKWARD POINTER                     0
+          ST    14,8(13)           FORWARD POINTER                      0
+          LR    13,14              SET POINTER IN R13 TO ROUTINE        0
+***<SEARCH ROUTINE BODY>***                                             0
+          LM    3,4,0(1)           UNLOAD ARGUMENTS IN R3,R4            0
+          SR    11,11              INITIALIZE THE COUNTER               0
+          SR    6,6                INITIALIZE THE SWAP COUNTER          0
+          LR    7,3                PUT POINTER1 TO THE TABLE IN R7      0
+          LR    8,3                PUT POINTER2 TO THE TABLE IN R8      0
+          LR    9,3                PUT POINTER3 TO THE TABLE IN R9      0
+          LR    10,3               PUT POINTER4 TO THE TABLE IN R10     0
+*                                                                       0
+          LA    8,22(0,8)          UPDATE THE POINTER1 TO NEXT ENTRY    0
+          LA    9,28(0,9)          UPDATE THE POINTER2 TO NEXT ENTRY    0
+          LA    10,50(0,10)        UPDATE THE POINTER4                  0
+LOOP      DS    0H                                                      0
+          C     11,=F'100'         CHECK IF END OF TABLE REACHED        0
+          BE    RESTART            IF REACHED THEN RESTART POINTERS     0
+GONEXT    DS    0H                                                      0
+          C     6,=F'99'           CHECK IF SORT ENDED                  0
+          BE    ENDS               EXIT                                 0
+*                                                                       0
+          SR    2,2                RESET                                0
+          ICM   2,B'1100',0(8)     LOAD GPA IN BIN TO R2 TO THE RIGHT   0
+          CVD   2,T1               CONVERT TO PACKED                    0
+*                                                                       0
+          SR    2,2                RESET                                0
+          ICM   2,B'1100',0(10)    LOAD GPA IN BIN TO R2 TO THE RIGHT   0
+          CVD   2,T2               CONVERT TO PACKED                    0
+*                                                                       0
+          CP    T1,T2              COMPARE                              0
+          BC    B'0100',SWAP       FIRST ENTRY IS HIGHER SO SWAP        0
+          CP    T1,T2              COMPARE                              0
+          BC    B'1010',NOSWAP     FIRST ENTRY IS HIGHER SO SWAP        0
+SWAP      DS    0H                                                      0
+          MVC   SWAP1,0(7)         SAVE ENTRY 1 TO TEMP1                0
+          MVC   SWAP2,0(9)         SAVE ENTRY 2 TO TEMP2                0
+          MVC   0(28,7),SWAP2      MOVE ENTRY 2 TO ENTRY 1 POSITION     0
+          MVC   0(28,9),SWAP1      MOVE ENTRY 1 FROM TEMP TO ENTRY 2 P  0
+          CR    9,9                                                     0
+          BC    B'1111',SWAPUP     GO AND ADJUST THE POINTERS           0
+NOSWAP    DS    0H                                                      0
+          A     6,=F'1'            UPDATE THE SWAP COUNTER              0
+SWAPUP    LA    7,28(0,7)          UPDATE THE POINTER                   0
+          LA    8,28(0,8)          UPDATE THE POINTER                   0
+          LA    9,28(0,9)          UPDATE THE POINTER                   0
+          LA    10,28(0,10)        UPDATE THE POINTER                   0
+          A     11,=F'1'           UPDATE THE COUNTER                   0
+          CR    9,9                                                     0
+          BC    B'1111',LOOP       GO BACK TO THE LOOP                  0
+RESTART   DS    0H                                                      0
+          SR    11,11              RESET TABLE ITEMS COUNTER            0
+          SR    6,6                INITIALIZE THE SWAP COUNTER          0
+          LR    7,3                PUT POINTER1 TO THE TABLE IN R7      0
+          LR    8,3                PUT POINTER2 TO THE TABLE IN R8      0
+          LR    9,3                PUT POINTER3 TO THE TABLE IN R9      0
+          LR    10,3               PUT POINTER4 TO THE TABLE IN R10     0
+*                                                                       0
+          LA    8,22(0,8)          UPDATE THE POINTER1 TO NEXT ENTRY    0
+          LA    9,28(0,9)          UPDATE THE POINTER2 TO NEXT ENTRY    0
+          LA    10,50(0,10)        UPDATE THE POINTER4                  0
+          CR    9,9                                                     0
+          BC    B'1111',GONEXT                                          0
+***<STANDARD EXIT LINKAGE FOR ROUTINE>***                               0
+ENDS      L     13,4(13)           SET R13 TO CALLERS SAVE AREA         0
+          LM    14,12,12(13)       RESTORE REGISTERS                    0
+          BR    14                 EXIT                                 0
+          LTORG                                                         0
+***<STORAGE FOR SEARCH ROUTINE>***                                      0
+          DS    D                                                       0
+T1        DC    PL8'0'                                                  0
+          DS    D                                                       0
+T2        DC    PL8'0'                                                  0
+          DS    D                                                       0
+SWAP1     DS    CL28               TEMP1                                0
+          DS    D                                                       0
+SWAP2     DS    CL28               TEMP2                                0
+SAVESORT  DS    18F                REGISTERS STORAGE                    0
+***<END OF SEARCH ROUTINE>***                                           0
+          END   MAIN                                                    0
+*                                                                       0
+*                                                                       0
+*                                                                       0
+*                                                                       0
+/*                                                                      0
+//FT05F001   DD  *                                                      0
+Q35745822 password     15112015 MUSC 010 022 17
+Q61276118 drowssap     23122012 MUSC 110 066 06
+Q62822891 winteriscomi 01112012 PHYS 190 055 18
+Q60258274 letmein      12122011 BIOL 380 039 14
+Q28505501 qwerty       18032015 PHYS 130 018 04
+Q08048288 1234567890   13022012 PHYS 190 070 02
+Q43920781 0987654321   10032012 CSCI 170 044 01
+Q38731131 asdfghjkl    24022011 MUSC 250 080 09
+Q01810721 zxcvbnm      15082014 MATH 290 034 08
+Q46232138 qwertyuiop   06042011 PHYS 010 091 03
+Q35364980 0011223344   03072015 PHYS 340 042 12
+Q13967108 answeris42   06112010 PSYC 300 088 04
+Q61826057 314159265359 14092010 MATH 270 016 02
+Q36515553 05772156649  23122013 ANTH 030 107 05
+Q63001752 2718281828   27102013 CSCI 360 082 23
+Q31773247 password123  25092014 MATH 190 118 18
+Q72982045 8675309      20072014 PHYS 230 085 23
+Q52385163 0101010      15042015 PHYS 160 069 13
+Q34404557 !@#$%^&*()   26042012 PHYS 030 030 23
+Q25522904 F5F5F5F5F5F5 13122012 ANTH 270 099 18
+Q71973135 5Fg1{x^3n(   19112011 PHYS 020 106 05
+Q57509589 Computer     18102013 MATH 210 060 09
+Q44072762 Laptop       10082012 ANTH 060 087 19
+Q94539607 WorldOfWarcr 16102010 MUSC 020 098 23
+Q43612144 CallOfDuty   20082012 PHYS 110 024 15
+Q58517153 funny        09082013 PHYS 030 064 21
+Q68537648 weakpass     09082014 PHYS 160 092 14
+Q74770424 strongpass   28102015 PHYS 130 066 23
+Q90926219 metarzan     04072010 BIOL 030 040 12
+Q09999853 youjane      14072015 ANTH 030 091 06
+Q89324332 REDBULL      13092011 CSCI 040 000 05
+Q41997419 racecar      11062011 ANTH 200 004 15
+Q49004688 iloveschool  13122011 MUSC 260 114 24
+Q93366146 aliceinwonde 14082015 ANTH 150 068 02
+Q67994516 magnets?     25122010 BIOL 370 036 22
+Q62143228 shiny        24082012 ANTH 240 091 04
+Q63143187 darkside     14032010 BIOL 250 009 16
+Q53501342 expectopatro 17082013 PHYS 090 110 13
+Q78138644 nedstark     04122010 MATH 230 088 14
+Q74378433 indianajones 09122013 PHYS 020 086 11
+Q22539726 F4F4F4F4F4F4 04032012 PSYC 400 005 01
+Q93448440 papajohns    02022013 PHYS 070 065 13
+Q11109056 pizzahut     12052015 ANTH 170 110 10
+Q88979192 subwayisgood 24082013 PHYS 100 071 09
+Q98055507 mccydisbad   15022010 PHYS 080 063 16
+Q71491640 burgerpage   04032011 MUSC 130 078 14
+Q79504142 redchicken   09042012 PHYS 050 094 22
+Q20279768 yellowchicke 28022010 PHYS 290 118 18
+Q48240272 blue'ngreen  17102014 PSYC 250 007 02
+Q05275510 maketeal     21012015 PSYC 090 070 14
+Q71794442 acquirecurre 06082012 PSYC 380 017 08
+Q66267468 disregardfem 20062010 MUSC 150 046 05
+Q39119331 doyouevenlif 17062014 PSYC 210 072 21
+Q04988507 dudebrodude  09012015 MUSC 190 074 16
+Q20555902 Brodin       23022012 PHYS 330 065 12
+Q18118698 taylorslow   01042011 MATH 160 038 05
+Q70645080 googlethis   26122012 PHYS 270 033 04
+Q12775071 /r/funny     26102012 PSYC 030 004 20
+Q10084685 FREEEEEEEEEE 04042012 MUSC 210 055 08
+Q76380214 DOMMMMMMMMMM 07082015 CSCI 150 063 08
+Q85319721 SweepTheLeg  26092013 MUSC 130 109 14
+Q07643040 TheBestAroun 18052012 PHYS 280 068 04
+Q75667368 DanceMagicDa 05072014 MATH 030 035 17
+Q68652725 DavidBowie   21042014 MATH 030 012 04
+Q32010910 TheBeatles   26062013 CSCI 360 083 07
+Q00031165 QueenSoGood  08072012 PHYS 140 035 07
+Q72270533 ZombieBrains 02052011 PSYC 320 086 11
+Q18426525 CARL!!!!!!!! 03012012 PHYS 110 076 20
+Q09649918 JonHammWow   11072015 PSYC 000 094 04
+Q67576384 HIMYMSoGood  10122012 ANTH 390 082 17
+Q38754882 HighFiveBro  13122013 PSYC 250 090 20
+Q24945034 STINSON_OUT  12052015 PHYS 400 016 21
+Q88503456 UncleBuck    22092013 MATH 270 101 02
+Q71109829 ThereIsNoSpo 19062013 MUSC 010 107 16
+Q81946874 FreeYourMind 23122012 ANTH 120 079 01
+Q64839629 StrongBad    12122014 MUSC 170 059 06
+Q03182052 RoyaleWChees 23122011 PHYS 300 002 15
+Q13261659 programmer   25062011 MATH 200 118 16
+Q00276539 icannotbrain 16112015 MATH 120 046 14
+Q67871318 ihavethedumb 13062013 PHYS 230 020 11
+Q04679760 PeopleAssume 07092013 PSYC 250 119 14
+Q09384114 ThatTimeIsAS 21052010 PHYS 060 083 15
+Q38836803 trictProgres 26122010 PHYS 220 066 09
+Q54738499 sionOfCauseT 25082012 CSCI 290 109 01
+Q17815357 oEffectButAc 24122012 PHYS 230 035 14
+Q10423687 tuallyFromAN 19102014 ANTH 310 102 17
+Q45165887 onLinearNonS 27092012 PHYS 210 049 15
+Q46423851 ubjectiveVie 24062012 MUSC 020 030 20
+Q10809227 wpointItsMor 22012010 ANTH 320 016 11
+Q85791889 eLikeABigBal 24052012 PSYC 080 061 11
+Q42843017 lOfWibblyWob 24092013 PHYS 100 030 12
+Q77567002 bly...time-y 04122011 PSYC 080 010 03
+Q57940012 wime-y...    03052015 PHYS 220 103 09
+Q29891791 stuff        01122014 PHYS 020 098 19
+Q76609035 BowtiesAreCo 25092012 PHYS 150 058 22
+Q77636733 EXTERMINATE  01042012 BIOL 290 056 09
+Q14757792 ImBatman     01122013 ANTH 090 089 07
+Q86362255 xXLegolasXx  05022015 PSYC 340 047 21
+Q33769268 Tibbers      03092013 PSYC 230 061 17
+Q07927924 SHAZAM       24112013 PHYS 400 017 12
+/*                                                                      
+//FT06F001   DD SYSOUT=*                                                
+//                                                                      
+
+
+

@@ -1,0 +1,389 @@
+//KC03N08Z JOB ,'George Zhylin' ,MSGCLASS=H                             00010000
+//STEP1   EXEC PGM=ASSIST                                               00020000
+//STEPLIB   DD DSN=KC02293.ASSIST.LOADLIB,DISP=SHR                      00030000
+//SYSPRINT  DD SYSOUT=*                                                 00040000
+//SYSIN     DD *                                                        00050000
+*********************************************************************** 00060000
+*  PROGRAM ASSIGNMENT5                                                * 00070000
+*                                                                     * 00080000
+*  NAME:     GEORGE ZHYLIN Z1810327                                   * 00090000
+*                                                                     * 00100000
+*  FUNCTION: PROGRAM READS NUMBERS FROM THE RECORD, SRORES THEM IN THE* 00110000
+*            TABLE, ALL THE NUMBER UP TO THE DELIMITER. THEN PROGRAM  * 00120000
+*            DISPLAYS ALL THE NUMBERS IN THE TABLE. AFTER THAT PROGRAM* 00130000
+*            READS ALL THE NUMBERS AFTER THE DELIMITER AND SEARCHES   * 00140000
+*            THE TABLE TO FIND THE MATCH. IF MATCH FOUND THEN DISPLAY * 00150000
+*            MASSEGE.                                                 * 00160000
+*                                                                     * 00170000
+*  SUBROUTINES:  MAIN, BUILD , PRINT AND SEARCH                       * 00180000
+*                                                                     * 00190000
+*                                                                     * 00200000
+*                                                                     * 00210000
+*                                                                     * 00220000
+*  INPUT:    16 LINES WITH 3 ROWS, ALL INTS, SEE LINE 164             * 00230000
+*                                                                     * 00240000
+*                                                                     * 00250000
+*  OUTPUT:  TABLE OF NUMBERS, AND LIST OF A NUMBERS SEARCHED IN THE   * 00260000
+*          TABLE                                                      * 00270000
+*                                                                     * 00280000
+*                                                                     * 00290000
+*                                                                     * 00300000
+*  REGISTER USAGE:                                                    * 00310000
+*  R1  = USED TO LOAD ARGUMENTS                                       * 00320000
+*  R2  =                                                              * 00330000
+*  R3  =                                                              * 00340000
+*  R4  =                                                              * 00350000
+*  R5  =                                                              * 00360000
+*  R6  =                                                              * 00370000
+*  R7  =                                                              * 00380000
+*  R8  = VALUE FROM THE RECORD                                        * 00390000
+*  R9  =                                                              * 00400000
+*  R10 =                                                              * 00410000
+*  R11 =                                                              * 00420000
+*  R12 =                                                              * 00430000
+*  R13 =                                                              * 00440000
+*  R14 = EXIT                                                         * 00450000
+*  R15 = USED TO CALL ROUTINE                                         * 00460000
+*********************************************************************** 00470000
+MAIN      CSECT                    MAIN ROUTINE                         00480000
+***<STANDARD ENTRY LINKAGE>***                                          00490000
+          STM   14,12,12(13)       SAVE ALL THE REGISTERS EXCEPT R13    00500000
+          LR    12,15              PUT ADDRESS OF ROUTINE IN R12        00510000
+          USING MAIN,12            SET R12 AS A BASE REGISTER FOR ROUT  00520000
+          LA    14,SAVEMAIN        SET POINTER TO ROUTINE SAVE AREA     00530000
+          ST    13,4(14)           BACKWARD POINTER                     00540000
+          ST    14,8(13)           FORWARD POINTER                      00550000
+          LR    13,14              SET POINTER IN R13 TO ROUTINE        00560000
+***<MAIN ROUTINE BODY>***                                               00570000
+          LA    1,BLIST            LOAD BUILD ARGUMENTS IN R1           00580000
+          L     15,=V(BUILD)       GET ADDRESS OF BUILD ROUTINE         00590000
+          BALR  14,15              CALL BUILD ROUTINE                   00600000
+          LA    1,PLIST            LOAD PRINT ARGUMENTS IN R1           00610000
+          L     15,=V(PRINT)       GET ADDRESS OF PRINT ROUTINE         00620000
+          BALR  14,15              CALL PRINT ROUTINE                   00630000
+          XPRNT =C'-Results of searching the table',31                  00640000
+LOOP6     XREAD RECORD,80          START READING AFETR DELIMITER        00650000
+          BC    B'0100',ENDM       IF EOF GO TO THE ENDM AND EXIT       00660000
+          XDECI 8,RECORD           GET NUMBER FROM THE RECORD           00670000
+          ST    8,TARGET           LOAD NUMBER TO A TARGET              00680000
+          LA    1,SLIST            LOAD SEARCH ARGUMENTS IN R1          00690000
+          L     15,=V(SEARCH)      GET ADDRESS OF SEARCH ROUTINE        00700000
+          BALR  14,15              CALL SEARCH ROUTINE                  00710000
+          C     15,=F'1'           CHECK RESULT OF SEARCH ROUTINE IS F  00720000
+          BC    B'1000',GOF        IF RESULT IS FOUND THEN GO TO GOF    00730000
+          C     15,=F'0'           CHECK RESULT OF SEARCH ROUTINE IS NF 00740000
+          BC    B'1000',GONF       IF RESULT IS FOUND THEN GO TO GONF   00750000
+***<NUMBER NOT FOUND>***                                                00760000
+GONF      XDECO 8,NFNUM            PUT NUM IN A LBL NFNUM               00770000
+          XPRNT NF,35              PRINT NOT FOUND LBL                  00780000
+          C     15,=F'0'           GO BACK TO LOOP6                     00790000
+          BC    B'1111',LOOP6                                           00800000
+***<NUMBER FOUND>***                                                    00810000
+GOF       XDECO 8,FNUM             PUT NUM IN A LBL FNUM                00820000
+          XPRNT F,31               PRINT FOUND LBL                      00830000
+          C     15,=F'0'           GO BACK TO LOOP6                     00840000
+          BC    B'1111',LOOP6                                           00850000
+*                                                                       00860000
+*                                                                       00870000
+*                                                                       00880000
+*                                                                       00890000
+*                                                                       00900000
+*                                                                       00910000
+***<STANDARD EXIT LINKAGE>***                                           00920000
+ENDM      L     13,4(13)           SET R13 TO CALLERS SAVE AREA         00930000
+          LM    14,12,12(13)       LOAD BACK ALL REGISTERS EXEPT R13    00940000
+          BR    14                 EXIT                                 00950000
+          LTORG                                                         00960000
+*                                                                       00970000
+***<STORAGE FOR MAIN ROUTINE>***                                        00980000
+TABLE     DC    52F'-1'            TABLE                                00990000
+EOT       DS    F                  ADDRESS OF END OF TABLE              01000000
+RECORD    DS    80C                BUFFER                               01010000
+TARGET    DS    F                  TARGET VALUE                         01020000
+RESULT    DS    F                  SEARCH RESULT VALUE                  01030000
+SAVEMAIN  DS    18F                MAIN ROUTINE SAVE AREA               01040000
+BLIST     DC    A(TABLE)           ARGUMENTS FOR BUILD ROUTINE          01050000
+          DC    A(EOT)                                                  01060000
+          DC    A(RECORD)                                               01070000
+PLIST     DC    A(TABLE)           ARGUMENTS FOR PRINT ROUTINE          01080000
+          DC    A(EOT)                                                  01090000
+SLIST     DC    A(TABLE)           ARGUMENTS FOR SEARCH ROUTINE         01100000
+          DC    A(EOT)                                                  01110000
+          DC    A(TARGET)                                               01120000
+          DC    A(RESULT)                                               01130000
+NF        DC    C'-TARGET ='       LABEL FOR NOT FOUND PRINT LINE       01140000
+NFNUM     DS    CL12               NOT FOUND NUMBEL LBL                 01150000
+          DC    C' WAS NOT FOUND'                                       01160000
+F         DC    C'-TARGET ='       LABEL FOR FOUND PRINT LINE           01170000
+FNUM      DS    CL12               FOUND NUMBER LBL                     01180000
+          DC    C' WAS FOUND'                                           01190000
+*                                                                       01200000
+*                                                                       01210000
+*                                                                       01220000
+*                                                                       01230000
+*                                                                       01240000
+*                                                                       01250000
+*                                                                       01260000
+*                                                                       01270000
+*********************************************************************** 01280000
+*                          BUILD ROUTINE                              * 01290000
+*  NAME:     GEORGE ZHYLIN Z1810327                                   * 01300000
+*                                                                     * 01310000
+*  FUNCTION: ROUTINE GETS TABLE,EOT,RECORD POINTERS AS ARGUMENTS, NEXT* 01320000
+*            ROUTINE GOES THRU STANDARD ENTRY LINKAGE. TRY'S TO READ  * 01330000
+*            FIRST RECORD, IF EOF THEN GOES TO THE END, IF NOT THEN   * 01340000
+*            CONVERT RECORD TO CHAR FORMAT AND PUTS IN A TABLE. THIS  * 01350000
+*            PROCESS CONTINUES UNTIL DELIMITER (-77777777) FOUND.     * 01360000
+*            ROUTINE STORES THE POINTERS AND GOES THRU STANDARD EXIT  * 01370000
+*            LINKAGE.                                                 * 01380000
+*  REGISTER USAGE:                                                    * 01390000
+*  R1  = XDECI                                                        * 01400000
+*  R2  = POINTER TO THE TABLE                                         * 01410000
+*  R3  = POINTER TO THE EOT                                           * 01420000
+*  R4  = POINTER TO THE RECORD(BUFFER)                                * 01430000
+*  R5  = POINTER TO THE BEGINING OF THE TABLE                         * 01440000
+*  R6  = POINTER TO THE END OF THE TABLE                              * 01450000
+*  R7  =                                                              * 01460000
+*  R8  = RECORD VARIABLE                                              * 01470000
+*  R9  =                                                              * 01480000
+*  R10 =                                                              * 01490000
+*  R11 =                                                              * 01500000
+*  R12 = BASE REGISTER                                                * 01510000
+*  R13 =                                                              * 01520000
+*  R14 = EXIT                                                         * 01530000
+*  R15 =                                                              * 01540000
+*********************************************************************** 01550000
+BUILD     CSECT                    BUILD ROUTINE                        01560000
+***<STANDARD ENTRY LINKAGE FOR ROUTINE>***                              01570000
+          STM   14,12,12(13)       SAVE ALL THE REGISTERS EXCEPT R13    01580000
+          LR    12,15              PUT ADDRESS OF ROUT  IN R12          01590000
+          USING BUILD,12           SET R12 AS A BASE REGISTER FOR ROUT  01600000
+          LA    14,SAVEREAD        SET POINTER TO ROUTINE SAVE AREA     01610000
+          ST    13,4(14)           BACKWARD POINTER                     01620000
+          ST    14,8(13)           FORWARD POINTER                      01630000
+          LR    13,14              SET POINTER IN R13 TO ROUTINE        01640000
+***<BUILD ROUTINE BODY>***                                              01650000
+          LM    2,4,0(1)           UNLOAD ARGUMENTS IN R2,R3,R4         01660000
+          LR    5,2                COPY POINTER TO BEGINING OF THE TABL 01670000
+LOOP1     XREAD 0(4),80            READ FIRST RECORD                    01680000
+          BC    B'0100',END        IF EOF GO TO END LABEL               01690000
+          XDECI 8,0(4)             PUT ENTRY IN R8                      01700000
+          BC    B'0001',LOOP1      IF NO DATA THEN RETURN TO LOOP1      01710000
+          C     8,=F'-77777777'    SEARCH FOR DELIMITER                 01720000
+          BC    B'1000',END        IF DELIMETER FOUND, GO TO THE END    01730000
+          ST    8,0(2)             STORE ENTRY IN TABLE                 01740000
+          LA    2,4(2)             UPDATE POINTER TO POINT TO NEXT E    01750000
+          XDECI 8,0(1)             TRY TO READ NEXT ENTRY               01760000
+LOOP2     BC    B'0001',LOOP1      IF NO DATA THEN RETURN TO LOOP1      01770000
+          C     8,=F'-77777777'    SEARCH FOR DELIMITER                 01780000
+          BC    B'1000',END        IF DELIMETER FOUND, GO TO THE END    01790000
+          ST    8,0(2)             STORE ENTRY IN TABLE                 01800000
+          LA    2,4(2)             UPDATE POINTER TO POINT TO NEXT E    01810000
+          XDECI 8,0(1)             TRY TO READ NEXT ENTRY               01820000
+          BC    B'1111',LOOP2      GO TO LOOP2 AND CONTINUE             01830000
+END       LR    6,2                STORE POINTER OF EOT TO R6           01840000
+          S     6,=F'10'           SUBSTRACT ONE FULLWORD FROM R6       01850000
+***<SET POINTERS>***                                                    01860000
+          ST    6,0(3)             PUT EOT POINTER IN EOT VARIABLE      01870000
+          ST    5,0(2)             RESTORE POINTER TO THE BEGINING OF T 01880000
+***<STANDARD EXIT LINKAGE FOR ROUTINE>***                               01890000
+          L     13,4(13)           SET R13 TO CALLERS SAVE AREA         01900000
+          LM    14,12,12(13)       RESTORE REGISTERS                    01910000
+          BR    14                 EXIT                                 01920000
+          LTORG                                                         01930000
+***<STORAGE FOR BUILD ROUTINE>***                                       01940000
+SAVEREAD  DS    18F                REGISTERS STORAGE                    01950000
+***<END OF BUILD ROUTINE>***                                            01960000
+*                                                                       01970000
+*                                                                       01980000
+*                                                                       01990000
+*                                                                       02000000
+*                                                                       02010000
+*                                                                       02020000
+*                                                                       02030000
+*********************************************************************** 02040000
+*                           PRINT ROUTINE                             * 02050000
+*  NAME:     GEORGE ZHYLIN Z1810327                                   * 02060000
+*                                                                     * 02070000
+*  FUNCTION: ROUTINE GETS TABLE AND EOT POINTERS AS ARGUMENTS. THEN   * 02080000
+*            GOES THRU STANDARD ENTRY LINKAGE PROCESS.                * 02090000
+*            ROUTINE LOADS NUMBER FROM THE TABLE, CONVERT AND INSERT  * 02100000
+*            THE NUMBER IN A LINE OF 7 NUMBERS, UNTIL EOT REACHED.    * 02110000
+*            AFTER EOT REACHED, ROUTINE GOES THRU STANDARD EXIT LINK  * 02120000
+*                                                                     * 02130000
+*                                                                     * 02140000
+*  REGISTER USAGE:                                                    * 02150000
+*  R1  = ARGUMENTS POINTER                                            * 02160000
+*  R2  = TABLE POINTER                                                * 02170000
+*  R3  = EOT POINTER                                                  * 02180000
+*  R4  = TABLE NUMBER VARIABLE                                        * 02190000
+*  R5  =                                                              * 02200000
+*  R6  =                                                              * 02210000
+*  R7  = COUNTER FOR ROWS                                             * 02220000
+*  R8  = LABEL POINTER                                                * 02230000
+*  R9  =                                                              * 02240000
+*  R10 =                                                              * 02250000
+*  R11 =                                                              * 02260000
+*  R12 =                                                              * 02270000
+*  R13 =                                                              * 02280000
+*  R14 = EXIT                                                         * 02290000
+*  R15 =                                                              * 02300000
+*********************************************************************** 02310000
+PRINT     CSECT                    PRINT ROUTINE                        02320000
+***<STANDARD ENTRY LINKAGE FOR ROUTINE>***                              02330000
+          STM   14,12,12(13)       SAVE ALL THE REGISTERS EXCEPT R13    02340000
+          LR    12,15              PUT ADDRESS OF ROUTINE IN R12        02350000
+          USING PRINT,12           SET R12 AS A BASE REGISTER FOR ROUT  02360000
+          LA    14,SAVEPRNT        SET POINTER TO ROUTINE SAVE AREA     02370000
+          ST    13,4(14)           BACKWARD POINTER                     02380000
+          ST    14,8(13)           FORWARD POINTER                      02390000
+          LR    13,14              SET POINTER IN R13 TO ROUTINE        02400000
+***<PRINT ROUTINE BODY>***                                              02410000
+          LM    2,3,0(1)           UNLOAD ARGUMENTS IN R2,R3            02420000
+          XPRNT =C'1                       Table Contents',38           02430000
+          LR    5,2                COPY POINTER TO BEGINING OF THE TABL 02440000
+          L     7,=F'0'            SET ROW COUNTER TO ZERO              02450000
+LOOP3     MVI   NUM1,C' '          USE DESTRUCTIVE OVERLAP TO CLEAR     02460000
+          MVC   NUM1+1(84),NUM1    THE FIELDS                           02470000
+          LA    8,NUM1             STORE THE ADDRESS OF FIRST LBL IN R8 02480000
+LOOP4     CR    2,3                COMPARE CURRENT RECORD AGAINST EOT   02490000
+          BC    B'1010',ENDP       IF END OF TABLE GO TO THE ENDP       02500000
+          C     7,=F'7'            CHECK IF 7 RECORDS PRINTED ON LINE   02510000
+          BE    PRINTL             IF 7 RECORDS, PRINT LINE             02520000
+          L     4,0(2)             GET VALUE FROM THE TABLE             02530000
+          XDECO 4,0(8)             CONVERT AND PUT IN LABEL             02540000
+          LA    2,4(2)             INCREMENT TABLE POINTER              02550000
+          LA    8,12(8)            INCREMENT LABEL POINTER              02560000
+          A     7,=F'1'            INCREMENT ROW COUNTER                02570000
+          BC    B'1111',LOOP4      GO TO LOOP4                          02580000
+PRINTL    SR    7,7                RESET ROW COUNTER                    02590000
+          XPRNT PRESULT,85         PRINT ROW                            02600000
+          BC    B'1111',LOOP3      RETURN TO BEGINING OF THE LOOP3      02610000
+ENDP      XPRNT PRESULT,85         PRINT ROW AND EXIT                   02620000
+          ST    5,0(2)             RESTORE POINTER TO THE BEGINING OF T 02630000
+***<STANDARD EXIT LINKAGE FOR ROUTINE>***                               02640000
+          L     13,4(13)           SET R13 TO CALLERS SAVE AREA         02650000
+          LM    14,12,12(13)       RESTORE REGISTERS                    02660000
+          BR    14                 EXIT                                 02670000
+          LTORG                                                         02680000
+***<STORAGE FOR PRINT ROUTINE>***                                       02690000
+SAVEPRNT  DS    18F                REGISTERS STORAGE                    02700000
+PRESULT   DC    C'0'               CCC                                  02710000
+NUM1      DS    CL12               VARIABLES TO HOLD VALUES FOR DISPLAY 02720000
+          DS    CL12                                                    02730000
+          DS    CL12                                                    02740000
+          DS    CL12                                                    02750000
+          DS    CL12                                                    02760000
+          DS    CL12                                                    02770000
+          DS    CL12                                                    02780000
+***<END OF PRINT ROUTINE>***                                            02790000
+*                                                                       02800000
+*                                                                       02810000
+*                                                                       02820000
+*                                                                       02830000
+*                                                                       02840000
+*                                                                       02850000
+*                                                                       02860000
+*                                                                       02870000
+*                                                                       02880000
+*                                                                       02890000
+*                                                                       02900000
+*********************************************************************** 02910000
+*                         SEARCH ROUTINE                              * 02920000
+*  NAME:     GEORGE ZHYLIN Z1810327                                   * 02930000
+*                                                                     * 02940000
+*  FUNCTION: ROUTINE GETS 4 ARGUMENTS, TABLE,EOT,TARGET AND RESULT    * 02950000
+*            ROUTINE GOES THRU STANDARD ENTRY LINKAGE, THEN UNLOAD    * 02960000
+*            PARAMETERS. THEN LOAD ACTUAL TARGET VALUE AND TABLE VALUE* 02970000
+*            CHECK FOR EOF, COMPARE 2 VALUES IF VALUE NOT FOUND THEN  * 02980000
+*            SET R15 TO 0 AND EXIT, IF VALUE FOUND THEN SET R15 TO 1  * 02990000
+*            AND EXIT.                                                * 03000000
+*                                                                     * 03010000
+*  REGISTER USAGE:                                                    * 03020000
+*  R1  = ARGUMENTS POINTER                                            * 03030000
+*  R2  = TABLE POINTER                                                * 03040000
+*  R3  = EOT POINTER                                                  * 03050000
+*  R4  = TARGET POINTER                                               * 03060000
+*  R5  = RESULT POINTER                                               * 03070000
+*  R6  = TARGEV VALUE                                                 * 03080000
+*  R7  = TABLE VALUE                                                  * 03090000
+*  R8  =                                                              * 03100000
+*  R9  =                                                              * 03110000
+*  R10 =                                                              * 03120000
+*  R11 =                                                              * 03130000
+*  R12 =                                                              * 03140000
+*  R13 =                                                              * 03150000
+*  R14 = EXIT                                                         * 03160000
+*  R15 = SEARCH RESULT VALUE                                          * 03170000
+*********************************************************************** 03180000
+SEARCH    CSECT                    SEARCH ROUTINE                       03190000
+***<STANDARD ENTRY LINKAGE FOR ROUTINE>***                              03200000
+          STM   14,12,12(13)       SAVE ALL THE REGISTERS EXCEPT R13    03210000
+          LR    12,15              PUT ADDRESS OF ROUTINE IN R12        03220000
+          USING SEARCH,12          SET R12 AS A BASE REGISTER FOR ROUT  03230000
+          LA    14,SAVESRCH        SET POINTER TO ROUTINE SAVE AREA     03240000
+          ST    13,4(14)           BACKWARD POINTER                     03250000
+          ST    14,8(13)           FORWARD POINTER                      03260000
+          LR    13,14              SET POINTER IN R13 TO ROUTINE        03270000
+***<SEARCH ROUTINE BODY>***                                             03280000
+          LM    2,5,0(1)           UNLOAD ARGUMENTS IN R2,R3,R4,R5      03290000
+          L     6,0(4)             GET TARGET VALUE IN R6 FROM R4       03300000
+LOOP5     CR    2,3                COMPARE CURRENT RECORD AGAINST EOT   03310000
+          BC    B'1010',NFOUND     IF END OF TABLE GO TO THE NFOUND     03320000
+          SR    7,7                CLEAR R7                             03330000
+          L     7,0(2)             GET TABLE VALUE IN R7 FROM R2        03340000
+          CR    6,7                COMPARE CURRENT VALUE AGAINST TARGET 03350000
+          BC    B'1000',FOUND      IF TARGET FOUND GO TO FOUND LBL      03360000
+          LA    2,4(2)             INCREMENT TABLE POINTER              03370000
+          BC    B'1111',LOOP5      GO TO LOOP5                          03380000
+***<IF TARGET VALUE FOUND>***                                           03400000
+FOUND     L     15,=F'1'           IF VALUE FOUND, SET R15 TO 1         03400000
+          C     15,=F'1'                                                03410000
+          BC    B'1111',EXITSR     GO TO EXIT                           03420000
+***<IF TARGET VALUE NOT FOUND>***                                       03430000
+NFOUND    L     15,=F'0'           IF VALUE NOT FOUND, SET R15 TO 0     03440000
+          C     15,=F'0'                                                03450000
+          BC    B'1111',EXITSR     GO TO EXIT                           03460000
+*                                                                       03470000
+***<STANDARD EXIT LINKAGE FOR ROUTINE>***                               03480000
+EXITSR    L     13,4(13)           SET R13 TO CALLERS SAVE AREA         03490000
+          L     14,12(13)          RESTORE REGISTERS EXEPT 13 AND 15    03500000
+          LM    0,12,20(13)                                             03510000
+          BR    14                 EXIT                                 03520000
+          LTORG                                                         03530000
+***<STORAGE FOR SEARCH ROUTINE>***                                      03540000
+SAVESRCH  DS    18F                REGISTERS STORAGE                    03550000
+***<END OF SEARCH ROUTINE>***                                           03560000
+          END   MAIN                                                    03570000
+*                                                                       03580000
+*                                                                       03590000
+*                                                                       03600000
+*                                                                       03610000
+*                                                                       03620000
+/*                                                                      
+//FT05F001   DD  *                                                      
+1 -2005         515   90  50      -1   172219           60205           
+-777224                                                                 
+3       7534    204914           141  0 606031    -419                  
+218 111 46                                                              
+9001  312909    -517  9 62  89  305   250 305                           
+7845902       -311      -100001                                         
+-999     2    6509    -5   177   42        777                          
+                                                                        
+345   -9009     65712                                                   
+                                                                        
+88442                                                                   
+-84                 131  5106  121  -89 15   95221 -80                  
+-5005005                                                                
+12  34  5678                                                            
+-77777777                                                               
+-8033                                                                   
+994                                                                     
+9001                                                                    
+177                                                                     
+2                                                                       
+321                                                                     
+-419                                                                    
+/*                                                                      
+//FT06F001   DD SYSOUT=*                                                
+//                                                                      

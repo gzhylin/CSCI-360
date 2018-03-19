@@ -1,0 +1,39 @@
+//KC03N08Z JOB ,'George Zhylin' ,MSGCLASS=H                             00010000
+//STEP1 EXEC PGM=ASSIST                                                 00020000
+//STEPLIB DD DSN=KC02293.ASSIST.LOADLIB,DISP=SHR                        00030000
+//SYSPRINT DD SYSOUT=*                                                  00040000
+//SYSIN DD *                                                            00050000
+*********************************************************************** 00060000
+*  PROGRAM ASSIGNMENT1 PARTA                                          * 00070000
+*                                                                     * 00080000
+*  NAME: GEORGE ZHYLIN Z1810327                                       * 00090000
+*                                                                     * 00100000
+*  FUNCTION: DECLARE NUM1 AND NUM2, LOAD THEM INTO R1,R2,R3,R4        * 00110000
+*            AND PERFORM OPERATIONS SUCH AS SUBSTRUCTION AND ADDITION * 00120000
+*                                                                     * 00130000
+*                                                                     * 00140000
+*  INPUT: NONE                                                        * 00150000
+*                                                                     * 00160000
+*  OUTPUT: XDUMP VALUE OF ALL REGISTERS                               * 00170000
+*                                                                     * 00180000
+*  REGISTER USAGE: R1 AND R3 - STORE NUM1                             * 00190000
+*                  R2 AND R4 - STORE NUM2                             * 00200000
+*                  R15 - BASE REGISTER                                * 00210000
+*                                                                     * 00220000
+*                                                                     * 00230000
+*********************************************************************** 00240000
+MAIN      CSECT                                                         00250000
+          USING MAIN,15                                                 00260000
+          L     1,NUM1             LOAD VALUE FROM NUM1 IN REGISTER1    00270000
+          L     2,NUM2             LOAD VALUE FROM NUM2 IN REGISTER2    00280000
+          SR    2,1                SUBSTRUCT REGISTER1 FROM REGISTER2   00290000
+          L     3,NUM1             LOAD VALUE FROM NUM1 IN REGISTER3    00300000
+          L     4,NUM2             LOAD VALUE FROM NUM2 IN REGISTER4    00310000
+          AR    3,4                ADD REGISTER4 TO REGISTER3           00320000
+          XDUMP                                                         00330000
+          BR    14                                                      00340000
+NUM1      DC    F'249'             DECLARE FULLWORD NUM1 VALUE 249      00350000
+NUM2      DC    F'117'             DECLARE FULLWORD NUM2 VALUE 117      00360000
+          END   MAIN                                                    00370000
+/*                                                                      00380000
+//                                                                      00390000

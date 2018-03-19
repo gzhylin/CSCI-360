@@ -1,0 +1,45 @@
+//KC03N08Z JOB ,'George Zhylin' ,MSGCLASS=H                             00010000
+//STEP1   EXEC PGM=ASSIST                                               00020000
+//STEPLIB   DD DSN=KC02293.ASSIST.LOADLIB,DISP=SHR                      00030000
+//SYSPRINT  DD SYSOUT=*                                                 00040000
+//SYSIN     DD *                                                        00050000
+*********************************************************************** 00060000
+*  PROGRAM ASSIGNMENT2                                                * 00070000
+*                                                                     * 00080000
+*  NAME:     GEORGE ZHYLIN Z1810327                                   * 00090000
+*                                                                     * 00100000
+*  FUNCTION: TRY TO READ A RECORD AND CHECK FRO EOF,                  * 00110000
+*            IF EOF THEN PRINT SUMARY LINE AND EXIT.                  * 00120000
+*            IF NOT EOF THEN READ 3 NUMBERS FROM THE RECORD & DISPLAY,* 00130000
+*            CALC RESULTS Y+Z-X AND DISPLAY,INCREMENT COUNTER AND SUM * 00140000
+*  INPUT:    11 LINES WITH 3 ROWS OF 4DIGIT NUMBERS, SEE LINE 96      * 00150000
+*                                                                     * 00160000
+*  OUTPUT:   VALUES X,Y,Z,RESULT FOR EACH LINE & COUNT,SUM IN THE END * 00170000
+*                                                                     * 00180000
+*  REGISTER USAGE: R1 USED BY XDECI                                   * 00190000
+*                  R2,R3,R4 USED FOR X,Y,Z BY XDECI                   * 00200000
+*                  R6,R7,R8 USED TO STORE VARS:COUNT,SUM,ONE          * 00210000
+*                  R15 - BASE REGISTER                                * 00220000
+*                                                                     * 00230000
+*********************************************************************** 00240000
+WRITTEN2 CSECT                                                          00250000
+         USING WRITTEN2,15  Establish a base register                   00260000
+         L     7,FIRST      Load a number into register 7               00270000
+         L     8,SECOND     Load another number into register 8         00280000
+         AR    7,8          Add the two numbers                         00290000
+         LA    3,THIRD      Register 5 will = address of THIRD          00300000
+         ST    7,0(0,3)     Store the result in THIRD                   00310000
+         SR    10,10        The return value should be 0                00320000
+         ST    10,RVALUE    Store the return value in RVALUE            00330000
+         XDUMP THIRD,4      Dump the result                             00340000
+         BCR   B'1111',14   Return to caller                            00350000
+*                                                                       00360000
+NOTE     DC    CL2'OK'      Place keeper                                00370000
+FIRST    DC    F'295'       A number                                    00380000
+SECOND   DC    F'78'        Another number                              00390000
+RVALUE   DS    F            Return value                                00400000
+ID       DC    CL7'CSCI360' Identifier                                  00410000
+THIRD    DS    F            Sum of the two numbers                      00420000
+         END   WRITTEN2     Program end                                 00430000
+/*                                                                      00440000
+//                                                                      00450000

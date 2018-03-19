@@ -1,0 +1,249 @@
+1                    J E S 2  J O B  L O G  --  S Y S T E M  S 0 W 1  --  N O D E  Z O S K C T R         
+0 
+ 21.32.56 JOB07149 ---- THURSDAY,  12 OCT 2017 ----
+ 21.32.56 JOB07149  IRR010I  USERID KC03N08  IS ASSIGNED TO THIS JOB.
+ 21.32.56 JOB07149  ICH70001I KC03N08  LAST ACCESS AT 21:32:41 ON THURSDAY, OCTOBER 12, 2017
+ 21.32.56 JOB07149  $HASP373 KC03N08Z STARTED - INIT 2    - CLASS A        - SYS S0W1
+ 21.32.56 JOB07149  -                                         --TIMINGS (MINS.)--            ----PAGING COUNTS---
+ 21.32.56 JOB07149  -JOBNAME  STEPNAME PROCSTEP    RC   EXCP    TCB    SRB  CLOCK   SERV  PG   PAGE   SWAP    VIO SWAPS
+ 21.32.56 JOB07149  -KC03N08Z                      00     62 ******    .00     .0    213   0      0      0      0     0
+ 21.32.56 JOB07149  -KC03N08Z ENDED.  NAME-George Zhylin        TOTAL TCB CPU TIME=   .00  TOTAL ELAPSED TIME=    .0
+ 21.32.56 JOB07149  $HASP395 KC03N08Z ENDED
+0------ JES2 JOB STATISTICS ------
+-  12 OCT 2017 JOB EXECUTION DATE
+-          164 CARDS READ
+-          249 SYSOUT PRINT RECORDS
+-            0 SYSOUT PUNCH RECORDS
+-           25 SYSOUT SPOOL KBYTES
+-         0.00 MINUTES EXECUTION TIME
+         1 //KC03N08Z JOB ,'George Zhylin' ,MSGCLASS=H                             JOB07149
+         2 //STEP1   EXEC PGM=ASSIST                                               00020000
+         3 //STEPLIB   DD DSN=KC02293.ASSIST.LOADLIB,DISP=SHR                      00030000
+         4 //SYSPRINT  DD SYSOUT=*                                                 00040000
+         5 //SYSIN     DD *                                                        00050000
+         6 //FT05F001 DD DSN=KC02314.AUTUMN17.CSCI360.HW4DATA,DISP=SHR             01640000
+ ICH70001I KC03N08  LAST ACCESS AT 21:32:41 ON THURSDAY, OCTOBER 12, 2017
+ IEF236I ALLOC. FOR KC03N08Z STEP1
+ IGD103I SMS ALLOCATED TO DDNAME STEPLIB
+ IEF237I JES2 ALLOCATED TO SYSPRINT
+ IEF237I JES2 ALLOCATED TO SYSIN
+ IGD103I SMS ALLOCATED TO DDNAME FT05F001
+ IEF142I KC03N08Z STEP1 - STEP WAS EXECUTED - COND CODE 0000
+ IGD104I KC02293.ASSIST.LOADLIB                       RETAINED,  DDNAME=STEPLIB 
+ IEF285I   KC03N08.KC03N08Z.JOB07149.D0000102.?         SYSOUT        
+ IEF285I   KC03N08.KC03N08Z.JOB07149.D0000101.?         SYSIN         
+ IGD104I KC02314.AUTUMN17.CSCI360.HW4DATA             RETAINED,  DDNAME=FT05F001
+ IEF373I STEP/STEP1   /START 2017285.2132
+ IEF032I STEP/STEP1   /STOP  2017285.2132 
+         CPU:     0 HR  00 MIN  00.01 SEC    SRB:     0 HR  00 MIN  00.00 SEC    
+         VIRT:   584K  SYS:   268K  EXT:        4K  SYS:    11996K
+         ATB- REAL:                     0K  SLOTS:                     0K
+              VIRT- ALLOC:       0M SHRD:       0M
+ IEF375I  JOB/KC03N08Z/START 2017285.2132
+ IEF033I  JOB/KC03N08Z/STOP  2017285.2132 
+         CPU:     0 HR  00 MIN  00.01 SEC    SRB:     0 HR  00 MIN  00.00 SEC    
+1*** ASSIST 4.0/A2-05/15/82  470/V7A/0:OS/VS2  INS=SDFP7/X=BGHO, CHECK/TRC/=1180, OPTS=CDKMPR FROM PENN ST*NIU COMPSCI*LT         
+0                                                                                                                                 
+0                                                                                                               PAGE    1         
+0  LOC  OBJECT CODE    ADDR1 ADDR2  STMT   SOURCE STATEMENT                                                                       
+                                       1 *********************************************************************** 00060000         
+                                       2 *  PROGRAM ASSIGNMENT4                                                * 00070000         
+                                       3 *  NAME:     GEORGE ZHYLIN Z1810327                                   * 00080000         
+                                       4 *  FUNCTION: PRINT HEADERS, TRY TO READ A RECORD AND CHECK FOR EOF,   * 00090000         
+                                       5 *  SCAN RECORD FOR NUMBERS,PUT FOUND NUMBERS IN A TABLE OF 49 ENTRYS. * 00100000         
+                                       6 *  NEXT - DISPLAY ALL 49 NUMBERS FROM THE TABLE. NEXT - DISPLAY ALL   * 00110000         
+                                       7 *  THE ODD NUMBERS IN A TABLE.                                        * 00120000         
+                                       8 *  INPUT:    12 LINES WITH 0 TO 10 NUMBERS WITHIN, SEE LINE 164       * 00130000         
+                                       9 *  OUTPUT:   49 NUMBERS FROM THE TABLE AND 29 ODD NUMBERS FROM THE TAB* 00140000         
+                                      10 *  REGISTER USAGE: R1-XDECI USE    | R15-BASE REGSTR | R8-            * 00150000         
+                                      11 *  R9 -          | R2-TABLE POINTER| R6-             | R10-           * 00160000         
+                                      12 *  R13-READ R    | R3-EOT          | R7-             | R11-PRINTO R   * 00170000         
+                                      13 *  R12-PRINT R   | R4-             | R5-             | R14-EXIT       * 00180000         
+                                      14 *********************************************************************** 00190000         
+ 000000                               15 MAIN      CSECT                                                         00200000         
+ 000000                               16           USING MAIN,15                                                 00210000         
+ 000000 4120 F018            00018    17           LA    2,TABLE            R2 USED TO PASS TABLE POINTER        00220000         
+ 000004 45D0 F0E0            000E0    18           BAL   13,READ            CALL READ ROUTINE                    00230000         
+ 000008 5030 F0DC            000DC    19           ST    3,EOT              STORE END OF TABLE ADDRESS           00240000         
+ 00000C 45C0 F1E0            001E0    20           BAL   12,PRINT           CALL PRINT NUMBERS ROUTINE           00250000         
+ 000010 45B0 F30C            0030C    21           BAL   11,PRINTO          CALL PRINT ODD NUMBERS ROUTINE       00260000         
+ 000014 07FE                          22           BR    14                 EXIT                                 00270000         
+                                      23 ***<STORAGE FOR MAIN ROUTINE>***                                        00280000         
+ 000018 FFFFFFF0FFFFFFF0              24 TABLE     DC    49F'-16'           TABLE                                00290000         
+ 0000DC                               25 EOT       DS    F                  ADDRESS OF 1ST UNUSED ENTRY IN TAB   00300000         
+                                      26 *                                                                       00310000         
+                                      27 *********************************************************************** 00320000         
+                                      28 *NAME:                       READ ROUTINE                             * 00330000         
+                                      29 *FUNCTION: READ RECORD, CHECK FOR EOF, SCAN RECORD FOR THE NUMBERS,   * 00340000         
+                                      30 *         STORE FOUND NUMBERS IN THE TABLE, UNTIL REACH 49 ENTRYS.    * 00350000         
+                                      31 *R7-COUNTER, R8+R1-XDECI, R2-TABLE POINTER, R3-EOT POINTER, R13-EXIT  * 00360000         
+                                      32 *********************************************************************** 00370000         
+ 0000E0 9042 F1A4            001A4    33 READ      STM   4,2,SAVER1         SAVE REGISTERS EXCEPT R3 (EOT)       00380000         
+ 0000E4 5870 F140            00140    34           L     7,=F'0'            SET COUNTER TO ZERO                  00390000         
+ 0000E8 E000 F150 0050 00150          35 LOOP1     XREAD RECORD,80          READ FIRST RECORD                    00400000         
+ 0000EE 4740 F132            00132    36           BC    B'0100',END        IF EOF GO TO END LABEL               00410000         
+ 0000F2 5970 F144            00144    37           C     7,=F'49'           CHECK IF 49 RECORDS STORED           00420000         
+ 0000F6 47A0 F132            00132    38           BC    B'1010',END        IF 49 THEN GO TO END LABEL           00430000         
+ 0000FA 5380 F150            00150    39           XDECI 8,RECORD           PUT ENTRY IN R8                      00440000         
+ 0000FE 4710 F0E8            000E8    40           BC    B'0001',LOOP1      IF NO DATA THEN RETURN TO LOOP1      00450000         
+ 000102 5082 0000            00000    41           ST    8,0(2)             STORE ENTRY IN TABLE                 00460000         
+ 000106 4122 0004            00004    42           LA    2,4(2)             UPDATE POINTER TO POINT TO NEXT E    00470000         
+ 00010A 5A70 F148            00148    43           A     7,=F'1'            UPDATE COUNTER                       00480000         
+ 00010E 5381 0000            00000    44           XDECI 8,0(1)             TRY TO READ NEXT ENTRY               00490000         
+ 000112 4710 F0E8            000E8    45 LOOP2     BC    B'0001',LOOP1      IF NO DATA THEN RETURN TO LOOP1      00500000         
+ 000116 5082 0000            00000    46           ST    8,0(2)             STORE ENTRY IN TABLE                 00510000         
+ 00011A 4122 0004            00004    47           LA    2,4(2)             UPDATE POINTER TO POINT TO NEXT E    00520000         
+ 00011E 5A70 F148            00148    48           A     7,=F'1'            UPDATE COUNTER                       00530000         
+ 000122 5381 0000            00000    49           XDECI 8,0(1)             TRY TO READ NEXT ENTRY               00540000         
+ 000126 47F0 F112            00112    50           BC    B'1111',LOOP2      GO TO LOOP2 AND CONTINUE             00550000         
+ 00012A 5970 F144            00144    51           C     7,=F'49'           CHECK IF 49 RECORDS STORED           00560000         
+ 00012E 4780 F132            00132    52           BC    B'1000',END        IF 49 THEN GO TO END LABEL           00570000         
+1                                                                                                               PAGE    2         
+0  LOC  OBJECT CODE    ADDR1 ADDR2  STMT   SOURCE STATEMENT                                                                       
+ 000132 1832                          53 END       LR    3,2                STORE POINTER TO THE END OF THE TAB  00580000         
+ 000134 5B30 F14C            0014C    54           S     3,=F'10'           NOW R3 POINTS TO THE LAST ENTRY      00590000         
+ 000138 9842 F1A4            001A4    55           LM    4,2,SAVER1         RESTORE ALL REGISTER BUT R3 (EOT)    00600000         
+ 00013C 07FD                          56           BR    13                 EXIT                                 00610000         
+                                      57           LTORG                                                         00620000         
+ 000140 00000000                      58                =F'0'                                                                     
+ 000144 00000031                      59                =F'49'                                                                    
+ 000148 00000001                      60                =F'1'                                                                     
+ 00014C 0000000A                      61                =F'10'                                                                    
+                                      62 ***<STORAGE FOR READ ROUTINE>***                                        00630000         
+ 000150                               63 RECORD    DS    80C                BUFFER                               00640000         
+ 0001A0 5C                            64           DC    C'*'                                                    00650000         
+ 0001A4                               65 SAVER1    DS    15F                REGISTERS STORAGE                    00660000         
+                                      66 *********************************************************************** 00670000         
+                                      67 *                            PRINT ROUTINE                            * 00680000         
+                                      68 *PURPOSE: GET NUMBER FROM THE TABLE, AND PRINT 6 NUMBER PER LINE UNTIL* 00690000         
+                                      69 *         REACH EOT.                                                  * 00700000         
+                                      70 *R2-TABLE POINTER, R3-EOT POINTER,R7-COUNTER,R8-NUM1,R4-VALUE,R12-EXIT* 00710000         
+                                      71 *********************************************************************** 00720000         
+ 0001E0 900F F2CC            002CC    72 PRINT     STM   0,15,SAVER2        SAVE ALL OF THE REGISTERS            00730000         
+ 0001E4 E020 F248 002C 00248          73           XPRNT =C'1                            List of Numbers',44     00740000         
+ 0001EA E020 F280 0001 00280          74           XPRNT =C' ',1            PRINT HEADERS                        00750000         
+ 0001F0 5870 F274            00274    75           L     7,=F'0'            SET ROW COUNTER TO ZERO              00760000         
+ 0001F4 9240 F283      00283          76 LOOP3     MVI   NUM1,C' '          USE DESTRUCTIVE OVERLAP TO CLEAR     00770000         
+ 0001F8 D247 F284 F283 00284 00283    77           MVC   NUM1+1(72),NUM1    THE FIELDS                           00780000         
+ 0001FE 4180 F283            00283    78           LA    8,NUM1             STORE THE ADDRESS OF FIRST LBL IN R8 00790000         
+ 000202 1923                          79 LOOP4     CR    2,3                COMPARE CURRENT RECORD AGAINST EOT   00800000         
+ 000204 47A0 F234            00234    80           BC    B'1010',ENDP       IF END OF TABLE GO TO THE ENDP       00810000         
+ 000208 5970 F278            00278    81           C     7,=F'6'            CHECK IF 6 RECORDS PRINTED ON LINE   00820000         
+ 00020C 4780 F228            00228    82           BE    PRINTL             IF 6 RECORDS, PRINT LINE             00830000         
+ 000210 5842 0000            00000    83           L     4,0(2)             GET VALUE FROM THE TABLE             00840000         
+ 000214 5248 0000            00000    84           XDECO 4,0(8)             CONVERT AND PUT IN LABEL             00850000         
+ 000218 4122 0004            00004    85           LA    2,4(2)             INCREMENT TABLE POINTER              00860000         
+ 00021C 4188 000C            0000C    86           LA    8,12(8)            INCREMENT LABEL POINTER              00870000         
+ 000220 5A70 F27C            0027C    87           A     7,=F'1'            INCREMENT ROW COUNTER                00880000         
+ 000224 47F0 F202            00202    88           BC    B'1111',LOOP4                                           00890000         
+ 000228 1B77                          89 PRINTL    SR    7,7                RESET ROW COUNTER                    00900000         
+ 00022A E020 F282 0049 00282          90           XPRNT RESULT,73          PRINT ROW                            00910000         
+ 000230 47F0 F1F4            001F4    91           BC    B'1111',LOOP3      RETURN TO BEGINING OF THE LOOOP      00920000         
+ 000234 E020 F282 0049 00282          92 ENDP      XPRNT RESULT,73          PRINT ROW AND EXIT                   00930000         
+ 00023A E020 F281 0001 00281          93           XPRNT =C'0',1            PRINT SPACE                          00940000         
+ 000240 980F F2CC            002CC    94           LM    0,15,SAVER2        RESTORE ALL REGISTERS                00950000         
+ 000244 07FC                          95           BR    12                 EXIT                                 00960000         
+                                      96           LTORG                                                         00970000         
+ 000248 F140404040404040              97                =C'1                            List of Numbers'                          
+ 000274 00000000                      98                =F'0'                                                                     
+ 000278 00000006                      99                =F'6'                                                                     
+ 00027C 00000001                     100                =F'1'                                                                     
+ 000280 40                           101                =C' '                                                                     
+ 000281 F0                           102                =C'0'                                                                     
+                                     103 ***<STORAGE FOR PRINT ROUTINE>***                                       00980000         
+ 000282 F0                           104 RESULT    DC    C'0'                                                    00990000         
+ 000283                              105 NUM1      DS    CL12                                                    01000000         
+ 00028F                              106           DS    CL12                                                    01010000         
+ 00029B                              107           DS    CL12                                                    01020000         
+ 0002A7                              108           DS    CL12                                                    01030000         
+ 0002B3                              109           DS    CL12                                                    01040000         
+1                                                                                                               PAGE    3         
+0  LOC  OBJECT CODE    ADDR1 ADDR2  STMT   SOURCE STATEMENT                                                                       
+ 0002BF                              110           DS    CL12                                                    01050000         
+ 0002CC                              111 SAVER2    DS    16F                REGISTERS STORAGE                    01060000         
+                                     112 *                                                                       01070000         
+                                     113 *                                                                       01080000         
+                                     114 *********************************************************************** 01090000         
+                                     115 *NAME:                PRINT ODD NUMBERS ROUTINE                       * 01100000         
+                                     116 *FUNCTION:GET VALUES FROM THE TABLE,CHECK IF ODD AND PRINT 5 PER LINE.* 01110000         
+                                     117 *R6-USED TO PRINT WITH ONE VALUE FROM THE TABLE,R5-USED TO COMPARE VAL* 01120000         
+                                     118 *R2-TABLE, R3-EOT, R7-COUNTER, R8-oNUM1, R4-DR(REMINDER)USE, R12-EXIT * 01130000         
+                                     119 *********************************************************************** 01140000         
+ 00030C 900F F408            00408   120 PRINTO    STM   0,15,SAVER3        SAVE ALL OF THE REGISTERS            01150000         
+ 000310 E020 F388 0030 00388         121           XPRNT =C'1                            List of Odd Numbers',48 01160000         
+ 000316 E020 F3C8 0001 003C8         122           XPRNT =C' ',1            PRINT HEADERS                        01170000         
+                                     123 *                                                                       01180000         
+                                     124 ***<LOOP>***                                                            01190000         
+ 00031C 5870 F3B8            003B8   125           L     7,=F'0'            SET ROW COUNTER TO ZERO              01180000         
+ 000320 9240 F3CB      003CB         126 LOOP5     MVI   ONUM1,C' '         USE DESTRUCTIVE OVERLAP TO CLEAR     01190000         
+ 000324 D247 F3CC F3CB 003CC 003CB   127           MVC   ONUM1+1(72),ONUM1  THE FIELDS                           01200000         
+ 00032A 4180 F3CB            003CB   128           LA    8,ONUM1            STORE THE ADDRESS OF FIRST LBL IN R8 01210000         
+ 00032E 1923                         129 LOOP6     CR    2,3                COMPARE CURRENT RECORD AGAINST EOT   01220000         
+ 000330 47A0 F374            00374   130           BC    B'1010',ENDPO      IF END OF TABLE GO TO THE ENDPO      01230000         
+ 000334 5970 F3BC            003BC   131           C     7,=F'5'            CHECK IF 5 RECORDS PRINTED ON LINE   01240000         
+ 000338 4780 F368            00368   132           BE    PRINTOL            IF 5 RECORDS, GO TO PRINTOL AND PRNT 01250000         
+ 00033C 5852 0000            00000   133           L     5,0(2)             GET VALUE FROM THE TABLE & PUT IN R5 01260000         
+ 000340 5862 0000            00000   134           L     6,0(2)             GET VALUE FROM THE TABLE & PUT IN R6 01270000         
+ 000344 5C40 F3C0            003C0   135           M     4,=F'1'            GET READY FOR DIVISION               01280000         
+ 000348 5D40 F3C4            003C4   136           D     4,=F'2'            DEVIDE VALUE IN R5 BY 2              01290000         
+ 00034C 4122 0004            00004   137           LA    2,4(2)             INCREMENT TABLE POINTER              01300000         
+ 000350 5940 F3B8            003B8   138           C     4,=F'0'            COMPARE REMINDER TO FIND ODD NUMBER  01310000         
+ 000354 4780 F32E            0032E   139           BE    LOOP6              IF REMINDER IS ZERO, GO TO LOOP6     01320000         
+ 000358 5268 0000            00000   140           XDECO 6,0(8)             CONVERT ODD NUM IN R6 AND PUT IN LBL 01350000         
+ 00035C 4188 000C            0000C   141           LA    8,12(8)            INCREMENT LABEL POINTER              01360000         
+ 000360 5A70 F3C0            003C0   142           A     7,=F'1'            INCREMENT ROW COUNTER                01370000         
+ 000364 47F0 F32E            0032E   143           BC    B'1111',LOOP6      RETURN TO THE BEGINING, GO TO LOOP6  01380000         
+ 000368 1B77                         144 PRINTOL   SR    7,7                RESET ROW COUNTER                    01390000         
+ 00036A E020 F3CA 0049 003CA         145           XPRNT ORESULT,73         PRINT ROW                            01400000         
+ 000370 47F0 F320            00320   146           BC    B'1111',LOOP5      RETURN TO BEGINING OF THE LOOOP      01410000         
+ 000374 E020 F3CA 0049 003CA         147 ENDPO     XPRNT ORESULT,73         PRINT ROW AND EXIT                   01420000         
+ 00037A E020 F3C9 0001 003C9         148           XPRNT =C'0',1            PRINT SPACE                          01430000         
+ 000380 980F F408            00408   149           LM    0,15,SAVER3        RESTORE ALL REGISTERS                01440000         
+ 000384 07FB                         150           BR    11                 EXIT                                 01450000         
+                                     151           LTORG                                                         01460000         
+ 000388 F140404040404040             152                =C'1                            List of Odd Numbers'                      
+ 0003B8 00000000                     153                =F'0'                                                                     
+ 0003BC 00000005                     154                =F'5'                                                                     
+ 0003C0 00000001                     155                =F'1'                                                                     
+ 0003C4 00000002                     156                =F'2'                                                                     
+ 0003C8 40                           157                =C' '                                                                     
+ 0003C9 F0                           158                =C'0'                                                                     
+                                     159 ***<STORAGE FOR PRINT ROUTINE>***                                       01470000         
+ 0003CA F0                           160 ORESULT   DC    C'0'                                                    01480000         
+ 0003CB                              161 ONUM1     DS    CL12                                                    01490000         
+ 0003D7                              162           DS    CL12                                                    01500000         
+ 0003E3                              163           DS    CL12                                                    01510000         
+ 0003EF                              164           DS    CL12                                                    01520000         
+ 0003FB                              165           DS    CL12                                                    01530000         
+ 000408                              166 SAVER3    DS    16F                REGISTERS STORAGE                    01540000         
+1                                                                                                               PAGE    4         
+0  LOC  OBJECT CODE    ADDR1 ADDR2  STMT   SOURCE STATEMENT                                                                       
+                                     167           END   MAIN                                                    01550000         
+0***  NO   STATEMENTS FLAGGED -  NO   WARNINGS,  NO   ERRORS                                                                      
+0*** DYNAMIC CORE AREA USED:  LOW:   10708 HIGH:    1284 LEAVING:  481576 FREE BYTES. AVERAGE:       71 BYTES/STMT ***            
+0*** ASSEMBLY TIME =    0.001 SECS,   168000 STATEMENTS/SEC ***                                                                   
+0*** PROGRAM EXECUTION BEGINNING - ANY OUTPUT BEFORE EXECUTION TIME MESSAGE IS PRODUCED BY USER PROGRAM ***                       
+1                            List of Numbers                                                                                      
+                                                                                                                                  
+0       -1000        2578           6         256         218         111                                                         
+0          46         -84         131         402        5106         121                                                         
+0         -89          15       95221         -80           1       -2005                                                         
+0         515          90          50          -1          19      172219                                                         
+0       60205           3        7534      204914         141           0                                                         
+0      606031        -419         999        9001      312909        -517                                                         
+0           9          62          89         305         250         305                                                         
+0         118           0        -999           2        6509          -5                                                         
+0         177                                                                                                                     
+0                                                                                                                                 
+1                            List of Odd Numbers                                                                                  
+                                                                                                                                  
+0         111         131         121         -89          15                                                                     
+0       95221           1       -2005         515          -1                                                                     
+0          19      172219       60205           3         141                                                                     
+0      606031        -419         999        9001      312909                                                                     
+0        -517           9          89         305         305                                                                     
+0        -999        6509          -5         177                                                                                 
+0                                                                                                                                 
+0*** EXECUTION TIME =    0.002 SECS.      1669 INSTRUCTIONS EXECUTED -   834500 INSTRUCTIONS/SEC ***                              
+0*** FIRST CARD NOT READ:                                                                                                         
+0*** AM004 - NORMAL USER TERMINATION BY RETURN ***                                                                                

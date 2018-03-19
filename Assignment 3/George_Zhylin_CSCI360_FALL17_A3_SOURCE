@@ -1,0 +1,165 @@
+//KC03N08Z JOB ,'George Zhylin' ,MSGCLASS=H                             00010000
+//STEP1   EXEC PGM=ASSIST                                               00020000
+//STEPLIB   DD DSN=KC02293.ASSIST.LOADLIB,DISP=SHR                      00030000
+//SYSPRINT  DD SYSOUT=*                                                 00040000
+//SYSIN     DD *                                                        00050000
+*********************************************************************** 00060000
+*  PROGRAM ASSIGNMENT3                                                * 00070000
+*  NAME:     GEORGE ZHYLIN Z1810327                                   * 00080000
+*  FUNCTION: PRINT HEADERS, TRY TO READ A RECORD AND CHECK FOR EOF,   * 00090000
+*            IF EOF THEN PRINT FOOTERS AND EXIT.                      * 00100000
+*            IF NOT EOF THEN READ 3 NUMBERS FROM THE RECORD & DISPLAY,* 00110000
+*            CALC RESULTS AND DISPLAY,INCREMENT COUNTERS              * 00120000
+*  INPUT:    16 LINES WITH 3 ROWS, ALL INTS, SEE LINE 164             * 00130000
+*  OUTPUT:   NUM1,NUM2,RESULT & COUNTERS OF ALL OPERATIONS IN THE END * 00140000
+*  REGISTER USAGE: R1-XDECI USE    | R15-BASE REGSTR | R8-ZERO(0)     * 00150000
+*  R9 -ADD COUNT | R2-XDECI CALC T | R6-MULTIPLIC    | R10-TOTAL COUNT* 00160000
+*  R13-SUB COUNT | R3-XDECI NUM 2  | R7-MULTIPLIC    | R11-DIV COUNT  * 00170000
+*  R12-MUL COUNT | R4-XDECI NUM 1  | R5-ONE(1)       |                * 00180000
+*********************************************************************** 00190000
+MAIN      CSECT                                                         00200000
+          USING MAIN,15                                                 00210000
+          XPRNT HEADER1,70         PRINT HEADER                         00220000
+          XPRNT HEADER2,53         PRINT HEADER                         00230000
+          XPRNT HEADER3,52         PRINT HEADER                         00240000
+          L     10,=F'0'           RESET THE COUNTER                    00250000
+          L     9,=F'0'            RESET THE COUNTER                    00260000
+          L     13,=F'0'           RESET THE COUNTER                    00270000
+          L     12,=F'0'           RESET THE COUNTER                    00280000
+          L     11,=F'0'           RESET THE COUNTER                    00290000
+          L     5,=F'1'            LOAD COUNTER NUMBER 1 IN REGISTER 5  00300000
+          XREAD RECORD,80          READ RECORD AND CHECK FOR EOF        00310000
+CHCKEOF   BC    B'0100',EOF        IF EOF GO TO EOF AND PRINT FOOTERS   00320000
+          XDECI 2,RECORD           READ CALC TYPE AND PUT IN REGISTER 2 00330000
+          XDECI 4,0(1)             READ FIRST NUM AND PUT IN REGISTER 4 00340000
+          XDECI 3,0(1)             READ SCND  NUM AND PUT IN REGISTER 3 00350000
+          C     2,=F'2'            CHECK FOR CALC TYPESBY COMPARISON    00360000
+          BC    B'0100',ADD        IF 1 GO TO ADD                       00370000
+          BC    B'1000',SUB           2 GO TO SUB                       00380000
+          C     2,=F'3'                                                 00390000
+          BC    B'1000',MUL           3 GO TO MUL                       00400000
+          BC    B'0010',DIV           4 GO TO DIV                       00410000
+***<ADDITION>*** IN CASE CALC TYPE IS 1                                 00420000
+ADD       XDECO 4,ANUM1            PUT CH VALUE OF R4(FRST NUM) IN NUM1 00430000
+          XDECO 3,ANUM2            PUT CH VALUE OF R3(SCND NUM) IN NUM2 00440000
+          AR    3,4                ADD R4(FRST NUM) TO R3(SCND NUM)     00450000
+          XDECO 3,ARESULT          PUT RESULT OF R3+R4 IN RESULT        00460000
+          XPRNT ADDLBL,52          DISPLAY RESULT FOR ADDITION          00470000
+          AR    10,5               AD 1 TO TOTAL COUNT OF CALCULATIONS  00480000
+          AR    9,5                AD 1 TO TOTAL COUNT OF ADDITION      00490000
+          XREAD RECORD,80          READ NEXT RECORD AND GO IN A LOOP    00500000
+          BC    B'1111',CHCKEOF    GO TO CHCKEOF STATEMENT              00510000
+***<SUBTRACTION>*** IN CASE CALC TYPE IS 2                              00520000
+SUB       XDECO 4,SNUM1            PUT CH VALUE OF R4(FRST NUM) IN NUM1 00530000
+          XDECO 3,SNUM2            PUT CH VALUE OF R3(SCND NUM) IN NUM2 00540000
+          SR    4,3                SUBTR R3(SCND NUM) FROM R4(FRST NUM) 00550000
+          XDECO 4,SRESULT          PUT RESULT OF R3-R4 IN RESULT        00560000
+          XPRNT SUBLBL,52          DISPLAY RESULT FOR SUBTRACTION       00570000
+          AR    10,5               AD 1 TO TOTAL COUNT OF CALCULATIONS  00580000
+          AR    13,5               AD 1 TO TOTAL COUNT OF SUBTRACTION   00590000
+          XREAD RECORD,80          READ NEXT RECORD AND GO IN A LOOP    00600000
+          BC    B'1111',CHCKEOF    GO TO CHCKEOF STATEMENT              00610000
+***<MULTIPLICATION>*** IN CASE CALC TYPE IS 3                           00620000
+MUL       XDECO 4,MNUM1            PUT CH VALUE OF R4(FRST NUM) IN NUM1 00630000
+          XDECO 3,MNUM2            PUT CH VALUE OF R3(SCND NUM) IN NUM2 00640000
+          LR    7,4                LOAD FIRST NUM FROM R4 TO ODD R7     00650000
+          MR    6,3                MULTIPLY R7 BY R3 RESULTS IN R6,R7   00660000
+          XDECO 7,MRESULT          PUT MULT RESULT FROM R7 TO MRESULT   00670000
+          XPRNT MULLBL,52          DISPLAY RESULT FOR MULTIPLICATION    00680000
+          AR    10,5               AD 1 TO TOTAL COUNT OF CALCULATIONS  00690000
+          AR    12,5               AD 1 TO TOTAL COUNT OF MULTIPLIC     00700000
+          XREAD RECORD,80          READ NEXT RECORD AND GO IN A LOOP    00710000
+          BC    B'1111',CHCKEOF    GO TO CHCKEOF STATEMENT              00720000
+***<DIVISION>*** IN CASE CALC TYPE IS 4                                 00730000
+DIV       XDECO 4,DNUM1            PUT CH VALUE OF R4(FRST NUM) IN NUM1 00740000
+          XDECO 3,DNUM2            PUT CH VALUE OF R3(SCND NUM) IN NUM2 00750000
+          LR    7,4                LOAD FIRST NUM FROM R4 TO ODD R7     00760000
+***<DIV>*** COMPARE FIRST NUM TO A ZERO, BRANCH TO HIGH OR LOW FUNCT    00770000
+          C     4,ZERO             COMPARE R4 TO ZERO                   00780000
+          BC    B'0100',LOW        IF LOWER GO TO LOW FUNCTION          00790000
+          BC    B'0010',HIGH       IF HIGHER GO TO HIGH FUNCTION        00800000
+***<DIV-HIGH FUNCTION>*** IF FIRST NUM IS POSITIVE, SET R6 TO ZERO      00810000
+HIGH      L     8,=F'0'            LOAD ZERO TO R8                      00820000
+          LTR   6,8                THIS PUTS CORRECT VAL ZERO IN R6     00830000
+          BC    B'1111',DIVCONT    RETURN                               00840000
+***<DIV-LOW FUNCTION>*** IF FIRST NUM IS NEGATIVE, SET R6 TO MINUS ONE  00850000
+LOW       L     8,=F'-1'           LOAD R8 WITH MINUS ONE VALUE         00860000
+          LTR   6,8                THIS PUTS CORRECT VAL -1 IN R6       00870000
+          BC    B'1111',DIVCONT    RETURN                               00880000
+***<DIVISION FUNCTION CONTINUE>***                                      00890000
+*NOTE, FUNCTION CANT HANDLE SITUATION WHEN FIRST NUMBER IS ZERO         00900000
+DIVCONT   DR    6,3                DIVIDE R7 BY R3 QUOTIENT IN  R7      00910000
+          XDECO 7,DRESULT          PUT MULT RESULT FROM R7 TO MRESULT   00920000
+          XDECO 6,DRRESULT         PUT REMINDER FROM R6 IN TO MRRESULT  00930000
+          XPRNT DIVLBL,88          DISPLAY RESULT FOR MULTIPLICATION    00940000
+          AR    10,5               AD 1 TO TOTAL COUNT OF CALCULATIONS  00950000
+          AR    11,5               AD 1 TO TOTAL COUNT OF MULTIPLIC     00960000
+          XREAD RECORD,80          READ NEXT RECORD AND GO IN A LOOP    00970000
+          BC    B'1111',CHCKEOF    GO TO CHCKEOF STATEMENT              00980000
+*<DIVISION PERFORM WITH ASSUMPTION THAT QUOTIENT RESULT CAN FIT IN R7>* 00990000
+EOF       XDECO 10,RTOTAL          PUT TOTAL COUNTER IN A LABEL         01000000
+          XDECO 11,RDIV            PUT TOTAL DIV COUNTER IN A LABEL     01010000
+          XDECO 12,RMUL            PUT TOTAL MUL COUNTER IN A LABEL     01020000
+          XDECO 13,RSUB            PUT TOTAL SUB COUNTER IN A LABEL     01030000
+          XDECO 9,RADD             PUT TOTAL ADD COUNTER IN A LABEL     01040000
+          XPRNT FOOTER1,32         PRINT FOOTER1 FOR TOTAL CALC COUNTER 01050000
+          XPRNT FOOTER2,121        PRINT FOOTER2 FOR CALC TYPES COUNTER 01060000
+          BR    14                 EXIT                                 01070000
+*                                                                       01080000
+*                                                                       01090000
+          LTORG                                                         01100000
+***<LABELS>***                                                          01110000
+ZERO      DC    F'0'               ZERO                                 01120000
+RECORD    DS    80C                BUFFER                               01130000
+DIVLBL    DC    C'0Division:      '                                     01140000
+DNUM1     DS    CL12                                                    01150000
+DNUM2     DS    CL12                                                    01160000
+DRESULT   DS    CL12                                                    01170000
+REM       DC    C'        Remainder:      '                             01180000
+DRRESULT  DS    CL12                                                    01190000
+MULLBL    DC    C'0Multiplication:'                                     01200000
+MNUM1     DS    CL12                                                    01210000
+MNUM2     DS    CL12                                                    01220000
+MRESULT   DS    CL12                                                    01230000
+SUBLBL    DC    C'0Subtraction:   '                                     01240000
+SNUM1     DS    CL12                                                    01250000
+SNUM2     DS    CL12                                                    01260000
+SRESULT   DS    CL12                                                    01270000
+ADDLBL    DC    C'0Addition:      '                                     01280000
+ANUM1     DS    CL12                                                    01290000
+ANUM2     DS    CL12                                                    01300000
+ARESULT   DS    CL12                                                    01310000
+***<FOOTERS>***                                                         01320000
+FOOTER2   DC    C'0'                                                    01330000
+          DC    C'Addition:      '                                      01340000
+RADD      DS    CL12                                                    01350000
+          DC    C'    '                                                 01360000
+          DC    C'Substracion:   '                                      01370000
+RSUB      DS    CL12                                                    01380000
+          DC    C'    '                                                 01390000
+          DC    C'Multiplication:'                                      01400000
+RMUL      DS    CL12                                                    01410000
+          DC    C'    '                                                 01420000
+          DC    C'Division:      '                                      01430000
+RDIV      DS    CL12                                                    01440000
+*                                                                       01450000
+FOOTER1   DC    C'-'                                                    01460000
+          DC    C'Total Calculations:'                                  01470000
+RTOTAL    DS    CL12                                                    01480000
+*                                                                       01490000
+*                                                                       01500000
+*                                                                       01510000
+*                                                                       01520000
+*                                                                       01530000
+*                                                                       01540000
+***<HEADERS>***                                                         01550000
+HEADER1   DC    C'1'                                                    01560000
+          DC    C'                                                '     01570000
+          DC    C'Results of Arithmetic'                                01580000
+HEADER2   DC    C'0'                                                    01590000
+          DC    C'Operation             Num 1       Num 2       Result' 01600000
+HEADER3   DC    C'0---------------------------------------------------' 01610000
+          END   MAIN                                                    01620000
+/*                                                                      01630000
+//FT05F001 DD DSN=KC02314.AUTUMN17.CSCI360.HW3DATA,DISP=SHR             01640000
+//                                                                      01650000

@@ -1,0 +1,176 @@
+//KC03N08Z JOB ,'George Zhylin' ,MSGCLASS=H                             0
+//STEP1   EXEC PGM=ASSIST                                               0
+//STEPLIB   DD DSN=KC02293.ASSIST.LOADLIB,DISP=SHR                      0
+//SYSPRINT  DD SYSOUT=*                                                 0
+//SYSIN     DD *                                                        0
+*********************************************************************** 0
+*  PROGRAM ASSIGNMENT7 10 EXTRA CREDIT / PART B                       * 0
+*                                                                     * 0
+*  NAME:     GEORGE ZHYLIN Z1810327                                   * 0
+*                                                                     * 0
+*  FUNCTION: ROUND AN INT TO THE NEAREST MULTIPE OF ANOTHER INT       * 0
+*                                                                     * 0
+*  INPUT:    25 LINES WITH 2 ROWS OF INTEGERS                         * 0
+*                                                                     * 0
+*  OUTPUT:  PROCESSED DATA USING ALGORITHM                            * 0
+*                                                                     * 0
+*               C = the quotient of A divided by B                    * 0
+*               D = the remainder of A divided by B                   * 0
+*               Result = C times B                                    * 0
+*               D = absolute value of D                               * 0
+*               E = absolute value of B                               * 0
+*               D = 2 times D                                         * 0
+*               If D is greater than or equal to E                    * 0
+*                 If A is greater than 0                              * 0
+*                   Result = Result + E                               * 0
+*                 Else                                                * 0
+*                   Result = Result - E                               * 0
+*                 End-If                                              * 0
+*               End-If                                                * 0
+*                                                                     * 0
+*  REGISTER USAGE:                                                    * 0
+*  R1  = USED TO LOAD ARGUMENTS                                       * 0
+*  R2  = INPUT DSECT                                                  * 0
+*  R3  =                                                              * 0
+*  R4  =                                                              * 0
+*  R5  =                                                              * 0
+*  R6  =                                                              * 0
+*  R7  =                                                              * 0
+*  R8  =                                                              * 0
+*  R9  =                                                              * 0
+*  R10 =                                                              * 0
+*  R11 =                                                              * 0
+*  R12 =                                                              * 0
+*  R13 =                                                              * 0
+*  R14 = EXIT                                                         * 0
+*  R15 = USED TO CALL ROUTINE                                         * 0
+*********************************************************************** 0
+***<DSECT FOR INPUT FILE>***                                            0
+INPUT     DSECT                    INPUT DSECT                          0
+INNUM1    DS    CL6                FIRST NUM                            0
+          DS    CL2                SPACE                                0
+INNUM2    DS    CL6                SECOND NUM                           0
+          DS    CL66               SPACE                                0
+***<MAIN ROUTINE>***                                                    0
+MAIN      CSECT                    MAIN ROUTINE                         0
+          USING MAIN,15                                                 0
+***<MAIN ROUTINE BODY>***                                               0
+          XPRNT HEADER,45          PRINT HEADER                         0
+          LA    2,RECORD           LOAD ADDRESS OF THE BUFFER IN R2     0
+          USING INPUT,2            USE INPUT DSECT IN R2                0
+MLOOP     XREAD INPUT,80           READ FIRST RECORD                    0
+          BC    B'0100',MEND       IF EOF GO TO END LABEL               0
+          MVI   PNUM1S,C' '        CLEAR THE FIELD                      0
+          MVI   PNUM2S,C' '        CLEAR THE FIELD                      0
+          MVI   PNUM3S,C' '        CLEAR THE FIELD                      0
+          ZAP   NUM1TEMP,=P'0'     RESET                                0
+          ZAP   NUM2TEMP,=P'0'     RESET                                0
+          PACK  NUM1TEMP,INNUM1    GET NUM1                             0
+          CP    NUM1TEMP,=P'0'     COMPARE TO SEE IF NEGATIVE           0
+          BC    B'0100',INSIGN1    IF NEGATIVE INSERT SIGN              0
+CONT1     PACK  NUM2TEMP,INNUM2    GET NUM2                             0
+          CP    NUM2TEMP,=P'0'     COMPARE TO SEE IF NEGATIVE           0
+          BC    B'0100',INSIGN2    IF NEGATIVE INSERT SIGN              0
+CONT2     MVC   PNUM1,=X'40202020212020'                                0
+          ED    PNUM1,NUM1TEMP                                          0
+          MVC   PNUM2,=X'40202020212020'                                0
+          ED    PNUM2,NUM2TEMP                                          0
+***<ALGORITHM>***                                                       0
+          ZAP   NUM1DIV,NUM1TEMP MOVE TO PL6 SIZE VAR                   0
+          DP    NUM1DIV,NUM2TEMP DIVIDE A BY B                          0
+          MVC   QUOT,NUM1DIV     MOVE QUOTION                           0
+          MVC   REM,NUM1DIV+3    MOVE REMINDER                          0
+          ZAP   RES,QUOT         MOVE QUOT TO RESULT                    0
+          MP    RES,NUM2TEMP     M QUOT IN RESULT TO NUM2               0
+***PASE 2***                                                            0
+          ZAP   D,=PL6'2'        PUT NUMBER 2 IN VAR D                  0
+          MP    D,REM            M REMINDER TO D                        0
+GO2       CP    D,NUM2TEMP       COMPARE NEW D TO NUM 2                 0
+          BC    B'1010',DOSTUFF  IF D >= #2                             0
+GO        CP    RES,=P'0'        COMPARE TO SEE IF NEGATIVE             0
+          BC    B'0100',INSIGN3  IF NEGATIVE INSERT SIGN                0
+CONT3     MVC   PNUM3,=X'402020202020202020202120'                      0
+          ED    PNUM3,RES        CONVERT AND INSERT                     0
+          B     DONE                                                    0
+DOSTUFF   CP    NUM1TEMP,=P'0'   IF #1 IS > 0                           0
+          BC    B'0010',DO2      UPDATE RESULT                          0
+          SP    RES,NUM2TEMP     RESULT = RESULT - #2                   0
+          B     GO               RETURN                                 0
+DO2       AP    RES,NUM2TEMP     RESULT = RESULT + #2                   0
+          B     GO               RETURN                                 0
+***<ALGORITHM END>***                                                   0
+DONE      XPRNT RESULT,41        PRINT RESULTS                          0
+          B     MLOOP            GO BACK TO THE MAIN LOOP               0
+INSIGN1   MVI   PNUM1S,C'-'      INSERT MINUS                           0
+          B     CONT1            CONTINUE                               0
+INSIGN2   MVI   PNUM2S,C'-'      INSERT MINUS                           0
+          B     CONT2            CONTINUE                               0
+INSIGN3   MVI   PNUM3S,C'-'      INSERT MINUS                           0
+          B     CONT3            CONTINUE                               0
+***<END PROGRAM>                                                        0
+MEND      DS    0H                                                      0
+          BR    14                 END PROGRAM                          0
+          LTORG                                                         0
+***<STORAGE FOR MAIN ROUTINE>***                                        0
+          DS    0D                 ALIGNMENT                            0
+RECORD    DS    80C                BUFFER                               0
+          DS    F                                                       0
+NUM1TEMP  DS    PL3                TEMP VAR'S                           0
+          DS    F                                                       0
+NUM2TEMP  DS    PL3                                                     0
+          DS    D                                                       0
+NUM1DIV   DS    PL6                                                     0
+          DS    F                                                       0
+QUOT      DS    PL3                                                     0
+          DS    F                                                       0
+REM       DS    PL3                                                     0
+          DS    F                                                       0
+RES       DS    PL6                                                     0
+          DS    F                                                       0
+D         DS    PL6                                                     0
+RESULT    DS    C'0'               CCC                  41C             0
+          DC    C' '               SPACE                                0
+PNUM1     DS    CL6                NUM1                                 0
+PNUM1S    DC    C' '               SIGN                                 0
+          DC    C'         '       SPACE                                0
+PNUM2     DS    CL6                NUM2                                 0
+PNUM2S    DC    C' '               SIGN                                 0
+          DC    C'   '             SPACE                                0
+PNUM3     DS    CL12               NUM3                                 0
+PNUM3S    DC    C' '               SIGN                                 0
+HEADER    DC    C'1First Number   Second Number   Rounded Value'        0
+          END   MAIN                                                    0
+*                                                                       0
+*                                                                       0
+*                                                                       0
+*                                                                       0
+*/*                                                                     0
+*//FT05F001  DD  DSN=KC02314.AUTUMN17.CSCI360.HWEXDATA,DISP=SHR         0
+*//                                                                     0
+*                                                                       0
+/*                                                                      0
+//FT05F001   DD  *                                                      0
+     0     100                       
+     }     10}    That is -0 and -100
+     3       4                       
+     L       M    That is -3 and -4  
+     L       4    That is -3 and 4   
+     3       M    That is 3 and -4   
+    17       5                       
+    2K       5    That is -22 and 5  
+    2N      15    That is -25 and 15 
+    25      1N    That is 25 and -15 
+    39      11                       
+    42       1                       
+     1       1                       
+     J       1    That is -1 and 1   
+     1       J    That is 1 and -1   
+    42       J    That is 42 and -1  
+    68      1}    That is 68 and -10 
+    6Q      10    That is -68 and 10 
+    6Q      1J    That is -68 and -11
+  2001     670                       
+  4003      17                       
+/*                                                                      
+//FT06F001   DD SYSOUT=*                                                
+//                                                                      

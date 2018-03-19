@@ -1,0 +1,165 @@
+//KC03N08Z JOB ,'George Zhylin' ,MSGCLASS=H                             00010000
+//STEP1   EXEC PGM=ASSIST                                               00020000
+//STEPLIB   DD DSN=KC02293.ASSIST.LOADLIB,DISP=SHR                      00030000
+//SYSPRINT  DD SYSOUT=*                                                 00040000
+//SYSIN     DD *                                                        00050000
+*********************************************************************** 00060000
+*  PROGRAM ASSIGNMENT4                                                * 00070000
+*  NAME:     GEORGE ZHYLIN Z1810327                                   * 00080000
+*  FUNCTION: PRINT HEADERS, TRY TO READ A RECORD AND CHECK FOR EOF,   * 00090000
+*  SCAN RECORD FOR NUMBERS,PUT FOUND NUMBERS IN A TABLE OF 49 ENTRYS. * 00100000
+*  NEXT - DISPLAY ALL 49 NUMBERS FROM THE TABLE. NEXT - DISPLAY ALL   * 00110000
+*  THE ODD NUMBERS IN A TABLE.                                        * 00120000
+*  INPUT:    12 LINES WITH 0 TO 10 NUMBERS WITHIN, SEE LINE 164       * 00130000
+*  OUTPUT:   49 NUMBERS FROM THE TABLE AND 29 ODD NUMBERS FROM THE TAB* 00140000
+*  REGISTER USAGE: R1-XDECI USE    | R15-BASE REGSTR | R8-            * 00150000
+*  R9 -          | R2-TABLE POINTER| R6-             | R10-           * 00160000
+*  R13-READ R    | R3-EOT          | R7-             | R11-PRINTO R   * 00170000
+*  R12-PRINT R   | R4-             | R5-             | R14-EXIT       * 00180000
+*********************************************************************** 00190000
+MAIN      CSECT                                                         00200000
+          USING MAIN,15                                                 00210000
+          LA    2,TABLE            R2 USED TO PASS TABLE POINTER        00220000
+          BAL   13,READ            CALL READ ROUTINE                    00230000
+          ST    3,EOT              STORE END OF TABLE ADDRESS           00240000
+          BAL   12,PRINT           CALL PRINT NUMBERS ROUTINE           00250000
+          BAL   11,PRINTO          CALL PRINT ODD NUMBERS ROUTINE       00260000
+          BR    14                 EXIT                                 00270000
+***<STORAGE FOR MAIN ROUTINE>***                                        00280000
+TABLE     DC    49F'-16'           TABLE                                00290000
+EOT       DS    F                  ADDRESS OF 1ST UNUSED ENTRY IN TAB   00300000
+*                                                                       00310000
+*********************************************************************** 00320000
+*NAME:                       READ ROUTINE                             * 00330000
+*FUNCTION: READ RECORD, CHECK FOR EOF, SCAN RECORD FOR THE NUMBERS,   * 00340000
+*         STORE FOUND NUMBERS IN THE TABLE, UNTIL REACH 49 ENTRYS.    * 00350000
+*R7-COUNTER, R8+R1-XDECI, R2-TABLE POINTER, R3-EOT POINTER, R13-EXIT  * 00360000
+*********************************************************************** 00370000
+READ      STM   4,2,SAVER1         SAVE REGISTERS EXCEPT R3 (EOT)       00380000
+          L     7,=F'0'            SET COUNTER TO ZERO                  00390000
+LOOP1     XREAD RECORD,80          READ FIRST RECORD                    00400000
+          BC    B'0100',END        IF EOF GO TO END LABEL               00410000
+          C     7,=F'49'           CHECK IF 49 RECORDS STORED           00420000
+          BC    B'1010',END        IF 49 THEN GO TO END LABEL           00430000
+          XDECI 8,RECORD           PUT ENTRY IN R8                      00440000
+          BC    B'0001',LOOP1      IF NO DATA THEN RETURN TO LOOP1      00450000
+          ST    8,0(2)             STORE ENTRY IN TABLE                 00460000
+          LA    2,4(2)             UPDATE POINTER TO POINT TO NEXT E    00470000
+          A     7,=F'1'            UPDATE COUNTER                       00480000
+          XDECI 8,0(1)             TRY TO READ NEXT ENTRY               00490000
+LOOP2     BC    B'0001',LOOP1      IF NO DATA THEN RETURN TO LOOP1      00500000
+          ST    8,0(2)             STORE ENTRY IN TABLE                 00510000
+          LA    2,4(2)             UPDATE POINTER TO POINT TO NEXT E    00520000
+          A     7,=F'1'            UPDATE COUNTER                       00530000
+          XDECI 8,0(1)             TRY TO READ NEXT ENTRY               00540000
+          BC    B'1111',LOOP2      GO TO LOOP2 AND CONTINUE             00550000
+          C     7,=F'49'           CHECK IF 49 RECORDS STORED           00560000
+          BC    B'1000',END        IF 49 THEN GO TO END LABEL           00570000
+END       LR    3,2                STORE POINTER TO THE END OF THE TAB  00580000
+          S     3,=F'10'           NOW R3 POINTS TO THE LAST ENTRY      00590000
+          LM    4,2,SAVER1         RESTORE ALL REGISTER BUT R3 (EOT)    00600000
+          BR    13                 EXIT                                 00610000
+          LTORG                                                         00620000
+***<STORAGE FOR READ ROUTINE>***                                        00630000
+RECORD    DS    80C                BUFFER                               00640000
+          DC    C'*'                                                    00650000
+SAVER1    DS    15F                REGISTERS STORAGE                    00660000
+*********************************************************************** 00670000
+*                            PRINT ROUTINE                            * 00680000
+*PURPOSE: GET NUMBER FROM THE TABLE, AND PRINT 6 NUMBER PER LINE UNTIL* 00690000
+*         REACH EOT.                                                  * 00700000
+*R2-TABLE POINTER, R3-EOT POINTER,R7-COUNTER,R8-NUM1,R4-VALUE,R12-EXIT* 00710000
+*********************************************************************** 00720000
+PRINT     STM   0,15,SAVER2        SAVE ALL OF THE REGISTERS            00730000
+          XPRNT =C'1                            List of Numbers',44     00740000
+          XPRNT =C' ',1            PRINT HEADERS                        00750000
+          L     7,=F'0'            SET ROW COUNTER TO ZERO              00760000
+LOOP3     MVI   NUM1,C' '          USE DESTRUCTIVE OVERLAP TO CLEAR     00770000
+          MVC   NUM1+1(72),NUM1    THE FIELDS                           00780000
+          LA    8,NUM1             STORE THE ADDRESS OF FIRST LBL IN R8 00790000
+LOOP4     CR    2,3                COMPARE CURRENT RECORD AGAINST EOT   00800000
+          BC    B'1010',ENDP       IF END OF TABLE GO TO THE ENDP       00810000
+          C     7,=F'6'            CHECK IF 6 RECORDS PRINTED ON LINE   00820000
+          BE    PRINTL             IF 6 RECORDS, PRINT LINE             00830000
+          L     4,0(2)             GET VALUE FROM THE TABLE             00840000
+          XDECO 4,0(8)             CONVERT AND PUT IN LABEL             00850000
+          LA    2,4(2)             INCREMENT TABLE POINTER              00860000
+          LA    8,12(8)            INCREMENT LABEL POINTER              00870000
+          A     7,=F'1'            INCREMENT ROW COUNTER                00880000
+          BC    B'1111',LOOP4                                           00890000
+PRINTL    SR    7,7                RESET ROW COUNTER                    00900000
+          XPRNT RESULT,73          PRINT ROW                            00910000
+          BC    B'1111',LOOP3      RETURN TO BEGINING OF THE LOOOP      00920000
+ENDP      XPRNT RESULT,73          PRINT ROW AND EXIT                   00930000
+          XPRNT =C'0',1            PRINT SPACE                          00940000
+          LM    0,15,SAVER2        RESTORE ALL REGISTERS                00950000
+          BR    12                 EXIT                                 00960000
+          LTORG                                                         00970000
+***<STORAGE FOR PRINT ROUTINE>***                                       00980000
+RESULT    DC    C'0'                                                    00990000
+NUM1      DS    CL12                                                    01000000
+          DS    CL12                                                    01010000
+          DS    CL12                                                    01020000
+          DS    CL12                                                    01030000
+          DS    CL12                                                    01040000
+          DS    CL12                                                    01050000
+SAVER2    DS    16F                REGISTERS STORAGE                    01060000
+*                                                                       01070000
+*                                                                       01080000
+*********************************************************************** 01090000
+*NAME:                PRINT ODD NUMBERS ROUTINE                       * 01100000
+*FUNCTION:GET VALUES FROM THE TABLE,CHECK IF ODD AND PRINT 5 PER LINE.* 01110000
+*R6-USED TO PRINT WITH ONE VALUE FROM THE TABLE,R5-USED TO COMPARE VAL* 01120000
+*R2-TABLE, R3-EOT, R7-COUNTER, R8-oNUM1, R4-DR(REMINDER)USE, R12-EXIT * 01130000
+*********************************************************************** 01140000
+PRINTO    STM   0,15,SAVER3        SAVE ALL OF THE REGISTERS            01150000
+          XPRNT =C'1                            List of Odd Numbers',48 01160000
+          XPRNT =C' ',1            PRINT HEADERS                        01170000
+*                                                                       01180000
+***<LOOP>***                                                            01190000
+          L     7,=F'0'            SET ROW COUNTER TO ZERO              01180000
+LOOP5     MVI   ONUM1,C' '         USE DESTRUCTIVE OVERLAP TO CLEAR     01190000
+          MVC   ONUM1+1(72),ONUM1  THE FIELDS                           01200000
+          LA    8,ONUM1            STORE THE ADDRESS OF FIRST LBL IN R8 01210000
+LOOP6     CR    2,3                COMPARE CURRENT RECORD AGAINST EOT   01220000
+          BC    B'1010',ENDPO      IF END OF TABLE GO TO THE ENDPO      01230000
+          C     7,=F'5'            CHECK IF 5 RECORDS PRINTED ON LINE   01240000
+          BE    PRINTOL            IF 5 RECORDS, GO TO PRINTOL AND PRNT 01250000
+          L     5,0(2)             GET VALUE FROM THE TABLE & PUT IN R5 01260000
+          L     6,0(2)             GET VALUE FROM THE TABLE & PUT IN R6 01270000
+          M     4,=F'1'            GET READY FOR DIVISION               01280000
+          D     4,=F'2'            DEVIDE VALUE IN R5 BY 2              01290000
+          LA    2,4(2)             INCREMENT TABLE POINTER              01300000
+          C     4,=F'0'            COMPARE REMINDER TO FIND ODD NUMBER  01310000
+          BE    LOOP6              IF REMINDER IS ZERO, GO TO LOOP6     01320000
+          XDECO 6,0(8)             CONVERT ODD NUM IN R6 AND PUT IN LBL 01350000
+          LA    8,12(8)            INCREMENT LABEL POINTER              01360000
+          A     7,=F'1'            INCREMENT ROW COUNTER                01370000
+          BC    B'1111',LOOP6      RETURN TO THE BEGINING, GO TO LOOP6  01380000
+PRINTOL   SR    7,7                RESET ROW COUNTER                    01390000
+          XPRNT ORESULT,73         PRINT ROW                            01400000
+          BC    B'1111',LOOP5      RETURN TO BEGINING OF THE LOOOP      01410000
+ENDPO     XPRNT ORESULT,73         PRINT ROW AND EXIT                   01420000
+          XPRNT =C'0',1            PRINT SPACE                          01430000
+          LM    0,15,SAVER3        RESTORE ALL REGISTERS                01440000
+          BR    11                 EXIT                                 01450000
+          LTORG                                                         01460000
+***<STORAGE FOR PRINT ROUTINE>***                                       01470000
+ORESULT   DC    C'0'                                                    01480000
+ONUM1     DS    CL12                                                    01490000
+          DS    CL12                                                    01500000
+          DS    CL12                                                    01510000
+          DS    CL12                                                    01520000
+          DS    CL12                                                    01530000
+SAVER3    DS    16F                REGISTERS STORAGE                    01540000
+          END   MAIN                                                    01550000
+*                                                                       01560000
+*                                                                       01570000
+*                                                                       01580000
+*                                                                       01590000
+*                                                                       01600000
+*                                                                       01610000
+*                                                                       01620000
+/*                                                                      01630000
+//FT05F001 DD DSN=KC02314.AUTUMN17.CSCI360.HW4DATA,DISP=SHR             01640000
+//                                                                      01650000

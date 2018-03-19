@@ -1,0 +1,835 @@
+1                    J E S 2  J O B  L O G  --  S Y S T E M  S 0 W 1  --  N O D E  Z O S K C T R         
+0 
+ 23.49.43 JOB00471 ---- FRIDAY,    03 NOV 2017 ----
+ 23.49.43 JOB00471  IRR010I  USERID KC03N08  IS ASSIGNED TO THIS JOB.
+ 23.49.43 JOB00471  ICH70001I KC03N08  LAST ACCESS AT 23:49:27 ON FRIDAY, NOVEMBER 3, 2017
+ 23.49.43 JOB00471  $HASP373 KC03N08Z STARTED - INIT 2    - CLASS A        - SYS S0W1
+ 23.49.43 JOB00471  -                                         --TIMINGS (MINS.)--            ----PAGING COUNTS---
+ 23.49.43 JOB00471  -JOBNAME  STEPNAME PROCSTEP    RC   EXCP    TCB    SRB  CLOCK   SERV  PG   PAGE   SWAP    VIO SWAPS
+ 23.49.43 JOB00471  -KC03N08Z                      00     58 ******    .00     .0    317   0      0      0      0     0
+ 23.49.43 JOB00471  -KC03N08Z ENDED.  NAME-George Zhylin        TOTAL TCB CPU TIME=   .00  TOTAL ELAPSED TIME=    .0
+ 23.49.43 JOB00471  $HASP395 KC03N08Z ENDED
+0------ JES2 JOB STATISTICS ------
+-  03 NOV 2017 JOB EXECUTION DATE
+-          638 CARDS READ
+-          835 SYSOUT PRINT RECORDS
+-            0 SYSOUT PUNCH RECORDS
+-           84 SYSOUT SPOOL KBYTES
+-         0.00 MINUTES EXECUTION TIME
+         1 //KC03N08Z JOB ,'George Zhylin' ,MSGCLASS=H                             JOB00471
+         2 //STEP1   EXEC PGM=ASSIST                                               0       
+         3 //STEPLIB   DD DSN=KC02293.ASSIST.LOADLIB,DISP=SHR                      0       
+         4 //SYSPRINT  DD SYSOUT=*                                                 0       
+         5 //SYSIN     DD *                                                        0       
+         6 //FT05F001   DD  *                                                      0       
+         7 //FT06F001   DD SYSOUT=*                                                        
+ ICH70001I KC03N08  LAST ACCESS AT 23:49:27 ON FRIDAY, NOVEMBER 3, 2017
+ IEF236I ALLOC. FOR KC03N08Z STEP1
+ IGD103I SMS ALLOCATED TO DDNAME STEPLIB
+ IEF237I JES2 ALLOCATED TO SYSPRINT
+ IEF237I JES2 ALLOCATED TO SYSIN
+ IEF237I JES2 ALLOCATED TO FT05F001
+ IEF237I JES2 ALLOCATED TO FT06F001
+ IEF142I KC03N08Z STEP1 - STEP WAS EXECUTED - COND CODE 0000
+ IGD104I KC02293.ASSIST.LOADLIB                       RETAINED,  DDNAME=STEPLIB 
+ IEF285I   KC03N08.KC03N08Z.JOB00471.D0000103.?         SYSOUT        
+ IEF285I   KC03N08.KC03N08Z.JOB00471.D0000101.?         SYSIN         
+ IEF285I   KC03N08.KC03N08Z.JOB00471.D0000102.?         SYSIN         
+ IEF285I   KC03N08.KC03N08Z.JOB00471.D0000104.?         SYSOUT        
+ IEF373I STEP/STEP1   /START 2017307.2349
+ IEF032I STEP/STEP1   /STOP  2017307.2349 
+         CPU:     0 HR  00 MIN  00.01 SEC    SRB:     0 HR  00 MIN  00.00 SEC    
+         VIRT:   584K  SYS:   268K  EXT:        0K  SYS:    11476K
+         ATB- REAL:                     0K  SLOTS:                     0K
+              VIRT- ALLOC:       0M SHRD:       0M
+ IEF375I  JOB/KC03N08Z/START 2017307.2349
+ IEF033I  JOB/KC03N08Z/STOP  2017307.2349 
+         CPU:     0 HR  00 MIN  00.01 SEC    SRB:     0 HR  00 MIN  00.00 SEC    
+1*** ASSIST 4.0/A2-05/15/82  470/V7A/0:OS/VS2  INS=SDFP7/X=BGHO, CHECK/TRC/=1180, OPTS=CDKMPR FROM PENN ST*NIU COMPSCI*LT         
+0                                                                                                                                 
+0                                                                                                               PAGE    1         
+0  LOC  OBJECT CODE    ADDR1 ADDR2  STMT   SOURCE STATEMENT                                                                       
+                                       1 *********************************************************************** 0                
+                                       2 *  PROGRAM ASSIGNMENT6                                                * 0                
+                                       3 *                                                                     * 0                
+                                       4 *  NAME:     GEORGE ZHYLIN Z1810327                                   * 0                
+                                       5 *                                                                     * 0                
+                                       6 *  FUNCTION: PROGRAM READS CUSTOMER INFO FROM THE RECORD, SRORES THEM * 0                
+                                       7 *            THE TABLE, ALL THE ITEMS UP TO THE DELIMITER.THEN PROGRAM* 0                
+                                       8 *            DISPLAYS ALL THE ENTRYS IN THE TABLE. AFTER THAT PROGRAM * 0                
+                                       9 *            READS ALL THE TRANSACTIONS AFTER DELIMITER AND SEARCHES  * 0                
+                                      10 *            THE TABLE TO FIND THE CUSTOMER DATA AND TO PROCESS IT.   * 0                
+                                      11 *            AFTER THIS, CUSTOMER TABLE DISPLAYED AGAIN DISPLAYING THE* 0                
+                                      12 *            CHANGES.                                                 * 0                
+                                      13 *  SUBROUTINES:  MAIN, BUILD ,TRANS                                   * 0                
+                                      14 *                                                                     * 0                
+                                      15 *                                                                     * 0                
+                                      16 *                                                                     * 0                
+                                      17 *                                                                     * 0                
+                                      18 *  INPUT:    28 LINES WITH 4 ROWS OF CUSTOMER DATA,                   * 0                
+                                      19 *            THEN 29 LINES 4 ROWS OF TRANSACTIONS                     * 0                
+                                      20 *                                                                     * 0                
+                                      21 *  OUTPUT:  TABLE OF CUSTOMERS, LIST OF TRANSACTIONS, AND CUST TABLE  * 0                
+                                      22 *                                                                     * 0                
+                                      23 *                                                                     * 0                
+                                      24 *                                                                     * 0                
+                                      25 *                                                                     * 0                
+                                      26 *  REGISTER USAGE:                                                    * 0                
+                                      27 *  R1  = USED TO LOAD ARGUMENTS                                       * 0                
+                                      28 *  R2  =                                                              * 0                
+                                      29 *  R3  =                                                              * 0                
+                                      30 *  R4  =                                                              * 0                
+                                      31 *  R5  =                                                              * 0                
+                                      32 *  R6  =                                                              * 0                
+                                      33 *  R7  =                                                              * 0                
+                                      34 *  R8  =                                                              * 0                
+                                      35 *  R9  =                                                              * 0                
+                                      36 *  R10 =                                                              * 0                
+                                      37 *  R11 =                                                              * 0                
+                                      38 *  R12 =                                                              * 0                
+                                      39 *  R13 =                                                              * 0                
+                                      40 *  R14 = EXIT                                                         * 0                
+                                      41 *  R15 = USED TO CALL ROUTINE                                         * 0                
+                                      42 *********************************************************************** 0                
+                                      43 ***<DSECT FOR INPUT FILE>***                                            0                
+ 000000                               44 INPUT     DSECT                    INPUT DSECT                          0                
+ 000000                               45 INFIRST   DS    CL10               FIRST NAME                           0                
+ 00000A                               46           DS    CL2                SPACE                                0                
+ 00000C                               47 INLAST    DS    CL10               LAST NAME                            0                
+ 000016                               48           DS    CL2                SPACE                                0                
+ 000018                               49 INID      DS    CL8                ID                                   0                
+ 000020                               50           DS    CL2                SPACE                                0                
+ 000022                               51 INBAL     DS    ZL7                BALANCE                              0                
+ 000029                               52 INSIGN    DS    CL1                SIGN                                 0                
+1                                                                                                               PAGE    2         
+0  LOC  OBJECT CODE    ADDR1 ADDR2  STMT   SOURCE STATEMENT                                                                       
+                                      53 ***<DSECT 2 FOR INPUT FILE>***                                          0                
+ 000000                               54 INPUT2    DSECT                    INPUT 2 DSECT TOTAL 32BYTE           0                
+ 000000                               55 IN2ID     DS    CL8                ID                                   0                
+ 000008                               56           DS    CL2                SPACE                                0                
+ 00000A                               57 IN2TR     DS    CL1                TRANSACTION TYPE                     0                
+ 00000B                               58           DS    CL2                SPACE                                0                
+ 00000D                               59 IN2PAY    DS    ZL7                PAYMENT AMOUNT                       0                
+ 000014                               60           DS    CL2                SPACE                                0                
+ 000016                               61 IN2DAY    DS    ZL8                DATE  DDMMYYYY                       0                
+ 00001E                               62           DS    CL2                SPACE                                0                
+                                      63 ***<DSECT FOR TABLE>***                                                 0                
+ 000000                               64 TABLEM    DSECT                    TABLE DSECT                          0                
+ 000000                               65 FIRSTN    DS    CL10               FIRST NAME                           0                
+ 00000A                               66 LASTN     DS    CL10               LAST NAME                            0                
+ 000014                               67 ID        DS    CL8                ID                                   0                
+ 00001C                               68 BAL       DS    PL4                BALANCE                              0                
+ 000020                               69 SIGN      DS    CL1                SIGN                                 0                
+                                      70 ***<MAIN ROUTINE>***                                                    0                
+ 000000                               71 MAIN      CSECT                    MAIN ROUTINE                         0                
+                                      72 ***<STANDARD ENTRY LINKAGE>***                                          0                
+ 000000 90EC D00C            0000C    73           STM   14,12,12(13)       SAVE ALL THE REGISTERS EXCEPT R13    0                
+ 000004 18CF                          74           LR    12,15              PUT ADDRESS OF ROUTINE IN R12        0                
+ 000000                               75           USING MAIN,12            SET R12 AS A BASE REGISTER FOR ROUT  0                
+ 000006 41E0 C474            00474    76           LA    14,SAVEMAIN        SET POINTER TO ROUTINE SAVE AREA     0                
+ 00000A 50DE 0004            00004    77           ST    13,4(14)           BACKWARD POINTER                     0                
+ 00000E 50ED 0008            00008    78           ST    14,8(13)           FORWARD POINTER                      0                
+ 000012 18DE                          79           LR    13,14              SET POINTER IN R13 TO ROUTINE        0                
+                                      80 ***<MAIN ROUTINE BODY>***                                               0                
+ 000014 4110 C4BC            004BC    81           LA    1,BLIST            LOAD BUILD ARGUMENTS IN R1           0                
+ 000018 58F0 C048            00048    82           L     15,=V(BUILD)       GET ADDRESS OF BUILD ROUTINE         0                
+ 00001C 05EF                          83           BALR  14,15              CALL BUILD ROUTINE                   0                
+ 00001E 4110 C4C8            004C8    84           LA    1,PLIST            LOAD PRINT ARGUMENTS IN R1           0                
+ 000022 58F0 C04C            0004C    85           L     15,=V(PRINT)       GET ADDRESS OF PRINT ROUTINE         0                
+ 000026 05EF                          86           BALR  14,15              CALL PRINT ROUTINE                   0                
+ 000028 4110 C4D8            004D8    87           LA    1,TLIST            LOAD TRANS ARGUMENTS IN R1           0                
+ 00002C 58F0 C050            00050    88           L     15,=V(TRANS)       GET ADDRESS OF TRANS ROUTINE         0                
+ 000030 05EF                          89           BALR  14,15              CALL TRANS ROUTINE                   0                
+ 000032 4110 C4C8            004C8    90           LA    1,PLIST            LOAD PRINT ARGUMENTS IN R1           0                
+ 000036 58F0 C04C            0004C    91           L     15,=V(PRINT)       GET ADDRESS OF PRINT ROUTINE         0                
+ 00003A 05EF                          92           BALR  14,15              CALL PRINT ROUTINE                   0                
+                                      93 ***<STANDARD EXIT LINKAGE>***                                           0                
+ 00003C 58DD 0004            00004    94           L     13,4(13)           SET R13 TO CALLERS SAVE AREA         0                
+ 000040 98EC D00C            0000C    95           LM    14,12,12(13)       LOAD BACK ALL REGISTERS EXEPT R13    0                
+ 000044 07FE                          96           BR    14                 EXIT                                 0                
+                                      97           LTORG                                                         0                
+ 000048 000004E8                      98                =V(BUILD)                                                                 
+ 00004C 000005B8                      99                =V(PRINT)                                                                 
+ 000050 000008A8                     100                =V(TRANS)                                                                 
+                                     101 ***<STORAGE FOR MAIN ROUTINE>***                                        0                
+ 000054                              102 TABLE     DS    27CL33             TABLE                                0                
+ 0003D0                              103 EOT       DS    F                  ADDRESS OF END OF TABLE              0                
+ 0003D4                              104 RECORD    DS    80C                BUFFER                               0                
+ 000424 60C68999A2A340D5             105 TABLEINF  DC    C'-First Name           Last Name             '         0                
+ 000450 C9C440D5A4948285             106           DC    C'ID Number                Balance'                     0                
+ 000470 000C                         107 PAGENUM   DC    PL2'0'             PAGE NUMBER                          0                
+ 000474                              108 SAVEMAIN  DS    18F                MAIN ROUTINE SAVE AREA               0                
+ 0004BC 00000054                     109 BLIST     DC    A(TABLE)           ARGUMENTS FOR BUILD ROUTINE          0                
+1                                                                                                               PAGE    3         
+0  LOC  OBJECT CODE    ADDR1 ADDR2  STMT   SOURCE STATEMENT                                                                       
+ 0004C0 000003D0                     110           DC    A(EOT)                                                  0                
+ 0004C4 000003D4                     111           DC    A(RECORD)                                               0                
+ 0004C8 00000054                     112 PLIST     DC    A(TABLE)           ARGUMENTS FOR PRINT ROUTINE          0                
+ 0004CC 000003D0                     113           DC    A(EOT)                                                  0                
+ 0004D0 00000424                     114           DC    A(TABLEINF)                                             0                
+ 0004D4 00000470                     115           DC    A(PAGENUM)                                              0                
+ 0004D8 00000054                     116 TLIST     DC    A(TABLE)           ARGUMENTS FOR TRANS ROUTINE          0                
+ 0004DC 000003D0                     117           DC    A(EOT)                                                  0                
+ 0004E0 000003D4                     118           DC    A(RECORD)                                               0                
+ 0004E4 00000470                     119           DC    A(PAGENUM)                                              0                
+                                     120 *********************************************************************** 0                
+                                     121 *                          BUILD ROUTINE                              * 0                
+                                     122 *  NAME:     GEORGE ZHYLIN Z1810327                                   * 0                
+                                     123 *                                                                     * 0                
+                                     124 *  FUNCTION: ROUTINE GETS TABLE,EOT,RECORD POINTERS AS ARGUMENTS, NEXT* 0                
+                                     125 *            ROUTINE GOES THRU STANDARD ENTRY LINKAGE. TRY'S TO READ  * 0                
+                                     126 *            FIRST RECORD, IF DELIMITER 'STOPHERE' FOUND THEN GOES TO * 0                
+                                     127 *            THE END. MOVES,UNPACKS AND CONVERTS ENTRYS FROM THE INPUT* 0                
+                                     128 *            TO THE TABLE ACCORDING TO THE SPECIFIED DSECT'S.         * 0                
+                                     129 *            ROUTINE STORES THE POINTERS AND GOES THRU STANDARD EXIT  * 0                
+                                     130 *            LINKAGE.                                                 * 0                
+                                     131 *  REGISTER USAGE:                                                    * 0                
+                                     132 *  R1  = ARGUMENTS                                                    * 0                
+                                     133 *  R2  =                                                              * 0                
+                                     134 *  R3  = POINTER TO THE TABLE                                         * 0                
+                                     135 *  R4  = POINTER TO THE EOT                                           * 0                
+                                     136 *  R5  = POINTER TO THE RECORD(BUFFER)                                * 0                
+                                     137 *  R6  = POINTER TO THE END OF THE TABLE                              * 0                
+                                     138 *  R7  = COPY OF THE TABLE POINTER                                    * 0                
+                                     139 *  R8  = RECORD VARIABLE                                              * 0                
+                                     140 *  R9  =                                                              * 0                
+                                     141 *  R10 =                                                              * 0                
+                                     142 *  R11 =                                                              * 0                
+                                     143 *  R12 = BASE REGISTER                                                * 0                
+                                     144 *  R13 =                                                              * 0                
+                                     145 *  R14 = EXIT                                                         * 0                
+                                     146 *  R15 =                                                              * 0                
+                                     147 *********************************************************************** 0                
+ 0004E8                              148 BUILD     CSECT                    BUILD ROUTINE                        0                
+                                     149 ***<STANDARD ENTRY LINKAGE FOR ROUTINE>***                              0                
+ 0004E8 90EC D00C            0000C   150           STM   14,12,12(13)       SAVE ALL THE REGISTERS EXCEPT R13    0                
+ 0004EC 18CF                         151           LR    12,15              PUT ADDRESS OF ROUT  IN R12          0                
+ 0004E8                              152           USING BUILD,12           SET R12 AS A BASE REGISTER FOR ROUT  0                
+ 0004EE 41E0 C084            0056C   153           LA    14,SAVEREAD        SET POINTER TO ROUTINE SAVE AREA     0                
+ 0004F2 50DE 0004            00004   154           ST    13,4(14)           BACKWARD POINTER                     0                
+ 0004F6 50ED 0008            00008   155           ST    14,8(13)           FORWARD POINTER                      0                
+ 0004FA 18DE                         156           LR    13,14              SET POINTER IN R13 TO ROUTINE        0                
+                                     157 ***<BUILD ROUTINE BODY>***                                              0                
+ 0004FC 9835 1000            00000   158           LM    3,5,0(1)           UNLOAD ARGUMENTS IN R3,R4,R5         0                
+ 000500 1873                         159           LR    7,3                COPY POINTER TO THE BEGINING OF TAB  0                
+ 000000                              160           USING TABLEM,7           USE TABLEM DSECT IN R3               0                
+ 000000                              161           USING INPUT,5            USE INPUT DSECT IN R5                0                
+ 000502 E000 5000 0050 00000         162           XREAD INPUT,80           READ FIRST RECORD                    0                
+ 000508 D507 5018 C078 00018 00560   163 LOOP1     CLC   INID,=CL8'STOPHERE' CHECK IF END OF DATA                0                
+ 00050E 4780 C066            0054E   164           BE    ENDB               IF STOPHERE REACHED, STOP            0                
+ 000512 D209 7000 5000 00000 00000   165           MVC   FIRSTN,INFIRST     MOVE FIRST NAME TO THE TABLE         0                
+ 000518 D209 700A 500C 0000A 0000C   166           MVC   LASTN,INLAST       MOVE LAST NAME TO THE TABLE          0                
+1                                                                                                               PAGE    4         
+0  LOC  OBJECT CODE    ADDR1 ADDR2  STMT   SOURCE STATEMENT                                                                       
+ 00051E D207 7014 5018 00014 00018   167           MVC   ID,INID            MOVE ID TO THE TABLE                 0                
+ 000524 F236 701C 5022 0001C 00022   168           PACK  BAL,INBAL          PACK AND MOVE BALANCE TO THE TABLE   0                
+ 00052A D200 7020 5029 00020 00029   169           MVC   SIGN,INSIGN        MOVE SIGN TO THE TABLE               0                
+ 000530 D500 7020 C080 00020 00568   170           CLC   SIGN,=CL1'+'       CHECK IS SIGN IS POSITIVE            0                
+ 000536 4780 C058            00540   171           BE    GO                 IF POSITIVE THEN SKIP AND GO TO GO   0                
+ 00053A FC30 701C C081 0001C 00569   172           MP    BAL,=PL1'-1'       IF NEGATIVE SIGN MAKE VALUE NEGATIVE 0                
+ 000540 4170 7021            00021   173 GO        LA    7,33(0,7)          UPDATE THE TABLE POINTRER            0                
+ 000544 E000 5000 0050 00000         174           XREAD INPUT,80           READ NEXT RECORD                     0                
+ 00054A 47F0 C020            00508   175           B     LOOP1              GO BACK TO THE LOOP                  0                
+ 00054E 1BBB                         176 ENDB      SR    11,11              IF DELIMITER REACHED THEN STOP       0                
+ 000550                              177           DROP  7,5                DROP USING DSECTS                    0                
+                                     178 ***<SET POINTERS>***                                                    0                
+ 000550 1867                         179           LR    6,7                STORE POINTER OF EOT TO R6           0                
+ 000552 5064 0000            00000   180           ST    6,0(4)             PUT EOT POINTER IN EOT VARIABLE      0                
+                                     181 ***<STANDARD EXIT LINKAGE FOR ROUTINE>***                               0                
+ 000556 58DD 0004            00004   182           L     13,4(13)           SET R13 TO CALLERS SAVE AREA         0                
+ 00055A 98EC D00C            0000C   183           LM    14,12,12(13)       RESTORE REGISTERS                    0                
+ 00055E 07FE                         184           BR    14                 EXIT                                 0                
+                                     185           LTORG                                                         0                
+ 000560 E2E3D6D7C8C5D9C5             186                =CL8'STOPHERE'                                                            
+ 000568 4E                           187                =CL1'+'                                                                   
+ 000569 1D                           188                =PL1'-1'                                                                  
+                                     189 ***<STORAGE FOR BUILD ROUTINE>***                                       0                
+ 00056C                              190 SAVEREAD  DS    18F                REGISTERS STORAGE                    0                
+                                     191 ***<END OF BUILD ROUTINE>***                                            0                
+                                     192 *********************************************************************** 0                
+                                     193 *                           PRINT ROUTINE                             * 0                
+                                     194 *  NAME:     GEORGE ZHYLIN Z1810327                                   * 0                
+                                     195 *                                                                     * 0                
+                                     196 *  FUNCTION: ROUTINE GETS TABLE, EOT, ROWS LBL AND PAGE POINTERS AS   * 0                
+                                     197 *            ARGUMENTS,THEN GOES THRU STANDARD ENTRY LINKAGE PROCESS. * 0                
+                                     198 *            ROUTINE PRINTS HEADERS WITH PAGE NUM, THEN PRINTS 8 ITEMS* 0                
+                                     199 *            PER LINE UNTIL END OF TABLE REACHED. IN THE END, RESULT  * 0                
+                                     200 *            LINES PRINTED, ROUTINE GOES THRU STANDARD EXIT LINK      * 0                
+                                     201 *                                                                     * 0                
+                                     202 *                                                                     * 0                
+                                     203 *  REGISTER USAGE:                                                    * 0                
+                                     204 *  R1  = ARGUMENTS POINTER                                            * 0                
+                                     205 *  R2  =                                                              * 0                
+                                     206 *  R3  = TABLE POINTER                                                * 0                
+                                     207 *  R4  = EOT POINTER                                                  * 0                
+                                     208 *  R5  = TABLE ROW INFO LBL                                           * 0                
+                                     209 *  R6  = PAGE COUNTER                                                 * 0                
+                                     210 *  R7  = COUNTER FOR ROWS                                             * 0                
+                                     211 *  R8  = ITEM COUNTER                                                 * 0                
+                                     212 *  R9  =                                                              * 0                
+                                     213 *  R10 =                                                              * 0                
+                                     214 *  R11 = COPY OF THE POINTER TO THE TABLE                             * 0                
+                                     215 *  R12 = BASE REGISTER                                                * 0                
+                                     216 *  R13 =                                                              * 0                
+                                     217 *  R14 = EXIT                                                         * 0                
+                                     218 *  R15 =                                                              * 0                
+                                     219 *********************************************************************** 0                
+ 0005B8                              220 PRINT     CSECT                    PRINT ROUTINE                        0                
+                                     221 ***<STANDARD ENTRY LINKAGE FOR ROUTINE>***                              0                
+ 0005B8 90EC D00C            0000C   222           STM   14,12,12(13)       SAVE ALL THE REGISTERS EXCEPT R13    0                
+ 0005BC 18CF                         223           LR    12,15              PUT ADDRESS OF ROUTINE IN R12        0                
+1                                                                                                               PAGE    5         
+0  LOC  OBJECT CODE    ADDR1 ADDR2  STMT   SOURCE STATEMENT                                                                       
+ 0005B8                              224           USING PRINT,12           SET R12 AS A BASE REGISTER FOR ROUT  0                
+ 0005BE 41E0 C198            00750   225           LA    14,SAVEPRNT        SET POINTER TO ROUTINE SAVE AREA     0                
+ 0005C2 50DE 0004            00004   226           ST    13,4(14)           BACKWARD POINTER                     0                
+ 0005C6 50ED 0008            00008   227           ST    14,8(13)           FORWARD POINTER                      0                
+ 0005CA 18DE                         228           LR    13,14              SET POINTER IN R13 TO ROUTINE        0                
+                                     229 ***<PRINT ROUTINE BODY>***                                              0                
+ 0005CC 9836 1000            00000   230           LM    3,6,0(1)           UNLOAD ARGUMENTS IN R3,R4,R5,R6      0                
+ 0005D0 F833 C182 C150 0073A 00708   231           ZAP   CUSTS,=PL4'0'      CLEAR THE FIELD                      0                
+ 0005D6 F833 C186 C150 0073E 00708   232           ZAP   BALSUM,=PL4'0'     CLEAR THE FIELD                      0                
+ 0005DC F833 C18A C150 00742 00708   233           ZAP   BALAVG,=PL4'0'     CLEAR THE FIELD                      0                
+ 0005E2 18B3                         234           LR    11,3               COPY POINTER TO THE TABLE TO R11     0                
+ 000000                              235           USING TABLEM,11          USE TABLEM DSECT IN R11              0                
+ 0005E4 4876 0000            00000   236           LH    7,0(6)             GET PAGE NUM AND PUT 4BYTES IN R7    0                
+ 0005E8 5B40 C154            0070C   237           S     4,=F'1'            PUT CORRECT VALUE FOR EOT            0                
+ 0005EC 4070 C180            00738   238           STH   7,PAGEN            STORE 4BYTES PAGE NUM IN PAGEN       0                
+ 0005F0 FA10 C180 C178 00738 00730   239 PRINTP    AP    PAGEN,=PL1'1'      ADD 1 TO OUR PAGE COUNTER            0                
+ 0005F6 D203 C22C C158 007E4 00710   240           MVC   NUM,=XL4'40202020' FORMAT FOR OUTPUT                    0                
+ 0005FC DE03 C22C C180 007E4 00738   241           ED    NUM,PAGEN          INSERT PAGE NUMBER IN LABEL          0                
+ 000602 1B88                         242           SR    8,8                RESET ITEM COUNTER                   0                
+ 000604 E020 C179 0001 00731         243           XPRNT =C' ',1            TRIPLE SPACE AS PER INSTRUCTIONS     0                
+ 00060A E020 C179 0001 00731         244           XPRNT =C' ',1                                                 0                
+ 000610 E020 C179 0001 00731         245           XPRNT =C' ',1                                                 0                
+ 000616 E020 C1E0 0050 00798         246           XPRNT HEADER,80          PRINT HEADERS                        0                
+ 00061C E025 0000 004C 00000         247           XPRNT 0(5),76            PRINT TABLE TAB INFO                 0                
+ 000622 FA30 C182 C178 0073A 00730   248 LOOP2     AP    CUSTS,=PL1'1'      ADD 1 TO OUR CUSTOMERS COUNTER       0                
+ 000628 D209 C29D B000 00855 00000   249           MVC   FN,FIRSTN          INSERT FIRST NAME                    0                
+ 00062E D209 C2B2 B00A 0086A 0000A   250           MVC   LN,LASTN           INSERT LAST NAME                     0                
+ 000634 D207 C2C8 B014 00880 00014   251           MVC   IDL,ID             INSERT ID                            0                
+ 00063A 4110 C2E5            0089D   252           LA    1,BALL+6           INITIALIZE R1                        0                
+ 00063E D209 C2DF C160 00897 00718   253           MVC   BALL,=XL10'4020206B2021204B2020'        FORMAT          0                
+ 000644 DF09 C2DF B01C 00897 0001C   254           EDMK  BALL,BAL           INSERT IN LABEL                      0                
+ 00064A FA33 C186 B01C 0073E 0001C   255           AP    BALSUM,BAL         ADD CURENT BALANCE TO BAL SUM        0                
+ 000650 0610                         256           BCTR  1,0                SUBSTRACT 1 FROM R1                  0                
+ 000652 925B 1000      00000         257           MVI   0(1),C'$'          INSERT $                             0                
+ 000656 D201 C2EA C16A 008A2 00722   258           MVC   SIGNL,=CL2'  '     CLEAR THE FIELD FOR THE + OR - SIGN  0                
+ 00065C D500 B020 C17A 00020 00732   259           CLC   SIGN,=CL1'+'       CHECK IF VALUE IF POISITIVE          0                
+ 000662 4780 C0B4            0066C   260           BE    DEBIT              IF VALUE IS POSITIVE JUMP TO DEBIT   0                
+ 000666 D201 C2EA C16C 008A2 00724   261           MVC   SIGNL,=CL2'CR'     IF NEGATIVE THEN INSERT 'CR'         0                
+ 00066C E020 C29C 0050 00854         262 DEBIT     XPRNT PRESULT,80         PRINT RESULTS                        0                
+ 000672 5A80 C154            0070C   263           A     8,=F'1'            UPDATE THE ITEMS COUNTER             0                
+ 000676 41B0 B021            00021   264           LA    11,33(0,11)        UPDATE THE TABLE POINTER             0                
+ 00067A 5980 C15C            00714   265           C     8,=F'5'            CHECK ITEMS COUNTER                  0                
+ 00067E 4780 C038            005F0   266           BE    PRINTP             IF 5 ITEMS PRINTP                    0                
+ 000682 19B4                         267           CR    11,4               CHECK IF EOT                         0                
+ 000684 47A0 C0D6            0068E   268           BC    B'1010',ENDP       IF EOT GO TO THE ENDP                0                
+ 000688 19B4                         269           CR    11,4               GO BACK TO LOOP2                     0                
+ 00068A 47F0 C06A            00622   270           BC    B'1111',LOOP2                                           0                
+                                     271 ***<ENDP & FOOTERS>***                                                  0                
+ 00068E E020 C179 0001 00731         272 ENDP      XPRNT =C' ',1            SINGLE SPACE AS PER INSTRUCTIONS     0                
+ 000694 D209 C24A C16E 00802 00726   273           MVC   CUSTNUML,=XL10'40404020202020202020'        FORMAT      0                
+ 00069A DE09 C24A C182 00802 0073A   274           ED    CUSTNUML,CUSTS     INSERT IN LABEL                      0                
+ 0006A0 E020 C230 0024 007E8         275           XPRNT FOOTER1,36         PRINT FOOTER1 NUM OF CUST            0                
+ 0006A6 4110 C274            0082C   276           LA    1,SUML+6           INITIALIZE R1                        0                
+ 0006AA D209 C26E C160 00826 00718   277           MVC   SUML,=XL10'4020206B2021204B2020'        FORMAT          0                
+ 0006B0 DF09 C26E C186 00826 0073E   278           EDMK  SUML,BALSUM        INSERT IN LABEL                      0                
+ 0006B6 0610                         279           BCTR  1,0                SUBSTRACT 1 FROM R1                  0                
+ 0006B8 925B 1000      00000         280           MVI   0(1),C'$'          INSERT $                             0                
+1                                                                                                               PAGE    6         
+0  LOC  OBJECT CODE    ADDR1 ADDR2  STMT   SOURCE STATEMENT                                                                       
+ 0006BC E020 C254 0024 0080C         281           XPRNT FOOTER2,36         PRINT FOOTER2 SUM                    0                
+ 0006C2 F873 C18E C186 00746 0073E   282           ZAP   BIG,BALSUM         COPY SUM FOR DIVISION                0                
+ 0006C8 FD73 C18E C182 00746 0073A   283           DP    BIG,CUSTS          GET AVG                              0                
+ 0006CE F833 C18A C18E 00742 00746   284           ZAP   BALAVG,BIG(4)      COPY QUOTIENT TO THE BALAVG          0                
+ 0006D4 4110 C298            00850   285           LA    1,AVGL+6           INITIALIZE R1                        0                
+ 0006D8 D209 C292 C160 0084A 00718   286           MVC   AVGL,=XL10'4020206B2021204B2020'        FORMAT          0                
+ 0006DE DF09 C292 C18A 0084A 00742   287           EDMK  AVGL,BALAVG        INSERT IN LABEL                      0                
+ 0006E4 0610                         288           BCTR  1,0                SUBSTRACT 1 FROM R1                  0                
+ 0006E6 925B 1000      00000         289           MVI   0(1),C'$'          INSERT $                             0                
+ 0006EA E020 C278 0024 00830         290           XPRNT FOOTER3,36         PRINT FOOTER3 AVG                    0                
+ 0006F0 4890 C180            00738   291           LH    9,PAGEN            COPY PAGE COUNTER                    0                
+ 0006F4 4096 0000            00000   292           STH   9,0(6)                                                  0                
+ 0006F8                              293           DROP  12,11              STOP USING DSECTS                    0                
+                                     294 ***<STANDARD EXIT LINKAGE FOR ROUTINE>***                               0                
+ 0006F8 58DD 0004            00004   295           L     13,4(13)           SET R13 TO CALLERS SAVE AREA         0                
+ 0006FC 98EC D00C            0000C   296           LM    14,12,12(13)       RESTORE REGISTERS                    0                
+ 000700 07FE                         297           BR    14                 EXIT                                 0                
+                                     298           LTORG                                                         0                
+ 000708 0000000C                     299                =PL4'0'                                                                   
+ 00070C 00000001                     300                =F'1'                                                                     
+ 000710 40202020                     301                =XL4'40202020'                                                            
+ 000714 00000005                     302                =F'5'                                                                     
+ 000718 4020206B2021204B             303                =XL10'4020206B2021204B2020'                                               
+ 000722 4040                         304                =CL2'  '                                                                  
+ 000724 C3D9                         305                =CL2'CR'                                                                  
+ 000726 4040402020202020             306                =XL10'40404020202020202020'                                               
+ 000730 1C                           307                =PL1'1'                                                                   
+ 000731 40                           308                =C' '                                                                     
+ 000732 4E                           309                =CL1'+'                                                                   
+                                     310 ***<STORAGE FOR PRINT ROUTINE>***                                       0                
+ 000734                              311           DS    F                  TO ALIGN STORAGE                     0                
+ 000738 000C                         312 PAGEN     DC    PL2'0'             PACKED VARIABLE TO HOLD PAGE NUMBER  0                
+ 00073A 0000000C                     313 CUSTS     DC    PL4'0'             CUSTOMERS COUNTER                    0                
+ 00073E 0000000C                     314 BALSUM    DC    PL4'0'             SUM OF ALL THE BALANCES              0                
+ 000742 0000000C                     315 BALAVG    DC    PL4'0'             AVG OF ALL THE BALANCES              0                
+ 000746 000000000000000C             316 BIG       DC    PL8'0'             NUM FOR DIVISION                     0                
+ 000750                              317 SAVEPRNT  DS    18F                REGISTERS STORAGE                    0                
+                                     318 ***<TAB INFO>***                                                        0                
+ 000798 F1                           319 HEADER    DC    C'1'               CCC                                  0                
+ 000799 4040404040404040             320           DC    C'                      Odds and Ends Customer Data'    0                
+ 0007CA 4040404040404040             321           DC    C'                      Page'                           0                
+ 0007E4                              322 NUM       DS    CL4                PAGE NUMBER                          0                
+                                     323 ***<FOOTER LABELS>***                                                   0                
+ 0007E8 60                           324 FOOTER1   DC    C'-'               CCC                                  0                
+ 0007E9 D5A4948285994096             325           DC    C'Number of customers =    '                            0                
+ 000802                              326 CUSTNUML  DS    CL10               NUM OF CUSTOMERS                     0                
+ 00080C F0                           327 FOOTER2   DC    C'0'               CCC                                  0                
+ 00080D E2A4944096864081             328           DC    C'Sum of all balances =    '                            0                
+ 000826                              329 SUML      DS    CL10               SUM OF ALL SUMMS                     0                
+ 000830 F0                           330 FOOTER3   DC    C'0'               CCC                                  0                
+ 000831 C1A5859981878540             331           DC    C'Average balance =        '                            0                
+ 00084A                              332 AVGL      DS    CL10               AVG SUM                              0                
+                                     333 ***<RESULT>***                                                          0                
+ 000854 F0                           334 PRESULT   DC    C'0'               CCC                                  0                
+ 000855                              335 FN        DS    CL10               FIRST NAME                           0                
+ 00085F 4040404040404040             336           DC    C'           '     SAPECE                               0                
+ 00086A                              337 LN        DS    CL10               LAST NAME                            0                
+1                                                                                                               PAGE    7         
+0  LOC  OBJECT CODE    ADDR1 ADDR2  STMT   SOURCE STATEMENT                                                                       
+ 000874 4040404040404040             338           DC    C'            '    SPACE                                0                
+ 000880                              339 IDL       DS    CL8                ID                                   0                
+ 000888 4040404040404040             340           DC    C'               ' SPACE                                0                
+ 000897                              341 BALL      DS    CL10               BALANCE                              0                
+ 0008A1 40                           342           DC    C' '               SPACE                                0                
+ 0008A2 4040                         343 SIGNL     DC    CL2'  '            SIGN                                 0                
+                                     344 ***<END OF PRINT ROUTINE>***                                            0                
+                                     345 *                                                                       0                
+                                     346 *********************************************************************** 0                
+                                     347 *                         TRANS  ROUTINE                              * 0                
+                                     348 *  NAME:     GEORGE ZHYLIN Z1810327                                   * 0                
+                                     349 *                                                                     * 0                
+                                     350 *  FUNCTION: ROUTINE GETS 4 ARGUMENTS, TABLE,EOT,RECORD AND PAGENUM   * 0                
+                                     351 *            ROUTINE GOES THRU STANDARD ENTRY LINKAGE, THEN UNLOAD    * 0                
+                                     352 *            PARAMETERS. THEN READS ALL THE TRANSACTIONS AND PROCESSES* 0                
+                                     353 *            THEN, THAT INVOLVES CUSTOMER TABLE AND SOME COMPUTATION. * 0                
+                                     354 *            AFTER ROUTINE DONE READING AND PROCESSING ALL THE TRANS  * 0                
+                                     355 *            IT GOES THRU STANDARD EXIT LINKAGE AND EXIT              * 0                
+                                     356 *                                                                     * 0                
+                                     357 *  REGISTER USAGE:                                                    * 0                
+                                     358 *  R1  = ARGUMENTS POINTER                                            * 0                
+                                     359 *  R2  =                                                              * 0                
+                                     360 *  R3  = TABLE POINTER                                                * 0                
+                                     361 *  R4  = EOT POINTER                                                  * 0                
+                                     362 *  R5  = BUFFER POINTER (RECORD)                                      * 0                
+                                     363 *  R6  = PAGE NUM POINTER                                             * 0                
+                                     364 *  R7  = COPY THE TABLE POINTER                                       * 0                
+                                     365 *  R8  = PAGE NUMBER                                                  * 0                
+                                     366 *  R9  =                                                              * 0                
+                                     367 *  R10 =                                                              * 0                
+                                     368 *  R11 = POINTER TO THE BEGINING OF THE TABLE                         * 0                
+                                     369 *  R12 = BASE REGISTER                                                * 0                
+                                     370 *  R13 = SUCCESSFUL TRANS COUNTER                                     * 0                
+                                     371 *  R14 = EXIT                                                         * 0                
+                                     372 *  R15 = SEARCH RESULT VALUE                                          * 0                
+                                     373 *********************************************************************** 0                
+ 0008A8                              374 TRANS     CSECT                    TRANS ROUTINE                        0                
+                                     375 ***<STANDARD ENTRY LINKAGE FOR ROUTINE>***                              0                
+ 0008A8 90EC D00C            0000C   376           STM   14,12,12(13)       SAVE ALL THE REGISTERS EXCEPT R13    0                
+ 0008AC 18CF                         377           LR    12,15              PUT ADDRESS OF ROUTINE IN R12        0                
+ 0008A8                              378           USING TRANS,12           SET R12 AS A BASE REGISTER FOR ROUT  0                
+ 0008AE 41E0 C360            00C08   379           LA    14,SAVETRNS        SET POINTER TO ROUTINE SAVE AREA     0                
+ 0008B2 50DE 0004            00004   380           ST    13,4(14)           BACKWARD POINTER                     0                
+ 0008B6 50ED 0008            00008   381           ST    14,8(13)           FORWARD POINTER                      0                
+ 0008BA 18DE                         382           LR    13,14              SET POINTER IN R13 TO ROUTINE        0                
+                                     383 ***<TRANS ROUTINE BODY>***                                              0                
+ 0008BC 9836 1000            00000   384           LM    3,6,0(1)           UNLOAD ARGUMENTS IN R3,R4,R5,R6      0                
+ 0008C0 1873                         385           LR    7,3                PUT POINTER TO THE TABLE IN R7       0                
+ 0008C2 5B40 C2D0            00B78   386           S     4,=F'1'            PUT CORRECT VALUE FOR EOT            0                
+ 000000                              387           USING TABLEM,7           USE TABLEM DSECT IN R4               0                
+ 000000                              388           USING INPUT2,5           USE INPUT2 DSECT IN R5               0                
+ 0008C6 4886 0000            00000   389           LH    8,0(6)             GET PAGE NUM AND PUT IN R8 4 BYTES   0                
+ 0008CA 4080 C3AC            00C54   390           STH   8,PNUM             STORE PAGE NUM IN VAR PNUM 4 BYTES   0                
+ 0008CE FA10 C3AC C30E 00C54 00BB6   391           AP    PNUM,=PL1'1'       ADD 1 TO OUR PAGE COUNTER            0                
+ 0008D4 D203 C3FA C2D4 00CA2 00B7C   392           MVC   PRNTTP,=XL4'40202020'  FORMAT FOR OUTPUT                0                
+ 0008DA DE03 C3FA C3AC 00CA2 00C54   393           ED    PRNTTP,PNUM        INSERT IN LABEL                      0                
+ 0008E0 E020 C3AE 0050 00C56         394           XPRNT PRINT1,80          PRINT LINE                           0                
+1                                                                                                               PAGE    8         
+0  LOC  OBJECT CODE    ADDR1 ADDR2  STMT   SOURCE STATEMENT                                                                       
+ 0008E6 E020 C3FE 0050 00CA6         395           XPRNT PRINT2,80          PRINT LINE                           0                
+ 0008EC E000 5000 0050 00000         396 LOOP4     XREAD INPUT2,80          READ NEXT LINE                       0                
+ 0008F2 4740 C290            00B38   397           BC    B'0100',ENDT       IF EOF GO TO END LABEL               0                
+ 0008F6 18B7                         398           LR    11,7               STORE POINTER TO THE BEG OF TAB      0                
+ 0008F8 1974                         399 LOOP3     CR    7,4                CHECK IF EOT                         0                
+ 0008FA 4780 C06A            00912   400           BE    NFOUND             IF END OF TABLE GO TO THE NOT FOUND  0                
+ 0008FE D507 7014 5000 00014 00000   401           CLC   ID,IN2ID           LOOK FOR ID IN TABLE                 0                
+ 000904 4780 C0F4            0099C   402           BE    FOUND              IF FOUND GO TO FOUND                 0                
+ 000908 4177 0021            00021   403           LA    7,33(7)            INCREMENT TABLE POINTER              0                
+ 00090C 1BAA                         404           SR    10,10              GO BACK TO THE LOOP                  0                
+ 00090E 47F0 C050            008F8   405           BC    B'1111',LOOP3                                           0                
+ 000912 FA33 C342 C2D8 00BEA 00B80   406 NFOUND    AP    FAILTRAN,=PL4'1'   ADD 1 TO THE COUNTER                 0                
+ 000918 D207 C45A 5000 00D02 00000   407           MVC   ERID,IN2ID         COPY SEARCHED ID IN LBL              0                
+ 00091E D500 500A C30F 0000A 00BB7   408           CLC   IN2TR,=CL1'W'      CHECK IF TRANS TYPE IS W             0                
+ 000924 4780 C094            0093C   409           BE    SETW               IF TYPE IS W THEN GO TO SETW         0                
+ 000928 D500 500A C310 0000A 00BB8   410           CLC   IN2TR,=CL1'D'      CHECK IF TRANS TYPE IS D             0                
+ 00092E 4780 C0A0            00948   411           BE    SETD               IF TYPE IS D THEN GO TO SETD         0                
+ 000932 D500 500A C311 0000A 00BB9   412           CLC   IN2TR,=CL1'B'      CHECK IF TRANS TYPE IS B             0                
+ 000938 4780 C0AC            00954   413           BE    SETB               IF TYPE IS B THEN GO TO SETB         0                
+ 00093C D20C C477 C312 00D1F 00BBA   414 SETW      MVC   ERT,=CL13'Withdrawal   '                                0                
+ 000942 19AA                         415           CR    10,10                                                   0                
+ 000944 47F0 C0B8            00960   416           BC    B'1111',NEXT                                            0                
+ 000948 D20C C477 C31F 00D1F 00BC7   417 SETD      MVC   ERT,=CL13'Deposit      '                                0                
+ 00094E 19AA                         418           CR    10,10                                                   0                
+ 000950 47F0 C0B8            00960   419           BC    B'1111',NEXT                                            0                
+ 000954 D20C C477 C32C 00D1F 00BD4   420 SETB      MVC   ERT,=CL13'Balance Query'                                0                
+ 00095A 19AA                         421           CR    10,10                                                   0                
+ 00095C 47F0 C0B8            00960   422           BC    B'1111',NEXT                                            0                
+ 000960 F236 C34F 500D 00BF7 0000D   423 NEXT      PACK  SAVEPY,IN2PAY      PACK IN SAVEPY                       0                
+ 000966 4110 C48B            00D33   424           LA    1,ERAM+6           INITIALIZE R1                        0                
+ 00096A D209 C485 C2EC 00D2D 00B94   425           MVC   ERAM,=XL10'4020206B2021204B2020'        FORMAT          0                
+ 000970 DF09 C485 C34F 00D2D 00BF7   426           EDMK  ERAM,SAVEPY        INSERT IN LABEL                      0                
+ 000976 0610                         427           BCTR  1,0                SUBSTRACT 1 FROM R1                  0                
+ 000978 925B 1000      00000         428           MVI   0(1),C'$'          INSERT $                             0                
+ 00097C F247 C35B 5016 00C03 00016   429           PACK  SAVEDAY,IN2DAY     PACK THE DATE                        0                
+ 000982 D20B C492 C2DC 00D3A 00B84   430           MVC   ERDAY,=XL12'402020206120206120202020'      FORMAT       0                
+ 000988 DF0B C492 C35B 00D3A 00C03   431           EDMK  ERDAY,SAVEDAY      INSERT IN LABEL                      0                
+ 00098E E020 C44E 0050 00CF6         432           XPRNT ERROR,80           PRINT ERROR LBL                      0                
+ 000994 187B                         433           LR    7,11               LOAD POINTER TO BEG OF THE TAB       0                
+ 000996 19AA                         434           CR    10,10                                                   0                
+ 000998 47F0 C044            008EC   435           BC    B'1111',LOOP4      GO BACK TO OUTER LOOP                0                
+ 00099C FA33 C33E C2D8 00BE6 00B80   436 FOUND     AP    SUCCTRAN,=PL4'1'   ADD 1 TO THE COUNTER                 0                
+                                     437 *<DISPLAY TRANSACTION>*                                                 0                
+ 0009A2 D207 C4A3 5000 00D4B 00000   438           MVC   TRANSID,IN2ID      COPY SEARCHED ID IN LBL              0                
+ 0009A8 D500 500A C30F 0000A 00BB7   439           CLC   IN2TR,=CL1'W'      CHECK IF TRANS TYPE IS W             0                
+ 0009AE 4780 C11E            009C6   440           BE    SETW2              IF TYPE IS W THEN GO TO SETW         0                
+ 0009B2 D500 500A C310 0000A 00BB8   441           CLC   IN2TR,=CL1'D'      CHECK IF TRANS TYPE IS D             0                
+ 0009B8 4780 C1A2            00A4A   442           BE    SETD2              IF TYPE IS D THEN GO TO SETD         0                
+ 0009BC D500 500A C311 0000A 00BB9   443           CLC   IN2TR,=CL1'B'      CHECK IF TRANS TYPE IS B             0                
+ 0009C2 4780 C226            00ACE   444           BE    SETB2              IF TYPE IS B THEN GO TO SETB         0                
+ 0009C6 D20C C4B0 C312 00D58 00BBA   445 SETW2     MVC   TRANST,=CL13'Withdrawal   '                             0                
+ 0009CC F833 C353 C2E8 00BFB 00B90   446           ZAP   SAVEPY2,=PL4'0'    RESET THE FILED                      0                
+ 0009D2 F236 C353 500D 00BFB 0000D   447           PACK  SAVEPY2,IN2PAY     PACK IN SAVEPY                       0                
+ 0009D8 4110 C4C8            00D70   448           LA    1,TRANSAM+6        INITIALIZE R1                        0                
+ 0009DC D209 C4C2 C2EC 00D6A 00B94   449           MVC   TRANSAM,=XL10'4020206B2021204B2020'        FORMAT       0                
+ 0009E2 DF09 C4C2 C353 00D6A 00BFB   450           EDMK  TRANSAM,SAVEPY2    INSERT IN LABEL                      0                
+ 0009E8 0610                         451           BCTR  1,0                SUBSTRACT 1 FROM R1                  0                
+1                                                                                                               PAGE    9         
+0  LOC  OBJECT CODE    ADDR1 ADDR2  STMT   SOURCE STATEMENT                                                                       
+ 0009EA 925B 1000      00000         452           MVI   0(1),C'$'          INSERT $                             0                
+ 0009EE FA33 701C C353 0001C 00BFB   453           AP    BAL,SAVEPY2        ADD AMOUNT FROM THE TOTAL            0                
+ 0009F4 4110 C4E7            00D8F   454           LA    1,TRANSB+6         INITIALIZE R1                        0                
+ 0009F8 D209 C4E1 C2EC 00D89 00B94   455           MVC   TRANSB,=XL10'4020206B2021204B2020'         FORMAT       0                
+ 0009FE DF09 C4E1 701C 00D89 0001C   456           EDMK  TRANSB,BAL         INSERT IN LABEL                      0                
+ 000A04 0610                         457           BCTR  1,0                SUBSTRACT 1 FROM R1                  0                
+ 000A06 925B 1000      00000         458           MVI   0(1),C'$'          INSERT $                             0                
+ 000A0A F933 701C C2E8 0001C 00B90   459           CP    BAL,=PL4'0'        CHECK IF BALANCE IS NEGATIVE         0                
+ 000A10 4740 C178            00A20   460           BC    B'0100',GONEG1     IF BALANCE IS NEGATIVE THEN PRINT CR 0                
+ 000A14 D201 C4EC C2F6 00D94 00B9E   461           MVC   TRANSS,=CL2'  '    INSERT BLANK SPACE                   0                
+ 000A1A 19AA                         462           CR    10,10                                                   0                
+ 000A1C 47F0 C17E            00A26   463           BC    B'1111',GONX1      IF BALANCE IS POSITIVE THEN GO NEXT  0                
+ 000A20 D201 C4EC C2F8 00D94 00BA0   464 GONEG1    MVC   TRANSS,=CL2'CR'    INSERT CR IN THE LABEL               0                
+ 000A26 F844 C35B C339 00C03 00BE1   465 GONX1     ZAP   SAVEDAY,=PL5'0'    RESET THE FIELD                      0                
+ 000A2C F247 C35B 5016 00C03 00016   466           PACK  SAVEDAY,IN2DAY     PACK THE DATE                        0                
+ 000A32 D20B C4D1 C2DC 00D79 00B84   467           MVC   TRANSD,=XL12'402020206120206120202020'     FORMAT       0                
+ 000A38 DF0B C4D1 C35B 00D79 00C03   468           EDMK  TRANSD,SAVEDAY     INSERT IN LABEL                      0                
+ 000A3E E020 C49E 0050 00D46         469           XPRNT TRANSM,80          PRINT OUT TRANSACTION MSG            0                
+ 000A44 19AA                         470           CR    10,10                                                   0                
+ 000A46 47F0 C288            00B30   471           BC    B'1111',NEXT2                                           0                
+ 000A4A D20C C4B0 C31F 00D58 00BC7   472 SETD2     MVC   TRANST,=CL13'Deposit      '                             0                
+ 000A50 F833 C353 C2E8 00BFB 00B90   473           ZAP   SAVEPY2,=PL4'0'    RESET THE FILED                      0                
+ 000A56 F236 C353 500D 00BFB 0000D   474           PACK  SAVEPY2,IN2PAY     PACK IN SAVEPY                       0                
+ 000A5C 4110 C4C8            00D70   475           LA    1,TRANSAM+6        INITIALIZE R1                        0                
+ 000A60 D209 C4C2 C2EC 00D6A 00B94   476           MVC   TRANSAM,=XL10'4020206B2021204B2020'        FORMAT       0                
+ 000A66 DF09 C4C2 C353 00D6A 00BFB   477           EDMK  TRANSAM,SAVEPY2    INSERT IN LABEL                      0                
+ 000A6C 0610                         478           BCTR  1,0                SUBSTRACT 1 FROM R1                  0                
+ 000A6E 925B 1000      00000         479           MVI   0(1),C'$'          INSERT $                             0                
+ 000A72 FB33 701C C353 0001C 00BFB   480           SP    BAL,SAVEPY2        SUB AMOUNT FROM THE TOTAL            0                
+ 000A78 4110 C4E7            00D8F   481           LA    1,TRANSB+6         INITIALIZE R1                        0                
+ 000A7C D209 C4E1 C2EC 00D89 00B94   482           MVC   TRANSB,=XL10'4020206B2021204B2020'         FORMAT       0                
+ 000A82 DF09 C4E1 701C 00D89 0001C   483           EDMK  TRANSB,BAL         INSERT IN LABEL                      0                
+ 000A88 0610                         484           BCTR  1,0                SUBSTRACT 1 FROM R1                  0                
+ 000A8A 925B 1000      00000         485           MVI   0(1),C'$'          INSERT $                             0                
+ 000A8E F933 701C C2E8 0001C 00B90   486           CP    BAL,=PL4'0'        CHECK IF BALANCE IS NEGATIVE         0                
+ 000A94 4740 C1FC            00AA4   487           BC    B'0100',GONEG2     IF BALANCE IS NEGATIVE THEN PRINT CR 0                
+ 000A98 D201 C4EC C2F6 00D94 00B9E   488           MVC   TRANSS,=CL2'  '    INSERT BLANK SPACE                   0                
+ 000A9E 19AA                         489           CR    10,10                                                   0                
+ 000AA0 47F0 C202            00AAA   490           BC    B'1111',GONX2      IF BALANCE IS POSITIVE THEN GO NEXT  0                
+ 000AA4 D201 C4EC C2F8 00D94 00BA0   491 GONEG2    MVC   TRANSS,=CL2'CR'    INSERT CR IN THE LABEL               0                
+ 000AAA F844 C35B C339 00C03 00BE1   492 GONX2     ZAP   SAVEDAY,=PL5'0'    RESET THE FIELD                      0                
+ 000AB0 F247 C35B 5016 00C03 00016   493           PACK  SAVEDAY,IN2DAY     PACK THE DATE                        0                
+ 000AB6 D20B C4D1 C2DC 00D79 00B84   494           MVC   TRANSD,=XL12'402020206120206120202020'     FORMAT       0                
+ 000ABC DF0B C4D1 C35B 00D79 00C03   495           EDMK  TRANSD,SAVEDAY     INSERT IN LABEL                      0                
+ 000AC2 E020 C49E 0050 00D46         496           XPRNT TRANSM,80          PRINT OUT TRANSACTION MSG            0                
+ 000AC8 19AA                         497           CR    10,10                                                   0                
+ 000ACA 47F0 C288            00B30   498           BC    B'1111',NEXT2                                           0                
+ 000ACE D20C C4B0 C32C 00D58 00BD4   499 SETB2     MVC   TRANST,=CL13'Balance Query'                             0                
+ 000AD4 D209 C4C2 C2FA 00D6A 00BA2   500           MVC   TRANSAM,=CL10'          '      BLANK SPACE FORMAT       0                
+ 000ADA 4110 C4E7            00D8F   501           LA    1,TRANSB+6         INITIALIZE R1                        0                
+ 000ADE D209 C4E1 C2EC 00D89 00B94   502           MVC   TRANSB,=XL10'4020206B2021204B2020'         FORMAT       0                
+ 000AE4 DF09 C4E1 701C 00D89 0001C   503           EDMK  TRANSB,BAL         INSERT IN LABEL                      0                
+ 000AEA 0610                         504           BCTR  1,0                SUBSTRACT 1 FROM R1                  0                
+ 000AEC 925B 1000      00000         505           MVI   0(1),C'$'          INSERT $                             0                
+ 000AF0 F933 701C C2E8 0001C 00B90   506           CP    BAL,=PL4'0'        CHECK IF BALANCE IS NEGATIVE         0                
+ 000AF6 4740 C25E            00B06   507           BC    B'0100',GONEG3     IF BALANCE IS NEGATIVE THEN PRINT CR 0                
+ 000AFA D201 C4EC C2F6 00D94 00B9E   508           MVC   TRANSS,=CL2'  '    INSERT BLANK SPACE                   0                
+1                                                                                                               PAGE   10         
+0  LOC  OBJECT CODE    ADDR1 ADDR2  STMT   SOURCE STATEMENT                                                                       
+ 000B00 19AA                         509           CR    10,10                                                   0                
+ 000B02 47F0 C264            00B0C   510           BC    B'1111',GONX3      IF BALANCE IS POSITIVE THEN GO NEXT  0                
+ 000B06 D201 C4EC C2F8 00D94 00BA0   511 GONEG3    MVC   TRANSS,=CL2'CR'    INSERT CR IN THE LABEL               0                
+ 000B0C F844 C35B C339 00C03 00BE1   512 GONX3     ZAP   SAVEDAY,=PL5'0'    RESET THE FIELD                      0                
+ 000B12 F247 C35B 5016 00C03 00016   513           PACK  SAVEDAY,IN2DAY     PACK THE DATE                        0                
+ 000B18 D20B C4D1 C2DC 00D79 00B84   514           MVC   TRANSD,=XL12'402020206120206120202020'     FORMAT       0                
+ 000B1E DF0B C4D1 C35B 00D79 00C03   515           EDMK  TRANSD,SAVEDAY     INSERT IN LABEL                      0                
+ 000B24 E020 C49E 0050 00D46         516           XPRNT TRANSM,80          PRINT OUT TRANSACTION MSG            0                
+ 000B2A 19AA                         517           CR    10,10                                                   0                
+ 000B2C 47F0 C288            00B30   518           BC    B'1111',NEXT2                                           0                
+ 000B30 187B                         519 NEXT2     LR    7,11               LOAD POINTER TO BEG OF THE TAB       0                
+ 000B32 19AA                         520           CR    10,10                                                   0                
+ 000B34 47F0 C044            008EC   521           BC    B'1111',LOOP4      GO BACK TO OUTER LOOP                0                
+                                     522 ***<STANDARD EXIT LINKAGE FOR ROUTINE>***                               0                
+ 000B38 D209 C507 C304 00DAF 00BAC   523 ENDT      MVC   ST,=XL10'40404020202020202020'        FORMAT            0                
+ 000B3E DE09 C507 C33E 00DAF 00BE6   524           ED    ST,SUCCTRAN        INSERT IN LABEL                      0                
+ 000B44 E020 C4EE 0023 00D96         525           XPRNT SUMMS,35           PRINT SUM OF SUCCESSFUL TRANS        0                
+ 000B4A D209 C52A C304 00DD2 00BAC   526           MVC   FT,=XL10'40404020202020202020'        FORMAT            0                
+ 000B50 DE09 C52A C342 00DD2 00BEA   527           ED    FT,FAILTRAN        INSERT IN LABEL                      0                
+ 000B56 E020 C511 0023 00DB9         528           XPRNT SUMMF,35           PRINT SUM OF FAILED TRANS            0                
+ 000B5C 4890 C3AC            00C54   529           LH    9,PNUM             COPY PAGE COUNTER                    0                
+ 000B60 4096 0000            00000   530           STH   9,0(6)             STORE PAGE COUNTER                   0                
+ 000B64 58DD 0004            00004   531           L     13,4(13)           SET R13 TO CALLERS SAVE AREA         0                
+ 000B68 58ED 000C            0000C   532           L     14,12(13)          RESTORE REGISTERS EXEPT 13 AND 15    0                
+ 000B6C 980C D014            00014   533           LM    0,12,20(13)                                             0                
+ 000B70 07FE                         534           BR    14                 EXIT                                 0                
+                                     535           LTORG                                                         0                
+ 000B78 00000001                     536                =F'1'                                                                     
+ 000B7C 40202020                     537                =XL4'40202020'                                                            
+ 000B80 0000001C                     538                =PL4'1'                                                                   
+ 000B84 4020202061202061             539                =XL12'402020206120206120202020'                                           
+ 000B90 0000000C                     540                =PL4'0'                                                                   
+ 000B94 4020206B2021204B             541                =XL10'4020206B2021204B2020'                                               
+ 000B9E 4040                         542                =CL2'  '                                                                  
+ 000BA0 C3D9                         543                =CL2'CR'                                                                  
+ 000BA2 4040404040404040             544                =CL10'          '                                                         
+ 000BAC 4040402020202020             545                =XL10'40404020202020202020'                                               
+ 000BB6 1C                           546                =PL1'1'                                                                   
+ 000BB7 E6                           547                =CL1'W'                                                                   
+ 000BB8 C4                           548                =CL1'D'                                                                   
+ 000BB9 C2                           549                =CL1'B'                                                                   
+ 000BBA E689A388849981A6             550                =CL13'Withdrawal   '                                                      
+ 000BC7 C4859796A289A340             551                =CL13'Deposit      '                                                      
+ 000BD4 C281938195838540             552                =CL13'Balance Query'                                                      
+ 000BE1 000000000C                   553                =PL5'0'                                                                   
+                                     554 ***<STORAGE FOR TRANS ROUTINE>***                                       0                
+ 000BE6 0000000C                     555 SUCCTRAN  DC    PL4'0'             TRANS SUCCESSFUL COUNTER             0                
+ 000BEA 0000000C                     556 FAILTRAN  DC    PL4'0'             TRANS FAIL COUNTER                   0                
+ 000BEE                              557 SAVEID    DS    CL8                INPUT ID                             0                
+ 000BF6                              558 SAVETR    DS    CL1                INPUT TRANSACTION                    0                
+ 000BF7                              559 SAVEPY    DS    PL4                INPUT PAYMENT                        0                
+ 000BFB                              560 SAVEPY2   DS    PL4                TMP VAR TO HOLD FOUND TRANS BAL      0                
+ 000BFF                              561 SAVEBAL   DS    PL4                BALANCE TEMP SAVE                    0                
+ 000C03                              562 SAVEDAY   DS    PL5                INPUT DATE                           0                
+ 000C08                              563 SAVETRNS  DS    18F                REGISTERS STORAGE                    0                
+ 000C50                              564           DS    F                  TO ALIGN STORAGE                     0                
+ 000C54                              565 PNUM      DS    PL2                PAGE NUM                             0                
+1                                                                                                               PAGE   11         
+0  LOC  OBJECT CODE    ADDR1 ADDR2  STMT   SOURCE STATEMENT                                                                       
+                                     566 *<HEADER1>*                                                             0                
+ 000C56 F1                           567 PRINT1    DC    C'1'                                                    0                
+ 000C57 4040404040404040             568           DC    C'                              Transaction Report'     0                
+ 000C87 4040404040404040             569           DC    C'                       Page'                          0                
+ 000CA2                              570 PRNTTP    DS    CL4                                                     0                
+                                     571 *<HEADER2>*                                                             0                
+ 000CA6 60404040C3A4A2A3             572 PRINT2    DC    C'-   Customer ID     Transaction       Amount'         0                
+ 000CD2 4040404040404040             573           DC    C'          Date            Balance   '                 0                
+                                     574 *<ERROR MSG>*                                                           0                
+ 000CF6 F0C5999996995A40             575 ERROR     DC    C'0Error! ID  '     ERROR FIELD LENGTH 80 BYTES         0                
+ 000D02                              576 ERID      DS    CL8                 ERROR ID                            0                
+ 000D0A 40A681A2409596A3             577           DC    C' was not found for a '                                0                
+ 000D1F                              578 ERT       DS    CL13                ERROR TRANSACTION                   0                
+ 000D2C 40                           579           DC    C' '                                                    0                
+ 000D2D                              580 ERAM      DS    CL10                ERROR AMOUNT                        0                
+ 000D37 409695                       581           DC    C' on'                                                  0                
+ 000D3A                              582 ERDAY     DS    CL12                ERROR DATE                          0                
+                                     583 *<TRANS MSG>*                                                           0                
+ 000D46 F040404040                   584 TRANSM    DC    C'0    '            CCC + SPACE           5             0                
+ 000D4B                              585 TRANSID   DS    CL8                                       8             0                
+ 000D53 4040404040                   586           DC    C'     '            SPACE                 5             0                
+ 000D58                              587 TRANST    DS    CL13                TRANS TYPE            13            0                
+ 000D65 4040404040                   588           DC    C'     '            SPACE                 5             0                
+ 000D6A                              589 TRANSAM   DS    CL10                TRANS AMOUNT          10            0                
+ 000D74 4040404040                   590           DC    C'     '            SPACE                 5             0                
+ 000D79                              591 TRANSD    DS    CL12                TRANS DAYTE           12            0                
+ 000D85 40404040                     592           DC    C'    '             SAPCE                 4             0                
+ 000D89                              593 TRANSB    DS    CL10                TRANS BALANCE         10            0                
+ 000D93 40                           594           DC    C' '                SPACE                 1             0                
+ 000D94                              595 TRANSS    DS    CL2                 TRANS BALANCE SIGN    2             0                
+                                     596 *<FOOTER1>*                                                             0                
+ 000D96 F1E2A4838385A2A2             597 SUMMS     DC    C'1Successful transactions:'                            0                
+ 000DAF                              598 ST        DS    CL10                SUCCESSFUL TRANS LBL                0                
+                                     599 *<FOOTER2>*                                                             0                
+ 000DB9 60C6818993858440             600 SUMMF     DC    C'-Failed transactions:    '                            0                
+ 000DD2                              601 FT        DS    CL10                FAIL TRANS LBL                      0                
+                                     602 ***<END OF SEARCH ROUTINE>***                                           0                
+                                     603           END   MAIN                                                    0                
+0***  NO   STATEMENTS FLAGGED -  NO   WARNINGS,  NO   ERRORS                                                                      
+0*** DYNAMIC CORE AREA USED:  LOW:   42072 HIGH:    3392 LEAVING:  448104 FREE BYTES. AVERAGE:       75 BYTES/STMT ***            
+0*** ASSEMBLY TIME =    0.003 SECS,   201333 STATEMENTS/SEC ***                                                                   
+0*** PROGRAM EXECUTION BEGINNING - ANY OUTPUT BEFORE EXECUTION TIME MESSAGE IS PRODUCED BY USER PROGRAM ***                       
+                                                                                                                                  
+                                                                                                                                  
+                                                                                                                                  
+1                      Odds and Ends Customer Data                      Page   1                                                  
+-First Name           Last Name             ID Number                Balance                                                      
+0Adams                Sharon                A162350S                    $0.00 CR                                                  
+0Allen                Ronald                A760565R                    $1.74 CR                                                  
+0Baker                Brian                 B287543B                  $230.40                                                     
+0Campbell             George                C337711G                   $95.96                                                     
+0Carter               Susan                 C909765S                  $161.33 CR                                                  
+                                                                                                                                  
+                                                                                                                                  
+                                                                                                                                  
+1                      Odds and Ends Customer Data                      Page   2                                                  
+-First Name           Last Name             ID Number                Balance                                                      
+0Edwards              Sarah                 E916021S                    $0.25 CR                                                  
+0Evans                Charles               E098654C                $2,120.93                                                     
+0Garcia               Kimberly              G678012K                $3,151.53                                                     
+0Hall                 Maria                 H837651M                  $450.00                                                     
+0Harris               Jennifer              H876439J                  $980.71 CR                                                  
+                                                                                                                                  
+                                                                                                                                  
+                                                                                                                                  
+1                      Odds and Ends Customer Data                      Page   3                                                  
+-First Name           Last Name             ID Number                Balance                                                      
+0Hill                 Sarah                 H234678S                   $75.00 CR                                                  
+0Jones                Kimberly              J901345K                    $9.99 CR                                                  
+0Lee                  Kevin                 L870811K                $1,561.64                                                     
+0Lewis                Daniel                L132333D                  $214.56                                                     
+0Miller               Thomas                M825868T                    $0.00                                                     
+                                                                                                                                  
+                                                                                                                                  
+                                                                                                                                  
+1                      Odds and Ends Customer Data                      Page   4                                                  
+-First Name           Last Name             ID Number                Balance                                                      
+0Mitchell             Brian                 M554644B                  $372.48                                                     
+0Moore                Sharon                M266757S                   $18.47                                                     
+0Perez                Sandra                P752778S                    $0.00                                                     
+0Phillips             Kenneth               P231035K                    $0.01 CR                                                  
+0Robinson             Steven                R028106S                   $34.40                                                     
+                                                                                                                                  
+                                                                                                                                  
+                                                                                                                                  
+1                      Odds and Ends Customer Data                      Page   5                                                  
+-First Name           Last Name             ID Number                Balance                                                      
+0Scott                Paul                  S926648P                   $76.73                                                     
+0Taylor               George                T589729G                  $120.81 CR                                                  
+0Thomas               Mark                  T437350M                   $53.27                                                     
+0Walker               Steven                W962623S                  $123.13                                                     
+0Williams             Ruth                  W408954R                  $235.71                                                     
+                                                                                                                                  
+                                                                                                                                  
+                                                                                                                                  
+1                      Odds and Ends Customer Data                      Page   6                                                  
+-First Name           Last Name             ID Number                Balance                                                      
+0Wilson               Jeff                  W875840J                   $11.23 CR                                                  
+0Yanders              Humphrey              Y773405H                    $0.01                                                     
+                                                                                                                                  
+-Number of customers =            27                                                                                              
+0Sum of all balances =     $7,378.15                                                                                              
+0Average balance =           $273.26                                                                                              
+1                              Transaction Report                       Page   7                                                  
+-   Customer ID     Transaction       Amount          Date            Balance                                                     
+0Error! ID  M555555Q was not found for a Withdrawal    $99,999.99 on  29/02/2017                                                  
+0    J901345K     Withdrawal           $500.00       15/12/2016       $490.01                                                     
+0    W962623S     Deposit              $333.22        2/01/2017       $210.09 CR                                                  
+0    L132333D     Deposit              $999.95        5/11/2016       $785.39 CR                                                  
+0    H876439J     Balance Query                      12/03/2917       $980.71 CR                                                  
+0    S926648P     Deposit               $13.50       10/01/2017        $63.23                                                     
+0    E098654C     Withdrawal         $1,909.54        2/12/2016     $4,030.47                                                     
+0Error! ID  Z000000Z was not found for a Deposit          $500.50 on  31/03/2017                                                  
+0    T589729G     Withdrawal            $86.99       30/09/2016        $33.82 CR                                                  
+0    W875840J     Balance Query                      11/03/2017        $11.23 CR                                                  
+0    M266757S     Deposit                $9.99       14/08/2015         $8.48                                                     
+0    C909765S     Withdrawal            $31.65       15/12/2016       $129.68 CR                                                  
+0    M554644B     Deposit              $127.99       25/11/2016       $244.49                                                     
+0Error! ID  G891034H was not found for a Balance Query      $0.00 on  29/02/2017                                                  
+0    W408954R     Deposit              $127.00       29/11/2016       $108.71                                                     
+0Error! ID  X677893B was not found for a Deposit           $10.00 on  20/12/2016                                                  
+0    A162350S     Withdrawal             $0.01       23/10/2016         $0.01                                                     
+0    M266757S     Deposit                $1.00       26/10/2016         $7.48                                                     
+0    B287543B     Balance Query                       1/02/2016       $230.40                                                     
+0    B287543B     Deposit                $9.50        1/12/2016       $220.90                                                     
+0    B287543B     Balance Query                       1/22/2016       $220.90                                                     
+0    Y773405H     Balance Query                      12/03/2017         $0.01                                                     
+0    Y773405H     Deposit                $0.01       12/03/2017         $0.00                                                     
+0    Y773405H     Balance Query                      12/03/2017         $0.00                                                     
+0    H837651M     Deposit              $194.69        1/10/2016       $255.31                                                     
+0Error! ID  H837652M was not found for a Withdrawal         $0.01 on   1/12/2016                                                  
+0    W408954R     Deposit              $150.00        1/03/2017        $41.29 CR                                                  
+0    E098654C     Withdrawal           $119.99       21/09/2016     $4,150.46                                                     
+0    P231035K     Withdrawal           $139.50       25/11/2016       $139.49                                                     
+1Successful transactions:        24                                                                                               
+-Failed transactions:             5                                                                                               
+                                                                                                                                  
+                                                                                                                                  
+                                                                                                                                  
+1                      Odds and Ends Customer Data                      Page   8                                                  
+-First Name           Last Name             ID Number                Balance                                                      
+0Adams                Sharon                A162350S                    $0.01 CR                                                  
+0Allen                Ronald                A760565R                    $1.74 CR                                                  
+0Baker                Brian                 B287543B                  $220.90                                                     
+0Campbell             George                C337711G                   $95.96                                                     
+0Carter               Susan                 C909765S                  $129.68 CR                                                  
+                                                                                                                                  
+                                                                                                                                  
+                                                                                                                                  
+1                      Odds and Ends Customer Data                      Page   9                                                  
+-First Name           Last Name             ID Number                Balance                                                      
+0Edwards              Sarah                 E916021S                    $0.25 CR                                                  
+0Evans                Charles               E098654C                $4,150.46                                                     
+0Garcia               Kimberly              G678012K                $3,151.53                                                     
+0Hall                 Maria                 H837651M                  $255.31                                                     
+0Harris               Jennifer              H876439J                  $980.71 CR                                                  
+                                                                                                                                  
+                                                                                                                                  
+                                                                                                                                  
+1                      Odds and Ends Customer Data                      Page  10                                                  
+-First Name           Last Name             ID Number                Balance                                                      
+0Hill                 Sarah                 H234678S                   $75.00 CR                                                  
+0Jones                Kimberly              J901345K                  $490.01 CR                                                  
+0Lee                  Kevin                 L870811K                $1,561.64                                                     
+0Lewis                Daniel                L132333D                  $785.39                                                     
+0Miller               Thomas                M825868T                    $0.00                                                     
+                                                                                                                                  
+                                                                                                                                  
+                                                                                                                                  
+1                      Odds and Ends Customer Data                      Page  11                                                  
+-First Name           Last Name             ID Number                Balance                                                      
+0Mitchell             Brian                 M554644B                  $244.49                                                     
+0Moore                Sharon                M266757S                    $7.48                                                     
+0Perez                Sandra                P752778S                    $0.00                                                     
+0Phillips             Kenneth               P231035K                  $139.49 CR                                                  
+0Robinson             Steven                R028106S                   $34.40                                                     
+                                                                                                                                  
+                                                                                                                                  
+                                                                                                                                  
+1                      Odds and Ends Customer Data                      Page  12                                                  
+-First Name           Last Name             ID Number                Balance                                                      
+0Scott                Paul                  S926648P                   $63.23                                                     
+0Taylor               George                T589729G                   $33.82 CR                                                  
+0Thomas               Mark                  T437350M                   $53.27                                                     
+0Walker               Steven                W962623S                  $210.09                                                     
+0Williams             Ruth                  W408954R                   $41.29                                                     
+                                                                                                                                  
+                                                                                                                                  
+                                                                                                                                  
+1                      Odds and Ends Customer Data                      Page  13                                                  
+-First Name           Last Name             ID Number                Balance                                                      
+0Wilson               Jeff                  W875840J                   $11.23 CR                                                  
+0Yanders              Humphrey              Y773405H                    $0.00                                                     
+                                                                                                                                  
+-Number of customers =            27                                                                                              
+0Sum of all balances =     $8,198.98                                                                                              
+0Average balance =           $303.66                                                                                              
+0*** EXECUTION TIME =    0.004 SECS.      6179 INSTRUCTIONS EXECUTED -  1544750 INSTRUCTIONS/SEC ***                              
+0*** AM004 - NORMAL USER TERMINATION BY RETURN ***                                                                                

@@ -1,0 +1,97 @@
+//KC03N08Z JOB ,'George Zhylin' ,MSGCLASS=H                             0
+//STEP1   EXEC  PGM=ASSIST,PARM='MACRO=H'                               0
+//STEPLIB   DD  DSN=KC02293.ASSIST.LOADLIB,DISP=SHR                     0
+//SYSPRINT  DD  SYSOUT=*                                                0
+//SYSIN     DD  *                                                       0
+**********************************************************************  0
+*  NAME: STRCMP                                                      *  0
+*                                                                    *  0
+*  FUNCTION: COMPARE TWO C-STYLE STRINGS                             *  0
+*                                                                    *  0
+*  PSEUDOCODE: LOAD ONE BYTE OF EACH STRING AND COMPARE,IF DIFFERENT *  0
+*              THEN SET CC AND EXIT, IF EQUAL THAN CHECK FOR END OF  *  0
+*              STRING. IF BYTES ARE EQUAL AND FIRST IS 00 THEN SET   *  0
+*              CC AND EXIT. IF EQUAL AND NOT 00 THEN INCREMENT       *  0
+*              POINTERS AND MOVE TO THE NEXT BYTE AND COMPARE.       *  0
+*                                                                    *  0
+*  Symbolic Parameters: &FIRST, &SECOND                              *  0
+*                                                                    *  0
+*  Error Conditions:                                                 *  0
+*                                                                    *  0
+*  Notes: BY GEORGE ZHYLIN / FALL 2017 / CSCI 360 / NIU              *  0
+*                                                                    *  0
+**********************************************************************  0
+         MACRO                                                          0
+         STRCMP &FIRST,&SECOND                                          0
+         AIF   ('&FIRST' EQ '').ERROR      PRINT ERROR IF ARGUMENT MIS  0
+         AIF   ('&SECOND' EQ '').ERROR     PRINT ERROR IF ARGUMENT MIS  0
+         B     M&SYSNDX           BRANCH TO M&SYSNDX                    0
+L&SYSNDX DS    2F                 SAVEAREA                              0
+M&SYSNDX STM   2,3,L&SYSNDX       STORE REGISTERS                       0
+         SR    2,2                RESET R2                              0
+         SR    3,3                RESET R3                              0
+         LA    2,&FIRST           GET ADDRESS OF FIRST ARGUMENT         0
+         LA    3,&SECOND          GET ADDRESS OF SECOND ARGUMENT        0
+O&SYSNDX CLC   0(1,2),0(3)        COMPARE 1ST BYTE OF 1ST AND 2ND ARG   0
+         BC    B'0110',Q&SYSNDX   BRANCH IF 1<2 OR 1>2                  0
+         BC    B'1000',R&SYSNDX   BRANCH IF 1=2                         0
+R&SYSNDX CLI   0(2),X'00'         END OF STRING?                        0
+         BE    Q&SYSNDX           IF BOTH BYTES ARE 00 THEN EXIT        0
+         LA    2,1(0,2)           INCREMENT POINTER FOR FIRST ARG       0
+         LA    3,1(0,3)           INCREMENT POINTER FOR SECOND ARG      0
+         B     O&SYSNDX           REPEAT                                0
+Q&SYSNDX LM    2,3,L&SYSNDX       LOAD REGISTERS                        0
+         MEXIT                    EXIT                                  0
+.ERROR   MNOTE 'MISSING ARGUMENT' INFO ON ERROR                         0
+         MEND                     END                                   0
+**********************************************************************  0
+*  NAME: MAX                                                         *  0
+*                                                                    *  0
+*  FUNCTION: FIND MAX VALUE                                          *  0
+*                                                                    *  0
+*  PSEUDOCODE: SET COUNTERS, LOAD FIRST ITEM IN R2, THEN COMPARE     *  0
+*              CURRENT ITEM AND CURRENT+1 ITEM. IF CURRENT+1 ITEM IS *  0
+*              BIGGER THAN INSERT THAT ITEM IN R2. LOOP ENDS WHEN    *  0
+*              END OF LIST REACHED. R2 STORED IN TO &RESULT VAR.     *  0
+*              THIS MACRO WILL NOT RECOGNIZE NEGATIVE VALUES.        *  0
+*                                                                    *  0
+*  Symbolic Parameters: &RESULT,&LIST                                *  0
+*                                                                    *  0
+*  Error Conditions: FOLOWING CODE WILL NOT DETERMINE THE POSITIVE   *  0
+*                    OR NEGATIVE VALUES. ALSO IT WILL NOT RECOGNIZE  *  0
+*                    D(B) ADDRESSES.                                 *  0
+*                                                                    *  0
+*  Notes: BY GEORGE ZHYLIN / FALL 2017 / CSCI 360 / NIU              *  0
+*                                                                    *  0
+**********************************************************************  0
+         MACRO                                                          0
+         MAX   &RESULT,&LIST                                            0
+         LCLA  &C,&Q,&NUM         LIST VARIABLES                        0
+&C       SETA  1                  SET &C COUNTER TO 1                   0
+&Q       SETA  1                  SET &Q COUNTER TO 2                   0
+&NUM     SETA  N'&SYSLIST(2)      SET &NUM TO NUM OF ITEMS IN SYSLIST   0
+         AIF   ('&RESULT' EQ '').ERROR     PRINT ERROR IF ARGUMENT MIS  0
+         AIF   ('&LIST' EQ '').ERROR       PRINT ERROR IF ARGUMENT MIS  0
+         AIF   ('&LIST(1)' EQ '').ERROR    PRINT ERROR IF ARGUMENT MIS  0
+         B     J&SYSNDX           BRANCH TO M&SYSNDX                    0
+K&SYSNDX DS    1F                 SAVE AREA                             0
+J&SYSNDX STM   2,2,K&SYSNDX       STORE REGISTERS                       0
+         SR    2,2                RESET R2                              0
+         L     2,&LIST(&C)        LOAD 1ST VALUE FROM THE LIST INTO R2  0
+.LOOP    AIF   ('&Q' GT '&NUM').END        IF COUNTER &Q>ITEMS = EXIT   0
+         AIF   ('&LIST(&Q)' GT '&LIST(&C)').SWAP     IF #1>#2 SWAP      0
+&Q       SETA  &Q+1               UPDATE COUNTER                        0
+         AGO   .LOOP              RETURN TO THE LOOP                    0
+.SWAP    L     2,&LIST(&Q)        SWAP ITEMS                            0
+&Q       SETA  &Q+1               UPDATE COUNTER                        0
+         AGO   .LOOP              RETURN TO THE LOOP                    0
+.END     ST    2,&RESULT          RETURN HIGHEST VALUE                  0
+         LM    2,2,K&SYSNDX       LOAD REGISTERS                        0
+         MEXIT                    EXIT                                  0
+.ERROR   MNOTE 'MISSING ARGUMENT' INFO ON ERROR                         0
+         MEND                     END                                   0
+//          DD DSN=KC02314.AUTUMN17.CSCI360.HW9DRVR,DISP=SHR            0
+//FT05F001  DD DUMMY                                                    0
+//FT06F001  DD SYSOUT=*                                                 0
+//                                                                      0
+
